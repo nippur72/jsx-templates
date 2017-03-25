@@ -1,0 +1,153 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">11.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+    <Name>cli</Name>
+    <RootNamespace>cli</RootNamespace>
+    <ScriptArguments>example-tag.html --brackets "{ }" --create-element-alias h --use-rioct-runtime</ScriptArguments>
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>692ad08e-cc49-4638-a858-6a77780fca0d</ProjectGuid>
+    <ProjectHome>.</ProjectHome>
+    <StartupFile>exec.js</StartupFile>
+    <StartWebBrowser>False</StartWebBrowser>
+    <SearchPath>
+    </SearchPath>
+    <WorkingDirectory>.</WorkingDirectory>
+    <OutputPath>.</OutputPath>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <ProjectTypeGuids>{3AF33F2E-1136-4D97-BBB7-1795711AC8B8};{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}</ProjectTypeGuids>
+    <ProjectView>ProjectFiles</ProjectView>
+    <TypeScriptSourceMap>true</TypeScriptSourceMap>
+    <TypeScriptModuleKind>CommonJS</TypeScriptModuleKind>
+    <EnableTypeScript>true</EnableTypeScript>
+    <StartWebBrowser>False</StartWebBrowser>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+  <ItemGroup>
+    <Content Include="example-tag.html" />
+    <Content Include="exec.ts" />
+    <Content Include="spec\support\jasmine.json" />
+    <Content Include="spec\tsx-specs\x.tsx" />
+    <Content Include="tsconfig.json" />
+    <TypeScriptCompile Include="ast\nodeTypes.ts" />
+    <TypeScriptCompile Include="ast\render.ts" />
+    <TypeScriptCompile Include="ast\transform\is.ts" />
+    <TypeScriptCompile Include="ast\transform\transform.ts" />
+    <TypeScriptCompile Include="ast\transform\scope.ts" />
+    <TypeScriptCompile Include="ast\transform\if.ts" />
+    <TypeScriptCompile Include="ast\transform\replaceNode.ts" />
+    <TypeScriptCompile Include="ast\transform\each.ts" />
+    <TypeScriptCompile Include="ast\astNode.ts" />
+    <TypeScriptCompile Include="regexHelper.ts" />
+    <TypeScriptCompile Include="brackets.ts" />
+    <TypeScriptCompile Include="spec\tsx-specs\componentSpec.ts" />
+    <TypeScriptCompile Include="spec\tsx-specs\makeInlineComponent.ts" />
+    <TypeScriptCompile Include="wrapCode.ts" />
+    <TypeScriptCompile Include="spec\rt-specs\makeInlineComponent.ts" />
+    <TypeScriptCompile Include="spec\rt-specs\parseBracketCliOptionSpec.ts" />
+    <TypeScriptCompile Include="spec\rt-specs\cleanBracketsSpec.ts" />
+    <TypeScriptCompile Include="spec\rt-specs\componentSpec.ts" />
+    <TypeScriptCompile Include="parseScope.ts" />
+    <TypeScriptCompile Include="spec\rt-specs\parseScopeSpec.ts" />
+    <TypeScriptCompile Include="spec\rt-specs\replaceBracketsSpec.ts" />
+    <TypeScriptCompile Include="webpack.ts" />
+    <TypeScriptCompile Include="processHtml.ts" />
+    <TypeScriptCompile Include="CompileError.ts" />
+    <TypeScriptCompile Include="context.ts" />
+    <TypeScriptCompile Include="processResult.ts" />
+    <TypeScriptCompile Include="replace-extension.ts" />
+    <TypeScriptCompile Include="replaceAll.ts" />
+    <TypeScriptCompile Include="entryPoint.ts" />
+    <TypeScriptCompile Include="cli.ts" />
+    <TypeScriptCompile Include="missing-defs.ts" />
+    <TypeScriptCompile Include="options.ts" />
+    <TypeScriptCompile Include="react-events.ts" />
+    <TypeScriptCompile Include="api.ts" />
+    <Content Include="package.json" />
+    <TypeScriptCompile Include="rtExtractor.ts" />
+    <TypeScriptCompile Include="location.ts" />
+    <TypeScriptCompile Include="Emitter.ts" />
+    <TypeScriptCompile Include="utils.ts" />
+    <TypeScriptCompile Include="wrapExpression.ts" />
+    <TypeScriptCompile Include="wrapHandler.ts" />
+    <TypeScriptCompile Include="WrapImports.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="ast\" />
+    <Folder Include="ast\transform\" />
+    <Folder Include="spec\rt-specs\" />
+    <Folder Include="src\" />
+    <Folder Include="spec\" />
+    <Folder Include="spec\tsx-specs\" />
+    <Folder Include="spec\support\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="exec" />
+  </ItemGroup>
+  <!-- Do not delete the following Import Project.  While this appears to do nothing it is a marker for setting TypeScript properties before our import that depends on them. -->
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+    <TypeScriptTarget>ES5</TypeScriptTarget>
+    <TypeScriptJSXEmit>None</TypeScriptJSXEmit>
+    <TypeScriptCompileOnSaveEnabled>True</TypeScriptCompileOnSaveEnabled>
+    <TypeScriptNoImplicitAny>False</TypeScriptNoImplicitAny>
+    <TypeScriptRemoveComments>False</TypeScriptRemoveComments>
+    <TypeScriptOutFile>
+    </TypeScriptOutFile>
+    <TypeScriptOutDir />
+    <TypeScriptGeneratesDeclarations>False</TypeScriptGeneratesDeclarations>
+    <TypeScriptNoEmitOnError>True</TypeScriptNoEmitOnError>
+    <TypeScriptMapRoot />
+    <TypeScriptSourceRoot />
+    <TypeScriptModuleKind>CommonJS</TypeScriptModuleKind>
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="False" />
+  <Import Project="$(VSToolsPath)\Node.js Tools\Microsoft.NodejsTools.targets" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>False</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>0</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:48022/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>True</UseCustomServer>
+          <CustomServerUrl>http://localhost:1337</CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}" User="">
+        <WebProjectProperties>
+          <StartPageUrl>
+          </StartPageUrl>
+          <StartAction>CurrentPage</StartAction>
+          <AspNetDebugging>True</AspNetDebugging>
+          <SilverlightDebugging>False</SilverlightDebugging>
+          <NativeDebugging>False</NativeDebugging>
+          <SQLDebugging>False</SQLDebugging>
+          <ExternalProgram>
+          </ExternalProgram>
+          <StartExternalURL>
+          </StartExternalURL>
+          <StartCmdLineArguments>
+          </StartCmdLineArguments>
+          <StartWorkingDirectory>
+          </StartWorkingDirectory>
+          <EnableENC>False</EnableENC>
+          <AlwaysStartWebServerOnDebug>False</AlwaysStartWebServerOnDebug>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>
