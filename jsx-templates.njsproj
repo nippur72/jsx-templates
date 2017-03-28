@@ -5,7 +5,7 @@
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
     <Name>cli</Name>
     <RootNamespace>cli</RootNamespace>
-    <ScriptArguments>example-tag.html --brackets "{ }" --create-element-alias h --use-rioct-runtime</ScriptArguments>
+    <ScriptArguments>example-tag.html </ScriptArguments>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -13,7 +13,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>692ad08e-cc49-4638-a858-6a77780fca0d</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>exec.js</StartupFile>
+    <StartupFile>main.js</StartupFile>
     <StartWebBrowser>False</StartWebBrowser>
     <SearchPath>
     </SearchPath>
@@ -34,61 +34,86 @@
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
+    <Content Include=".npmignore" />
+    <Content Include="ast\transform\dummyKey.ts" />
+    <Content Include="CHANGELOG.md" />
     <Content Include="example-tag.html" />
-    <Content Include="exec.ts" />
+    <Content Include="main.ts" />
+    <Content Include="README.md" />
+    <Content Include="RIOCT-CLI.md" />
     <Content Include="spec\support\jasmine.json" />
-    <Content Include="spec\tsx-specs\x.tsx" />
+    <Content Include="spec\x.tsx" />
     <Content Include="tsconfig.json" />
+    <TypeScriptCompile Include="ast\keywords.ts" />
     <TypeScriptCompile Include="ast\nodeTypes.ts" />
     <TypeScriptCompile Include="ast\render.ts" />
+    <TypeScriptCompile Include="ast\transform\styleTag.ts" />
+    <TypeScriptCompile Include="ast\transform\import.ts" />
+    <TypeScriptCompile Include="ast\transform\optionalBrackets.ts" />
+    <TypeScriptCompile Include="ast\transform\class.ts" />
+    <TypeScriptCompile Include="ast\transform\virtual.ts" />
+    <TypeScriptCompile Include="ast\transform\text.ts" />
+    <TypeScriptCompile Include="ast\transform\stateless.ts" />
     <TypeScriptCompile Include="ast\transform\is.ts" />
+    <TypeScriptCompile Include="ast\transform\attribs.ts" />
     <TypeScriptCompile Include="ast\transform\transform.ts" />
     <TypeScriptCompile Include="ast\transform\scope.ts" />
     <TypeScriptCompile Include="ast\transform\if.ts" />
     <TypeScriptCompile Include="ast\transform\replaceNode.ts" />
     <TypeScriptCompile Include="ast\transform\each.ts" />
     <TypeScriptCompile Include="ast\astNode.ts" />
-    <TypeScriptCompile Include="regexHelper.ts" />
-    <TypeScriptCompile Include="brackets.ts" />
-    <TypeScriptCompile Include="spec\tsx-specs\componentSpec.ts" />
-    <TypeScriptCompile Include="spec\tsx-specs\makeInlineComponent.ts" />
-    <TypeScriptCompile Include="wrapCode.ts" />
-    <TypeScriptCompile Include="spec\rt-specs\makeInlineComponent.ts" />
-    <TypeScriptCompile Include="spec\rt-specs\parseBracketCliOptionSpec.ts" />
-    <TypeScriptCompile Include="spec\rt-specs\cleanBracketsSpec.ts" />
-    <TypeScriptCompile Include="spec\rt-specs\componentSpec.ts" />
-    <TypeScriptCompile Include="parseScope.ts" />
-    <TypeScriptCompile Include="spec\rt-specs\parseScopeSpec.ts" />
-    <TypeScriptCompile Include="spec\rt-specs\replaceBracketsSpec.ts" />
-    <TypeScriptCompile Include="webpack.ts" />
-    <TypeScriptCompile Include="processHtml.ts" />
-    <TypeScriptCompile Include="CompileError.ts" />
-    <TypeScriptCompile Include="context.ts" />
-    <TypeScriptCompile Include="processResult.ts" />
-    <TypeScriptCompile Include="replace-extension.ts" />
-    <TypeScriptCompile Include="replaceAll.ts" />
-    <TypeScriptCompile Include="entryPoint.ts" />
-    <TypeScriptCompile Include="cli.ts" />
-    <TypeScriptCompile Include="missing-defs.ts" />
-    <TypeScriptCompile Include="options.ts" />
-    <TypeScriptCompile Include="react-events.ts" />
-    <TypeScriptCompile Include="api.ts" />
+    <TypeScriptCompile Include="process\processHtmlFile.ts" />
+    <TypeScriptCompile Include="spec\importSpec.ts" />
+    <TypeScriptCompile Include="spec\componentSpec.ts" />
+    <TypeScriptCompile Include="spec\classSpec.ts" />
+    <TypeScriptCompile Include="spec\virtualSpec.ts" />
+    <TypeScriptCompile Include="spec\stateless.ts" />
+    <TypeScriptCompile Include="spec\scopeSpec.ts" />
+    <TypeScriptCompile Include="spec\isSpec.ts" />
+    <TypeScriptCompile Include="spec\ifSpec.ts" />
+    <TypeScriptCompile Include="spec\eachSpec.ts" />
+    <TypeScriptCompile Include="utils\regexHelper.ts" />
+    <TypeScriptCompile Include="utils\brackets.ts" />
+    <TypeScriptCompile Include="utils\options.ts" />
+    <TypeScriptCompile Include="process\processHtmlString.ts" />
+    <TypeScriptCompile Include="spec\bracketsSpec.ts" />
+    <TypeScriptCompile Include="spec\makeInlineComponent.ts" />
+    <TypeScriptCompile Include="old\wrapCode.ts" />
+    <TypeScriptCompile Include="old\rt-specs\makeInlineComponent.ts" />
+    <TypeScriptCompile Include="old\rt-specs\parseBracketCliOptionSpec.ts" />
+    <TypeScriptCompile Include="old\rt-specs\cleanBracketsSpec.ts" />
+    <TypeScriptCompile Include="old\rt-specs\componentSpec.ts" />
+    <TypeScriptCompile Include="old\parseScope.ts" />
+    <TypeScriptCompile Include="old\rt-specs\parseScopeSpec.ts" />
+    <TypeScriptCompile Include="old\rt-specs\replaceBracketsSpec.ts" />
+    <TypeScriptCompile Include="old\webpack.ts" />
+    <TypeScriptCompile Include="old\processHtml.ts" />
+    <TypeScriptCompile Include="old\CompileError.ts" />
+    <TypeScriptCompile Include="old\context.ts" />
+    <TypeScriptCompile Include="old\processResult.ts" />
+    <TypeScriptCompile Include="utils\replace-extension.ts" />
+    <TypeScriptCompile Include="utils\replaceAll.ts" />
+    <TypeScriptCompile Include="process\processFiles.ts" />
+    <TypeScriptCompile Include="utils\missing-defs.ts" />
+    <TypeScriptCompile Include="old\options.ts" />
+    <TypeScriptCompile Include="old\react-events.ts" />
+    <TypeScriptCompile Include="old\api.ts" />
     <Content Include="package.json" />
-    <TypeScriptCompile Include="rtExtractor.ts" />
-    <TypeScriptCompile Include="location.ts" />
-    <TypeScriptCompile Include="Emitter.ts" />
-    <TypeScriptCompile Include="utils.ts" />
-    <TypeScriptCompile Include="wrapExpression.ts" />
-    <TypeScriptCompile Include="wrapHandler.ts" />
-    <TypeScriptCompile Include="WrapImports.ts" />
+    <TypeScriptCompile Include="old\rtExtractor.ts" />
+    <TypeScriptCompile Include="old\location.ts" />
+    <TypeScriptCompile Include="old\utils.ts" />
+    <TypeScriptCompile Include="old\wrapExpression.ts" />
+    <TypeScriptCompile Include="old\wrapHandler.ts" />
+    <TypeScriptCompile Include="old\WrapImports.ts" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="ast\" />
     <Folder Include="ast\transform\" />
-    <Folder Include="spec\rt-specs\" />
-    <Folder Include="src\" />
+    <Folder Include="process\" />
+    <Folder Include="old\" />
+    <Folder Include="old\rt-specs\" />
+    <Folder Include="utils\" />
     <Folder Include="spec\" />
-    <Folder Include="spec\tsx-specs\" />
     <Folder Include="spec\support\" />
   </ItemGroup>
   <ItemGroup>

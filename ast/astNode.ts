@@ -1,34 +1,28 @@
 
 import _ = require("lodash");
 import cheerio = require("cheerio");
-
-import { astNode, rootNode, virtualNode, tagNode, styleNode, commentNode, textNode, attributes } from "./nodeTypes";
+import { CommandLineOptions } from "../utils/options";
+import { astNode, rootNode, codeNode, tagNode, styleNode, commentNode, textNode } from "./nodeTypes";
+import { attributes } from "./nodeTypes";
 import { transform } from "./transform/transform";
 import { render } from "./render";
+import md5 = require("blueimp-md5");
 
-export const Keywords =
+type CheerioAttributes = {[key:string]:string};
+
+export function htmlToTsx(html: string, options: CommandLineOptions, fileName: string): string
 {
-   is: "is",
-   each: "each",
-   if: "if",
-   scope: "scope"
+   let cheerioTree = cheerio.load(html, {lowerCaseTags: false, lowerCaseAttributeNames: false, xmlMode: true, withStartIndices: true}); // xmlMode turned off to allow decode of &nbsp;    
+   let ast = buildTreeFromCheerio(cheerioTree, fileName);
+
+   transform(ast);
+
+   let tsx = render(ast);
+
+   return tsx;
 }
 
-export function parseFromString(html: string): string
-{
-   // load DOM
-   let rootNode = cheerio.load(html, {lowerCaseTags: false, lowerCaseAttributeNames: false, xmlMode: true, withStartIndices: true}); // xmlMode turned off to allow decode of &nbsp; 
-   let tsx = parseHtmlToTsx(rootNode); 
-
-   console.log("---- tsx ---------");
-   console.log(tsx);
-   console.log("------------------");
-   
-   let jsCode = transpile(tsx);
-   return jsCode;
-}
-
-function fromCheerio(rootNode: CheerioStatic): rootNode
+function buildTreeFromCheerio(rootNode: CheerioStatic, fileName: string): rootNode
 {
    let rootTags = _.filter(rootNode.root()[0].children, node => true);
 
@@ -36,11 +30,18 @@ function fromCheerio(rootNode: CheerioStatic): rootNode
    let astRoot: rootNode = 
    {
       type: "root",            
-      children: []
+      children: [],
+      stateless: false,
+      imports: [`import React = require("react");`],
+      styles: [],
+      hash: md5(fileName, "jsx-templates")
    };
 
    // collect all first level nodes
    _.forEach(rootTags, (e)=>astRoot.children.push(visit(e, astRoot)));   
+
+   // filters empty text children
+   astRoot.children = astRoot.children.filter(n => !(n.type === "text" && n.rawText.trim().length === 0));
 
    return astRoot;
 }
@@ -54,19 +55,31 @@ function visit(x: CheerioElement, parent: astNode): astNode
       node = {
          type: "tag",
          tagName: x.name,
-         attribs: { ...x.attribs } as attributes,
+         attribs: attributesFromCheerio(x.attribs as CheerioAttributes),
          children: [],
-         parent: parent
+         parent: parent,
+         location: x.startIndex
       };
 
       _.forEach(x.children, (e)=>(node as tagNode).children.push(visit(e, node)));
+
+      // filters empty text children
+      node.children = node.children.filter(n => !(n.type === "text" && n.rawText.trim().length === 0));
    }
    else if(x.type === "style")
    {
+      // grab style text 
+      let grabbedStyle = "";
+      _.each(x.children, child => {
+         let style = child["data"];         
+         grabbedStyle += style;
+      });                                                          
+
       node = {
          type: "style",         
-         style: x["data"],
-         parent: parent
+         style: grabbedStyle,
+         parent: parent,
+         location: x.startIndex
       };      
    }
    else if(x.type === "comment")
@@ -74,15 +87,18 @@ function visit(x: CheerioElement, parent: astNode): astNode
       node = {
          type: "comment",         
          comment: x["data"],
-         parent: parent
+         parent: parent,
+         location: x.startIndex
       };      
    }
    else if(x.type === "text")
    {
       node = {
          type: "text",         
-         text: x["data"],
-         parent: parent
+         rawText: x["data"],
+         text: [],
+         parent: parent,
+         location: x.startIndex
       };      
    }
    else throw `unknown node type '${x.type}'`;
@@ -90,32 +106,20 @@ function visit(x: CheerioElement, parent: astNode): astNode
    return node;
 }
 
-
-export function parseHtmlToTsx(rootNode: CheerioStatic): string
+function attributesFromCheerio(attrs: CheerioAttributes): attributes
 {
-   let ast = fromCheerio(rootNode);
+   let result: attributes = {};
 
-   transform(ast);
+   Object.keys(attrs).forEach( key => {
+      let value = attrs[key];      
+      result[key] = { rawText: value, text: [] };
+   });
 
-   let tsx = render(ast);
-
-   return tsx;
+   return result;
 }
 
-import * as ts from "typescript";
-
-function transpile(source: string): string
+export function getRootNode(ast: astNode): rootNode
 {
-   const compilerOptions: ts.CompilerOptions = { 
-      module: ts.ModuleKind.CommonJS,
-      target: ts.ScriptTarget.ES5,
-      jsx: ts.JsxEmit.React,
-   };
-
-   let dia: ts.Diagnostic[] = []; 
-
-   let trasnpiled = ts.transpile(source, compilerOptions, "file.tsx", dia, "testmodule");   
-
-   return trasnpiled;
+   if(ast.type === "root") return ast;
+   else return getRootNode(ast.parent);
 }
-

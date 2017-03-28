@@ -1,14 +1,15 @@
+export type nodeTypes = "tag" | "style" | "comment" | "text" | "code" ;
 
-export type attributes = { [key:string]:string };
-
-export type nodeTypes = "tag" | "style" | "comment" | "text" | "virtual" ;
-
-export type astNode = rootNode | tagNode | styleNode | commentNode | textNode | virtualNode;
+export type astNode = rootNode | tagNode | styleNode | commentNode | textNode | codeNode;
 
 export interface rootNode
 {
    type: "root";
+   stateless: boolean;
    children: astNode[];
+   imports: string[];
+   styles: string[];
+   hash: string;
 }
 
 export interface tagNode
@@ -18,13 +19,16 @@ export interface tagNode
    attribs: attributes;
    children: astNode[];
    parent: astNode;
+   location: number;
 }
 
 export interface textNode
 {
    type: "text";
-   text: string;
+   rawText: string;
+   text: literal[];
    parent: astNode;
+   location: number;
 }
 
 export interface styleNode
@@ -32,6 +36,7 @@ export interface styleNode
    type: "style";
    style: string;
    parent: astNode;
+   location: number;
 }
 
 export interface commentNode
@@ -39,13 +44,27 @@ export interface commentNode
    type: "comment";
    comment: string;
    parent: astNode;
+   location: number;
 }
 
-export interface virtualNode
+export interface codeNode
 {
-   type: "virtual";   
+   type: "code";   
    expression: string;
    children: astNode[];
    parent: astNode;
 }
 
+export type attributes = { [key:string]: attribute };
+
+export interface attribute 
+{
+   rawText: string;
+   text: literal[];
+}
+
+export interface literal 
+{
+   text: string;
+   isString: boolean;
+}

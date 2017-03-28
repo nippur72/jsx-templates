@@ -1,12 +1,12 @@
-import { astNode, rootNode, virtualNode, tagNode } from "../nodeTypes";
+import { astNode, rootNode, codeNode, tagNode } from "../nodeTypes";
 
 // replaces "node" with "otherNode" in 
-export function replaceNode(node: tagNode|virtualNode, sourceNode: astNode, replaceWithNode: virtualNode)
+export function replaceNode(node: tagNode|codeNode, sourceNode: astNode, replaceWithNode: codeNode)
 {
    node.children.forEach((n,i)=>{
       if(n===sourceNode) {
          node.children[i] = replaceWithNode;
-         replaceWithNode.parent = node;
+         replaceWithNode.parent = node;         
       }
    });
 }

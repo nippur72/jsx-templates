@@ -1,4 +1,0 @@
-import React = require("react");
-const render = (props) => <ex-tag>Hello</ex-tag>
-;
-export = render;

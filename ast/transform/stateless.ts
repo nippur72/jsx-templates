@@ -1,8 +1,8 @@
 import { rootNode, tagNode } from "../nodeTypes";
 import { Keywords } from "../keywords";
 
-export function transform_is(ast: rootNode)
-{
+export function transform_stateless(ast: rootNode)
+{   
    // picks first defined tag
    let level_one_tags = ast.children.filter(node=>node.type==="tag");
    if(level_one_tags.length === 0)
@@ -12,13 +12,11 @@ export function transform_is(ast: rootNode)
 
    let firstTag = level_one_tags[0] as tagNode;
 
-   if(!firstTag.attribs[Keywords.is]) 
+   if(firstTag.attribs[Keywords.stateless]) 
    {
-      firstTag.tagName = "div";
+      ast.stateless = true;
+      delete firstTag.attribs[Keywords.stateless];
    }
-   else
-   {   
-      firstTag.tagName = firstTag.attribs[Keywords.is].rawText;
-      delete firstTag.attribs[Keywords.is];
-   }
+
+   // TODO check that the "stateless" attribute is not specified in nested children
 }

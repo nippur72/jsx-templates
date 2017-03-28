@@ -1,6 +1,7 @@
-import { astNode, rootNode, virtualNode, tagNode } from "../nodeTypes";
-import { Keywords } from "../astNode";
+import { astNode, rootNode, codeNode, tagNode } from "../nodeTypes";
+import { Keywords } from "../keywords";
 import { replaceNode } from "./replaceNode";
+import { attribute } from "../nodeTypes";
 
 export function transform_each(node: astNode)
 {   
@@ -9,29 +10,39 @@ export function transform_each(node: astNode)
       let eachAttrib = node.attribs[Keywords.each];      
       if(eachAttrib !== undefined) 
       {         
-         let ei = parseEach(eachAttrib);         
+         let ei = parseEach(eachAttrib.rawText);         
          delete node.attribs[Keywords.each];
 
          let parentnode = node.parent;
-
-         // prepares a virtual node
-         let eachNode: virtualNode = 
-         {
-            type: "virtual",
-            expression: `{${ei.collection}.map((${ei.item},${ei.index})=>%%%children%%%)}`,
-            children: [ node ],
-            parent: parentnode 
-         };
 
          if(parentnode === null || parentnode === undefined) {
             throw `${Keywords.each} can't be placed in a root node`;
          }
 
+         // prepares a code node
+         let eachNode: codeNode = 
+         {
+            type: "code",
+            expression: `${ei.collection}.map((${ei.item},${ei.index})=>[%%%children%%%])`,
+            children: [ node ],
+            parent: parentnode 
+         };
+
+         node.parent = eachNode;
+
          replaceNode(parentnode as tagNode, node, eachNode);
+
+         /*
+         // automatic key 
+         if(node.attribs["key"] === undefined) 
+         {
+            node.attribs["key"] = `{${ei.index}}`;
+         }
+         */
       }
    }
    
-   if(node.type === "tag" || node.type === "virtual" || node.type === "root")
+   if(node.type === "tag" || node.type === "code" || node.type === "root")
    {  
       node.children.forEach(n=>transform_each(n));
    }
@@ -45,7 +56,7 @@ interface IEach
 }
 
 function parseEach(attrib: string): IEach
-{
+{   
    const arr = attrib.split(' in ');
    if(arr.length !== 2) {
       throw `${Keywords.each} invalid 'in' expression '${attrib}'`;

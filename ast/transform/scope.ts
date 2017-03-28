@@ -1,5 +1,5 @@
-import { astNode, rootNode, virtualNode, tagNode } from "../nodeTypes";
-import { Keywords } from "../astNode";
+import { astNode, rootNode, codeNode, tagNode } from "../nodeTypes";
+import { Keywords } from "../keywords";
 import { replaceNode } from "./replaceNode";
 
 export function transform_scope(node: astNode)
@@ -12,7 +12,8 @@ export function transform_scope(node: astNode)
          let scopes: IScope[];
          try 
          {
-             scopes = parseScopeSyntax(scopeAttrib);
+            let value = scopeAttrib.rawText;
+            scopes = parseScopeSyntax(value);
          } 
          catch (scopePart) 
          {
@@ -24,24 +25,26 @@ export function transform_scope(node: astNode)
          let parentnode = node.parent;
          let scopeList = scopes.map(s=>`let ${s.identifier}=${s.expression};`).join("");
 
-         // prepares a virtual node
-         let ifNode: virtualNode = 
-         {
-            type: "virtual",
-            expression: `{(()=>{${scopeList} return %%%children%%%;})()}`,
-            children: [ node ],
-            parent: parentnode 
-         };
-
          if(parentnode === null || parentnode === undefined) {
             throw `${Keywords.scope} can't be placed in a root node`;
          }
 
-         replaceNode(parentnode as tagNode, node, ifNode);
+         // prepares a code node
+         let scopeNode: codeNode = 
+         {
+            type: "code",
+            expression: `(()=>{${scopeList} return (%%%children%%%);})()`,
+            children: [ node ],            
+            parent: parentnode 
+         };
+
+         node.parent = scopeNode;
+
+         replaceNode(parentnode as tagNode, node, scopeNode);
       }
    }
    
-   if(node.type === "tag" || node.type === "virtual" || node.type === "root")
+   if(node.type === "tag" || node.type === "code" || node.type === "root")
    {  
       node.children.forEach(n=>transform_scope(n));
    }
@@ -53,6 +56,8 @@ interface IScope
    expression: string;
 }
 
+// this is the function I wrote for [react-templates] (@nippur72)
+
 /**
  * Parses the rt-scope attribute returning an array of parsed sections
  *
@@ -60,7 +65,7 @@ interface IScope
  * @returns {Array} an array of {expression,identifier}
  * @throws {String} the part of the string that failed to parse
  */
-function parseScopeSyntax(text): IScope[] {
+function parseScopeSyntax(text: string): IScope[] {
     // the regex below was built using the following pseudo-code:
     // double_quoted_string = `"[^"\\\\]*(?:\\\\.[^"\\\\]*)*"`
     // single_quoted_string = `'[^'\\\\]*(?:\\\\.[^'\\\\]*)*'`
@@ -91,4 +96,58 @@ function parseScopeSyntax(text): IScope[] {
     return res;
 }
 
+/*
 
+// this is the old code from rioct-cli
+
+import rh = require("./regexHelper");
+
+export interface scopeItem 
+{
+   expression: string;
+   identifier: string;
+}
+
+export function parseScope(s: string): scopeItem[]
+{
+   const double_quoted_string = `"[^"\\\\]*(?:\\\\.[^"\\\\]*)*"`; 
+   const single_quoted_string = `'[^'\\\\]*(?:\\\\.[^'\\\\]*)*'`; 
+   const text_out_of_quotes = `[^"']*?`;
+   const expr_parts = rh.or(double_quoted_string, single_quoted_string, text_out_of_quotes);
+   const expression = rh.zeroOrMore(rh.nonCapture(expr_parts))+"?";
+   const id = "[$_a-zA-Z]+[$_a-zA-Z0-9]*";   
+   const as = rh.text(" as") + rh.OneOrMore(" ");
+   const optional_spaces = rh.zeroOrMore(" ");
+   const semicolon = rh.nonCapture(rh.or(rh.text(";"), rh.endOfLine()));    
+
+   const regex = rh.capture(expression) + as + rh.capture(id) + optional_spaces + semicolon + optional_spaces;
+
+   const R = new RegExp(regex, "g");
+
+   const result = buildResult(R, s);
+
+   return result;
+}
+
+
+function buildResult(regex: RegExp, text: string): scopeItem[]
+{
+   const res: scopeItem[] = [];
+
+   do {       
+      const idx = regex.lastIndex;  
+      const match = regex.exec(text);  
+      //console.log(`text=${text} idx=${idx} regex.lastIndex=${regex.lastIndex} match.index=${match?match.index:''} match=${match}`);    
+      if(regex.lastIndex===idx || match === null || match.index !== idx) {
+         // did not match at the index, report as error
+         throw text.substr(idx);
+      }            
+      if(match.index === regex.lastIndex) {
+         regex.lastIndex++;
+      }                                
+      res.push({expression: match[1].trim(), identifier: match[2]});
+   } while(regex.lastIndex < text.length)
+
+   return res;
+}
+*/
