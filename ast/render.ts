@@ -34,7 +34,7 @@ function renderRoot(node: rootNode): string
    }
    else
    {
-      result += `function render() { return (${children}); }\r\n`;
+      result += `function render(this: any) { return (${children}); }\r\n`;
    }
    result += `export = render;`;
    return result;
