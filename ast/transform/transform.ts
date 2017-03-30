@@ -16,6 +16,7 @@ import { transform_import } from "./import";
 import { transform_yield } from "./yield";
 import { transform_script } from "./script";
 import { transform_style_attrib } from "./styleAttribute";
+import { transform_onevents } from "./onevents";
 
 export function transform(ast: rootNode)
 {
@@ -43,6 +44,9 @@ export function transform(ast: rootNode)
    // style attribute
    transform_style_attrib(ast);
 
+   // onevents attributes
+   transform_onevents(ast);
+
    // process brackets
    transform_attribs(ast);
    transform_text(ast);
@@ -69,8 +73,7 @@ export function transform(ast: rootNode)
    // *** extra features:
    // ?? automatic key in each, or via switch, if?
    // plugins
-   // keyword redefinition
-   // ??<script>
+   // keyword redefinition   
    // ?? <export>
    // template as props
    // TODO else, switch
@@ -79,6 +82,9 @@ export function transform(ast: rootNode)
    // flag for outer components
    // style-ob
    // check special attributes clash with props
+
+   // NEW TO DOCUMENT
+   // <script> tag
 }
 
 // utility function used in debug

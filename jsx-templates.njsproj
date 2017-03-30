@@ -48,6 +48,7 @@
     <TypeScriptCompile Include="ast\nodeTypes.ts" />
     <TypeScriptCompile Include="ast\render.ts" />
     <TypeScriptCompile Include="ast\transform\rootTag.ts" />
+    <TypeScriptCompile Include="ast\transform\onevents.ts" />
     <TypeScriptCompile Include="ast\transform\styleAttribute.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
@@ -106,7 +107,7 @@
     <TypeScriptCompile Include="process\processFiles.ts" />
     <TypeScriptCompile Include="utils\missing-defs.ts" />
     <TypeScriptCompile Include="old\options.ts" />
-    <TypeScriptCompile Include="old\react-events.ts" />
+    <TypeScriptCompile Include="utils\react-events.ts" />
     <TypeScriptCompile Include="old\api.ts" />
     <Content Include="package.json" />
     <TypeScriptCompile Include="old\rtExtractor.ts" />
