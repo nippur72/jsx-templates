@@ -22,6 +22,8 @@ describe("'import' tag", ()=> {
    });
 });
 
+// TODO <import require="component" from="ending.html"> 
+
 // needed for the spec
 export const t1 = "test1";
 const tdef = "test2";

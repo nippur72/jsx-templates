@@ -53,8 +53,9 @@ export function transform_import(node: astNode)
 
          let $require = getAndRemove(attribs, "require");
          if($require) 
-         {            
-            imports.push(`import ${$require} = require("${from}");`);            
+         {       
+            let how = /\.html?$/.test(from) ? 'var' : 'import';
+            imports.push(`${how} ${$require} = require("${from}");`);            
          }
 
          if(Object.keys(attribs).length !== 0) 

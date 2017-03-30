@@ -28,6 +28,7 @@ function renderRoot(node: rootNode): string
 
    // writes code from <script> tags
    result += node.scripts.join("\r\n");
+   result += "\r\n";  
 
    // writes the actual render function
    let children = node.children.map(n=>render(n)).join("");
