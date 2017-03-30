@@ -48,7 +48,7 @@
     <TypeScriptCompile Include="ast\nodeTypes.ts" />
     <TypeScriptCompile Include="ast\render.ts" />
     <TypeScriptCompile Include="ast\transform\rootTag.ts" />
-    <TypeScriptCompile Include="ast\transform\onevents.ts" />
+    <TypeScriptCompile Include="ast\transform\lowercaseAttribs.ts" />
     <TypeScriptCompile Include="ast\transform\styleAttribute.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
@@ -70,6 +70,8 @@
     <TypeScriptCompile Include="ast\transform\each.ts" />
     <TypeScriptCompile Include="ast\astNode.ts" />
     <TypeScriptCompile Include="process\processHtmlFile.ts" />
+    <TypeScriptCompile Include="spec\lowercaseAttribsSpec.ts" />
+    <TypeScriptCompile Include="spec\onEventsSpec.ts" />
     <TypeScriptCompile Include="spec\scriptSpec.ts" />
     <TypeScriptCompile Include="spec\styleTagSpec.ts" />
     <TypeScriptCompile Include="spec\styleAttributeSpec.ts" />

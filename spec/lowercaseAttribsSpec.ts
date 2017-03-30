@@ -1,16 +1,16 @@
 ﻿import { renderComponent as render } from "./makeInlineComponent";
 import { defaultOptions } from "../utils/options";
 
-describe("'on' events", ()=> {
+describe("lowercase attribute names", ()=> {
    it("are translated to camelcase if supported by react", ()=>{          
       const template = `
          <Test>
-            <div scope="{{function f(){} as func}}">
-               <button onclick="{{func}}"></button>
-            </div>
+            <input maxlength={{2}} />
          </Test>`;     
       const rendered = render(template);      
-      const expected = `<div><div><button></button></div></div>`;
+      const expected = `<div><input maxlength="2"/></div>`;
       expect(rendered).toEqual(expected);      
    });
 });
+
+

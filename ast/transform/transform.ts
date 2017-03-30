@@ -16,7 +16,7 @@ import { transform_import } from "./import";
 import { transform_yield } from "./yield";
 import { transform_script } from "./script";
 import { transform_style_attrib } from "./styleAttribute";
-import { transform_onevents } from "./onevents";
+import { transform_lowercase_attribs } from "./lowercaseAttribs";
 
 export function transform(ast: rootNode)
 {
@@ -45,7 +45,7 @@ export function transform(ast: rootNode)
    transform_style_attrib(ast);
 
    // onevents attributes
-   transform_onevents(ast);
+   transform_lowercase_attribs(ast);
 
    // process brackets
    transform_attribs(ast);
