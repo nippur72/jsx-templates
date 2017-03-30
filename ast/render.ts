@@ -83,7 +83,10 @@ function renderComment(node: commentNode): string
    if(node.comment === "") return "";
 
    // TODO sanitize comments
-   return `/* ${node.comment} */`;
+   // return `{/* ${node.comment} */}`;
+
+   // comments are disabled
+   return "";   
 }
 
 function renderText(node: textNode): string
