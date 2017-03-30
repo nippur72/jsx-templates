@@ -23,7 +23,7 @@ export function transform_if(node: astNode)
          let ifNode: codeNode = 
          {
             type: "code",
-            expression: `${condition}?[%%%children%%%]:null`,
+            expression: `${condition}?%%%children%%%:null`,
             children: [ node ],
             parent: parentnode 
          };
