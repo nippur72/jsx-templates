@@ -7,6 +7,9 @@ export const Keywords =
    stateless: "stateless",
    virtual: "virtual",
    classobj: "class-obj",
-   import: "import"
+   import: "import",
+   yield: "yield",
+   this: "_this_",
+   script: "script"
 }
 

@@ -47,6 +47,12 @@
     <TypeScriptCompile Include="ast\keywords.ts" />
     <TypeScriptCompile Include="ast\nodeTypes.ts" />
     <TypeScriptCompile Include="ast\render.ts" />
+    <TypeScriptCompile Include="ast\transform\rootTag.ts" />
+    <TypeScriptCompile Include="ast\transform\styleAttribute.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="ast\transform\script.ts" />
+    <TypeScriptCompile Include="ast\transform\yield.ts" />
     <TypeScriptCompile Include="ast\transform\styleTag.ts" />
     <TypeScriptCompile Include="ast\transform\import.ts" />
     <TypeScriptCompile Include="ast\transform\optionalBrackets.ts" />
@@ -63,6 +69,10 @@
     <TypeScriptCompile Include="ast\transform\each.ts" />
     <TypeScriptCompile Include="ast\astNode.ts" />
     <TypeScriptCompile Include="process\processHtmlFile.ts" />
+    <TypeScriptCompile Include="spec\scriptSpec.ts" />
+    <TypeScriptCompile Include="spec\styleTagSpec.ts" />
+    <TypeScriptCompile Include="spec\styleAttributeSpec.ts" />
+    <TypeScriptCompile Include="spec\yieldSpec.ts" />
     <TypeScriptCompile Include="spec\importSpec.ts" />
     <TypeScriptCompile Include="spec\componentSpec.ts" />
     <TypeScriptCompile Include="spec\classSpec.ts" />

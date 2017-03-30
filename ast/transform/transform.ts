@@ -1,5 +1,6 @@
 import { rootNode, astNode } from "../nodeTypes";
 
+import { transform_root_tag } from "./rootTag";
 import { transform_style_tag } from "./styleTag";
 import { transform_optional_brackets } from "./optionalBrackets";
 import { transform_stateless } from "./stateless";
@@ -12,9 +13,15 @@ import { transform_attribs } from "./attribs";
 import { transform_text } from "./text";
 import { transform_virtual } from "./virtual";
 import { transform_import } from "./import";
+import { transform_yield } from "./yield";
+import { transform_script } from "./script";
+import { transform_style_attrib } from "./styleAttribute";
 
 export function transform(ast: rootNode)
 {
+   // root tag name
+   transform_root_tag(ast);
+   
    // handle style tags
    transform_style_tag(ast);
 
@@ -30,6 +37,11 @@ export function transform(ast: rootNode)
    // special tags
    transform_virtual(ast);
    transform_import(ast);
+   transform_yield(ast);
+   transform_script(ast);
+
+   // style attribute
+   transform_style_attrib(ast);
 
    // process brackets
    transform_attribs(ast);
@@ -38,7 +50,6 @@ export function transform(ast: rootNode)
    // jsstring in code
    // props-ob => merge
    // class-obj
-   // style
    
    // <import>   
    // ?? <include> 
@@ -66,6 +77,8 @@ export function transform(ast: rootNode)
    // TODO optimize single element array child in if,each,scope
    // import multiple names <import name="name as alias, ..." from="file" />
    // flag for outer components
+   // style-ob
+   // check special attributes clash with props
 }
 
 // utility function used in debug

@@ -1,6 +1,8 @@
 import { astNode, rootNode, codeNode, tagNode } from "../nodeTypes";
 import { Keywords } from "../keywords";
 import { replaceNode } from "./replaceNode";
+import { replaceAll } from "../../utils/replaceAll";
+import { getRootNode } from "../astNode";
 
 export function transform_class(node: astNode)
 {   
@@ -16,7 +18,13 @@ export function transform_class(node: astNode)
 
       if(list.length > 0) {
          delete node.attribs["class"];
-         node.attribs["className"] = { rawText: list.join(" "), text: [] };            
+         let combined = list.join(" ");
+
+         // changes _this_ into hashed identifier
+         let root = getRootNode(node);
+         combined = replaceAll(combined, Keywords.this, root.hash);
+
+         node.attribs["className"] = { rawText: combined, text: [] };            
       }
    }
    

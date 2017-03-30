@@ -1,25 +1,44 @@
 ﻿import React = require("react");
 import ReactDOMServer = require("react-dom/server");
+
 import _eval = require("eval");
 import * as ts from "typescript";
 
 import { CommandLineOptions, defaultOptions } from "../utils/options";
 import { processHtmlString } from "../process/processHtmlString";
 
-export function compileTemplate(template: string, options?)
+import Rioct = require("rioct"); // for <style> rendering 
+
+export function compileTemplate(template: string, options?): string
 {
    options = options || defaultOptions(); 
    
-   let tsx = processHtmlString(template, options, "nofile");
+   let js;
+   let tsx = processHtmlString(template, options, "nofile");   
    try
    {      
-      let js = transpile(tsx);
+      js = transpile(tsx);
+   }
+   catch(ex)
+   {
+      console.log("**** tsx:");
+      console.log(tsx);
+      throw ex;
+   }
+
+   try
+   {
       const evaluated = _eval(js, "eval", {}, true);
       return evaluated;
    }
    catch(ex)
    {
-      console.log(tsx);         
+      console.log("**** tsx:");
+      console.log(tsx);
+      console.log("**** js:");
+      console.log(js);
+      console.log("****");
+      throw ex;
    }
 }
 

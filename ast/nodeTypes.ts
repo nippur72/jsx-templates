@@ -1,6 +1,6 @@
-export type nodeTypes = "tag" | "style" | "comment" | "text" | "code" ;
+export type nodeTypes = "tag" | "style" | "script" | "comment" | "text" | "code" ;
 
-export type astNode = rootNode | tagNode | styleNode | commentNode | textNode | codeNode;
+export type astNode = rootNode | tagNode | styleNode | scriptNode | commentNode | textNode | codeNode;
 
 export interface rootNode
 {
@@ -9,7 +9,9 @@ export interface rootNode
    children: astNode[];
    imports: string[];
    styles: string[];
+   scripts: string[];
    hash: string;
+   mainTagName: string;
 }
 
 export interface tagNode
@@ -35,6 +37,14 @@ export interface styleNode
 {
    type: "style";
    style: string;
+   parent: astNode;
+   location: number;
+}
+
+export interface scriptNode
+{
+   type: "script";
+   script: string;
    parent: astNode;
    location: number;
 }

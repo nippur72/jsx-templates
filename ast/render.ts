@@ -20,11 +20,14 @@ function renderRoot(node: rootNode): string
 {
    // writes import statements
    let result = node.imports.join("\r\n");
-   result += "\r\n";
+   result += "\r\n";  
 
    // writes style-loading code
    result += node.styles.join("\r\n");
    if(node.styles.length>0) result += "\r\n";
+
+   // writes code from <script> tags
+   result += node.scripts.join("\r\n");
 
    // writes the actual render function
    let children = node.children.map(n=>render(n)).join("");

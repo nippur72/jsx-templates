@@ -2,6 +2,7 @@ import { minify, prefixCss } from "react-style-tag/lib/transform";
 
 import { astNode, rootNode, codeNode, tagNode, commentNode, attributes } from "../nodeTypes";
 import { getRootNode } from "../astNode";
+import { Keywords } from "../keywords";
 import { replaceAll } from "../../utils/replaceAll";
 
 export const LibName = "Rioct";
@@ -24,9 +25,9 @@ export function transform_style_tag(node: astNode)
          root.imports.push(importRioctCommand);
       }
 
-      let style = replaceAll(node.style, "_this_", `_${root.hash}_`);
+      let style = replaceAll(node.style, Keywords.this, root.hash);
 
-      styles.push(styleCommand(style, "a tag (TODO)", true));
+      styles.push(styleCommand(style, root.mainTagName, true));
          
       // change to comment node
       (node as any).type = "comment";

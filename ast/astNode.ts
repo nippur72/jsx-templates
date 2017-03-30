@@ -34,7 +34,9 @@ function buildTreeFromCheerio(rootNode: CheerioStatic, fileName: string): rootNo
       stateless: false,
       imports: [`import React = require("react");`],
       styles: [],
-      hash: md5(fileName, "jsx-templates")
+      scripts: [],
+      hash: `_${md5(fileName, "jsx-templates")}_`,
+      mainTagName: ""
    };
 
    // collect all first level nodes
@@ -78,6 +80,22 @@ function visit(x: CheerioElement, parent: astNode): astNode
       node = {
          type: "style",         
          style: grabbedStyle,
+         parent: parent,
+         location: x.startIndex
+      };      
+   }
+   else if(x.type === "script")
+   {
+      // grab script text 
+      let grabbedScript = "";
+      _.each(x.children, child => {
+         let style = child["data"];         
+         grabbedScript += style;
+      });                                                          
+
+      node = {
+         type: "script",         
+         script: grabbedScript,
          parent: parent,
          location: x.startIndex
       };      
