@@ -50,14 +50,13 @@ export function transform(ast: rootNode)
    // process brackets
    transform_attribs(ast);
    transform_text(ast);
-   
-   // jsstring in code
+      
    // props-ob => merge
    // class-obj
    
-   // <import>   
    // ?? <include> 
    // rt-pre      
+   // runtime check on event handlers, binding?
    // event handlers, binding?
 
    // template functions
@@ -69,6 +68,7 @@ export function transform(ast: rootNode)
    // jsx/typescript output
    // error with line, column   
    // special html &nbsp; etc
+   // improve jsstring in code
 
    // *** extra features:
    // ?? automatic key in each, or via switch, if?

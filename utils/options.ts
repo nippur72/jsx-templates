@@ -18,6 +18,8 @@ let optsConfig =
       { heading: 'Options' }, 
       { option: 'help', alias: 'h', type: 'Boolean', description: 'Show help.' }, 
       { option: 'typescript', type: 'Boolean', default: 'false', required: false, description: 'Output typescript (.tsx) files.'},
+      { option: 'debug-runtime-check', type: 'Boolean', default: 'false', required: false, description: 'Check expressions at runtime and debug to console.'},
+      { option: 'debug-runtime-print-function', type: 'String', default: 'console.error', required: false, description: 'JavaScript function used to log runtime-checks messages.'},
       /*
       { option: 'trace', alias: 't', type: 'Boolean', default: 'false', required: false, description: 'Catches all runtime errors and logs them to the console.'},
       //{ option: 'new', alias: 'n', type: 'Boolean', required: false, description: 'Use new emit engine (do not rely on react-templates).'},
@@ -40,6 +42,8 @@ export let opts = (args: string[]) => optionator(optsConfig).parseArgv(args);
 export interface CommandLineOptions {
    _: string[];
    typescript: boolean;
+   debugRuntimeCheck: boolean;
+   debugRuntimePrintFunction: string;
    /*
    trace: boolean;
    //new: boolean;
@@ -61,6 +65,8 @@ export function defaultOptions(): CommandLineOptions
    return {
       _: [],
       typescript: false,
+      debugRuntimeCheck: false,
+      debugRuntimePrintFunction: "console.error"
       /*
       trace: false,
       

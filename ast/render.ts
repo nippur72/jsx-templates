@@ -4,6 +4,7 @@ import { Keywords } from "./keywords";
 import { astNode, rootNode, codeNode, tagNode, styleNode, commentNode, textNode } from "./nodeTypes";
 import { attributes, attribute } from "./nodeTypes";
 import { replaceAll } from "../utils/replaceAll";
+import { wrapRenderFunction } from "./transform/debug";
 
 export function render(node: astNode): string
 {
@@ -32,6 +33,12 @@ function renderRoot(node: rootNode): string
 
    // writes the actual render function
    let children = node.children.map(n=>render(n)).join("");
+
+   if(node.options.debugRuntimeCheck) 
+   {
+      children = wrapRenderFunction(children, node.options);
+   }
+
    if(node.stateless) 
    {
       result += `const render = (props, context) => ${children};\r\n`;

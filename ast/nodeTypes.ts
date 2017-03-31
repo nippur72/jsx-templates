@@ -1,3 +1,5 @@
+import { CommandLineOptions } from "../utils/options";
+
 export type nodeTypes = "tag" | "style" | "script" | "comment" | "text" | "code" ;
 
 export type astNode = rootNode | tagNode | styleNode | scriptNode | commentNode | textNode | codeNode;
@@ -12,6 +14,7 @@ export interface rootNode
    scripts: string[];
    hash: string;
    mainTagName: string;
+   options: CommandLineOptions;
 }
 
 export interface tagNode

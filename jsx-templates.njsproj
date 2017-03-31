@@ -5,7 +5,7 @@
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
     <Name>cli</Name>
     <RootNamespace>cli</RootNamespace>
-    <ScriptArguments>example-tag.html </ScriptArguments>
+    <ScriptArguments>example-tag.html --debug-runtime-check</ScriptArguments>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -47,6 +47,9 @@
     <TypeScriptCompile Include="ast\keywords.ts" />
     <TypeScriptCompile Include="ast\nodeTypes.ts" />
     <TypeScriptCompile Include="ast\render.ts" />
+    <TypeScriptCompile Include="ast\transform\debug.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
     <TypeScriptCompile Include="ast\transform\rootTag.ts" />
     <TypeScriptCompile Include="ast\transform\lowercaseAttribs.ts" />
     <TypeScriptCompile Include="ast\transform\styleAttribute.ts">
@@ -70,6 +73,7 @@
     <TypeScriptCompile Include="ast\transform\each.ts" />
     <TypeScriptCompile Include="ast\astNode.ts" />
     <TypeScriptCompile Include="process\processHtmlFile.ts" />
+    <TypeScriptCompile Include="spec\runtimeCheckSpec.ts" />
     <TypeScriptCompile Include="spec\lowercaseAttribsSpec.ts" />
     <TypeScriptCompile Include="spec\onEventsSpec.ts" />
     <TypeScriptCompile Include="spec\scriptSpec.ts" />
@@ -85,6 +89,9 @@
     <TypeScriptCompile Include="spec\isSpec.ts" />
     <TypeScriptCompile Include="spec\ifSpec.ts" />
     <TypeScriptCompile Include="spec\eachSpec.ts" />
+    <TypeScriptCompile Include="utils\printable.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
     <TypeScriptCompile Include="utils\regexHelper.ts" />
     <TypeScriptCompile Include="utils\brackets.ts" />
     <TypeScriptCompile Include="utils\options.ts" />
@@ -115,7 +122,6 @@
     <TypeScriptCompile Include="old\rtExtractor.ts" />
     <TypeScriptCompile Include="old\location.ts" />
     <TypeScriptCompile Include="old\utils.ts" />
-    <TypeScriptCompile Include="old\wrapExpression.ts" />
     <TypeScriptCompile Include="old\wrapHandler.ts" />
     <TypeScriptCompile Include="old\WrapImports.ts" />
   </ItemGroup>

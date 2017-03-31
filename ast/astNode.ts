@@ -13,7 +13,8 @@ type CheerioAttributes = {[key:string]:string};
 export function htmlToTsx(html: string, options: CommandLineOptions, fileName: string): string
 {
    let cheerioTree = cheerio.load(html, {lowerCaseTags: false, lowerCaseAttributeNames: false, xmlMode: true, withStartIndices: true}); // xmlMode turned off to allow decode of &nbsp;    
-   let ast = buildTreeFromCheerio(cheerioTree, fileName);
+
+   let ast = buildTreeFromCheerio(cheerioTree, fileName, options);
 
    transform(ast);
 
@@ -22,7 +23,7 @@ export function htmlToTsx(html: string, options: CommandLineOptions, fileName: s
    return tsx;
 }
 
-function buildTreeFromCheerio(rootNode: CheerioStatic, fileName: string): rootNode
+function buildTreeFromCheerio(rootNode: CheerioStatic, fileName: string, options: CommandLineOptions): rootNode
 {
    let rootTags = _.filter(rootNode.root()[0].children, node => true);
 
@@ -36,7 +37,8 @@ function buildTreeFromCheerio(rootNode: CheerioStatic, fileName: string): rootNo
       styles: [],
       scripts: [],
       hash: `_${md5(fileName, "jsx-templates")}_`,
-      mainTagName: ""
+      mainTagName: "",
+      options: options
    };
 
    // collect all first level nodes

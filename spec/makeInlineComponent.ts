@@ -9,7 +9,7 @@ import { processHtmlString } from "../process/processHtmlString";
 
 import Rioct = require("rioct"); // for <style> rendering 
 
-export function compileTemplate(template: string, options?): string
+export function compileTemplate(template: string, options?: CommandLineOptions): string
 {
    options = options || defaultOptions(); 
    
@@ -42,13 +42,13 @@ export function compileTemplate(template: string, options?): string
    }
 }
 
-export function renderComponent(template: string, props?: any): string
+export function renderComponent(template: string, props?: any, options?: CommandLineOptions, suppressReactWarnings?: boolean): string
 {
    // suppress a react warning caused by _eval()
    const oldNODE_ENV = process.env.NODE_ENV;
-   process.env.NODE_ENV = "debug"; //"production";
+   process.env.NODE_ENV = suppressReactWarnings ? "production" : "debug"; 
 
-   const fn = compileTemplate(template);
+   const fn = compileTemplate(template, options);
    const component = React.createElement(fn, props);
    let s;
 
