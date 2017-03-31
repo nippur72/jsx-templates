@@ -162,7 +162,7 @@ describe("runtime check on text", ()=> {
    });
 });
 
-describe("runtime check on render function", ()=> {
+xdescribe("runtime check on render function", ()=> {
 
    // TODO this spec needs to be improved
 

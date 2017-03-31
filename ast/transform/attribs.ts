@@ -15,6 +15,13 @@ function transform_attribs_inner(node: astNode, root: rootNode)
    if(node.type === "tag")
    {
       Object.keys(node.attribs).forEach(key => {
+
+         // allow empty attributes
+         if(node.attribs[key].rawText === "") 
+         {
+            node.attribs[key].rawText == "{{true}}"; // TODO fix brackets
+         }
+
          node.attribs[key].text = splitBrackets(node.attribs[key].rawText);
 
          if(root.options.debugRuntimeCheck) {
