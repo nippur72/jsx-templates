@@ -5,6 +5,7 @@ import { astNode, rootNode, codeNode, tagNode, styleNode, commentNode, textNode 
 import { attributes, attribute } from "./nodeTypes";
 import { replaceAll } from "../utils/replaceAll";
 import { wrapRenderFunction } from "./transform/debug";
+import { printableString } from "../utils/printable";
 
 export function render(node: astNode): string
 {
@@ -70,13 +71,13 @@ function renderAttribute(attr: attribute): string
 {
    if(attr.text.length === 1 && attr.text[0].isString) {
       // simple case, constant string, return it as-is
-      return `"${attr.text[0].text}"`;
+      return `"${printableString(attr.text[0].text)}"`;
    }
 
    // complex case, it's a concatenated string expression
 
    let array = attr.text.map(e => {
-      if(e.isString) return `"${e.text}"`; 
+      if(e.isString) return `"${printableString(e.text)}"`; 
       else return e.text;
    });
 
@@ -106,7 +107,7 @@ function renderText(node: textNode): string
    }
    else if(node.parent.type === "code")
    {
-      let chained = node.text.map(e => e.isString ? `"${e.text}"` : `${e.text}`);
+      let chained = node.text.map(e => e.isString ? `"${printableString(e.text)}"` : `${e.text}`);
       return chained.join(",");
    }
    else if(node.parent.type === "root") 

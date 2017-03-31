@@ -5,7 +5,7 @@
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
     <Name>cli</Name>
     <RootNamespace>cli</RootNamespace>
-    <ScriptArguments>example-tag.html --debug-runtime-check=false</ScriptArguments>
+    <ScriptArguments>example-tag.html --debug-runtime-check=false --typescript</ScriptArguments>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -73,6 +73,7 @@
     <TypeScriptCompile Include="ast\transform\each.ts" />
     <TypeScriptCompile Include="ast\astNode.ts" />
     <TypeScriptCompile Include="process\processHtmlFile.ts" />
+    <TypeScriptCompile Include="spec\specialCharsSpec.ts" />
     <TypeScriptCompile Include="spec\emptyAttributesSpec.ts" />
     <TypeScriptCompile Include="spec\runtimeCheckSpec.ts" />
     <TypeScriptCompile Include="spec\lowercaseAttribsSpec.ts" />
