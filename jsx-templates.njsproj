@@ -73,6 +73,7 @@
     <TypeScriptCompile Include="ast\transform\each.ts" />
     <TypeScriptCompile Include="ast\astNode.ts" />
     <TypeScriptCompile Include="process\processHtmlFile.ts" />
+    <TypeScriptCompile Include="spec\normalizeSpacesSpec.ts" />
     <TypeScriptCompile Include="spec\specialCharsSpec.ts" />
     <TypeScriptCompile Include="spec\emptyAttributesSpec.ts" />
     <TypeScriptCompile Include="spec\runtimeCheckSpec.ts" />
@@ -91,6 +92,7 @@
     <TypeScriptCompile Include="spec\isSpec.ts" />
     <TypeScriptCompile Include="spec\ifSpec.ts" />
     <TypeScriptCompile Include="spec\eachSpec.ts" />
+    <TypeScriptCompile Include="utils\location.ts" />
     <TypeScriptCompile Include="utils\printable.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
@@ -100,32 +102,26 @@
     <TypeScriptCompile Include="process\processHtmlString.ts" />
     <TypeScriptCompile Include="spec\bracketsSpec.ts" />
     <TypeScriptCompile Include="spec\makeInlineComponent.ts" />
-    <TypeScriptCompile Include="old\wrapCode.ts" />
     <TypeScriptCompile Include="old\rt-specs\makeInlineComponent.ts" />
     <TypeScriptCompile Include="old\rt-specs\parseBracketCliOptionSpec.ts" />
     <TypeScriptCompile Include="old\rt-specs\cleanBracketsSpec.ts" />
     <TypeScriptCompile Include="old\rt-specs\componentSpec.ts" />
-    <TypeScriptCompile Include="old\parseScope.ts" />
     <TypeScriptCompile Include="old\rt-specs\parseScopeSpec.ts" />
     <TypeScriptCompile Include="old\rt-specs\replaceBracketsSpec.ts" />
-    <TypeScriptCompile Include="old\webpack.ts" />
-    <TypeScriptCompile Include="old\processHtml.ts" />
     <TypeScriptCompile Include="old\CompileError.ts" />
     <TypeScriptCompile Include="old\context.ts" />
-    <TypeScriptCompile Include="old\processResult.ts" />
     <TypeScriptCompile Include="utils\replace-extension.ts" />
     <TypeScriptCompile Include="utils\replaceAll.ts" />
     <TypeScriptCompile Include="process\processFiles.ts" />
     <TypeScriptCompile Include="utils\missing-defs.ts" />
-    <TypeScriptCompile Include="old\options.ts" />
     <TypeScriptCompile Include="utils\react-events.ts" />
     <TypeScriptCompile Include="old\api.ts" />
     <Content Include="package.json" />
-    <TypeScriptCompile Include="old\rtExtractor.ts" />
     <TypeScriptCompile Include="old\location.ts" />
     <TypeScriptCompile Include="old\utils.ts" />
     <TypeScriptCompile Include="old\wrapHandler.ts" />
     <TypeScriptCompile Include="old\WrapImports.ts" />
+    <TypeScriptCompile Include="utils\trim.ts" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="ast\" />

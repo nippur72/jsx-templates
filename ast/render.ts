@@ -42,7 +42,7 @@ function renderRoot(node: rootNode): string
 
    if(node.stateless) 
    {
-      result += `const render = (props, context) => ${children};\r\n`;
+      result += `const render = (props, context) => (${children});\r\n`;
    }
    else
    {
@@ -58,6 +58,7 @@ function renderTag(node: tagNode): string
    let attribs = renderAttributes(node.attribs);
    let space = Object.keys(node.attribs).length>0 ? " " : "";
    let result = `<${node.tagName}${space}${attribs}>${children}</${node.tagName}>`;
+   //let result = `${indent(node.indent)}<${node.tagName}${space}${attribs}>\r\n${children}\r\n${indent(node.indent)}</${node.tagName}>`;
    return result;
 }
 
@@ -130,3 +131,11 @@ function renderCode(node: codeNode): string
    }
    return expr;
 }
+
+function indent(n: number)
+{
+   let s="";
+   for(let t=0;t<n;t++) s += "   ";
+   return s;
+}
+

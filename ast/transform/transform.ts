@@ -85,6 +85,7 @@ export function transform(ast: rootNode)
 
    // NEW TO DOCUMENT
    // <script> tag
+   // solve <script> not working with tsx syntax
 }
 
 // utility function used in debug

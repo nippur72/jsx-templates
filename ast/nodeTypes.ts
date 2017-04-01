@@ -15,6 +15,7 @@ export interface rootNode
    hash: string;
    mainTagName: string;
    options: CommandLineOptions;
+   originalHtml: string;
 }
 
 export interface tagNode
@@ -25,6 +26,7 @@ export interface tagNode
    children: astNode[];
    parent: astNode;
    location: number;
+   indent: number;
 }
 
 export interface textNode

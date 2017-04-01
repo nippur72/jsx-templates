@@ -16,6 +16,11 @@ interface CheerioOptionsInterface {
    withStartIndices?: boolean;
 }
 
+declare module "normalize-html-whitespace" {
+   function normalizeHtmlWhitespace(s: string): string;
+   export = normalizeHtmlWhitespace;
+}
+
 declare module "react-templates/src/reactTemplates" {
    var rt: reactTemplates;
    export = rt;

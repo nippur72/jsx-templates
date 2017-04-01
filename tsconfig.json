@@ -18,9 +18,7 @@
         "node_modules",
         "typings",
         "wwwroot",
-        "example-tag.tag.ts",
-        "example-tag.tag.jsx",
-        "example-tag.tag.tsx",
+        "example-tag.html.tsx",
         "old"
     ]
 }

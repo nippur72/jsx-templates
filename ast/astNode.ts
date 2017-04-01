@@ -7,6 +7,9 @@ import { attributes } from "./nodeTypes";
 import { transform } from "./transform/transform";
 import { render } from "./render";
 import md5 = require("blueimp-md5");
+import normalizeHtmlWhitespace = require('normalize-html-whitespace');
+import { getLocation } from "../utils/location";
+import { ltrim, rtrim } from "../utils/trim";
 
 type CheerioAttributes = {[key:string]:string};
 
@@ -14,7 +17,7 @@ export function htmlToTsx(html: string, options: CommandLineOptions, fileName: s
 {
    let cheerioTree = cheerio.load(html, {lowerCaseTags: false, lowerCaseAttributeNames: false, xmlMode: true, withStartIndices: true}); // xmlMode turned off to allow decode of &nbsp;    
 
-   let ast = buildTreeFromCheerio(cheerioTree, fileName, options);
+   let ast = buildTreeFromCheerio(cheerioTree, fileName, options, html);
 
    transform(ast);
 
@@ -23,12 +26,12 @@ export function htmlToTsx(html: string, options: CommandLineOptions, fileName: s
    return tsx;
 }
 
-function buildTreeFromCheerio(rootNode: CheerioStatic, fileName: string, options: CommandLineOptions): rootNode
+function buildTreeFromCheerio(rootNode: CheerioStatic, fileName: string, options: CommandLineOptions, html: string): rootNode
 {
    let rootTags = _.filter(rootNode.root()[0].children, node => true);
 
    // put under a file-based root node
-   let astRoot: rootNode = 
+   let root: rootNode = 
    {
       type: "root",            
       children: [],
@@ -38,19 +41,21 @@ function buildTreeFromCheerio(rootNode: CheerioStatic, fileName: string, options
       scripts: [],
       hash: `_${md5(fileName, "jsx-templates")}_`,
       mainTagName: "",
-      options: options
+      options: options,
+      originalHtml: html
    };
 
    // collect all first level nodes
-   _.forEach(rootTags, (e)=>astRoot.children.push(visit(e, astRoot)));   
+   let indent = 0;
+   _.forEach(rootTags, (e)=>root.children.push(visit(e, root, root, indent)));   
 
    // filters empty text children
-   astRoot.children = astRoot.children.filter(n => !(n.type === "text" && n.rawText.trim().length === 0));
+   root.children = root.children.filter(n => !(n.type === "text" && n.rawText.trim().length === 0));
 
-   return astRoot;
+   return root;
 }
 
-function visit(x: CheerioElement, parent: astNode): astNode
+function visit(x: CheerioElement, parent: astNode, root: rootNode, indent: number): astNode
 {   
    let node: astNode;
    
@@ -62,10 +67,11 @@ function visit(x: CheerioElement, parent: astNode): astNode
          attribs: attributesFromCheerio(x.attribs as CheerioAttributes),
          children: [],
          parent: parent,
-         location: x.startIndex
+         location: x.startIndex,
+         indent: indent
       };
 
-      _.forEach(x.children, (e)=>(node as tagNode).children.push(visit(e, node)));
+      _.forEach(x.children, (e)=>(node as tagNode).children.push(visit(e, node, root, indent + 1)));
 
       // filters empty text children
       node.children = node.children.filter(n => !(n.type === "text" && n.rawText.trim().length === 0));
@@ -113,9 +119,16 @@ function visit(x: CheerioElement, parent: astNode): astNode
    }
    else if(x.type === "text")
    {
+      let rawText = x["data"] as string;
+
+      if(root.options.normalizeHtmlWhitespace) 
+      {
+//         rawText = normalizeHtmlWhitespace(rawText);
+      }           
+
       node = {
          type: "text",         
-         rawText: x["data"],
+         rawText: rawText,
          text: [],
          parent: parent,
          location: x.startIndex
