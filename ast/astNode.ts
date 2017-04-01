@@ -35,7 +35,7 @@ function buildTreeFromCheerio(rootNode: CheerioStatic, fileName: string, options
    {
       type: "root",            
       children: [],
-      stateless: false,
+      stateless: undefined,
       imports: [`import React = require("react");`],
       styles: [],
       scripts: [],

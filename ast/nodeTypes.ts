@@ -7,7 +7,7 @@ export type astNode = rootNode | tagNode | styleNode | scriptNode | commentNode 
 export interface rootNode
 {
    type: "root";
-   stateless: boolean;
+   stateless: string|undefined;
    children: astNode[];
    imports: string[];
    styles: string[];

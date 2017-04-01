@@ -40,9 +40,10 @@ function renderRoot(node: rootNode): string
       children = wrapRenderFunction(children, node.options);
    }
 
-   if(node.stateless) 
+   if(node.stateless !== undefined) 
    {
-      result += `const render = (props, context) => (${children});\r\n`;
+      let propsType = node.stateless || "any";      
+      result += `const render = (props: ${propsType}, context) => (${children});\r\n`;
    }
    else
    {

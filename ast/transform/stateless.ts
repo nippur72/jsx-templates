@@ -14,7 +14,7 @@ export function transform_stateless(ast: rootNode)
 
    if(firstTag.attribs[Keywords.stateless]) 
    {
-      ast.stateless = true;
+      ast.stateless = firstTag.attribs[Keywords.stateless].rawText;
       delete firstTag.attribs[Keywords.stateless];
    }
 
