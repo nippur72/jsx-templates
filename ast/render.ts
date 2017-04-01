@@ -79,7 +79,7 @@ function renderAttribute(attr: attribute): string
 
    let array = attr.text.map(e => {
       if(e.isString) return `"${printableString(e.text)}"`; 
-      else return e.text;
+      else return `(${e.text})`;
    });
 
    let chained = array.join(" + ");
