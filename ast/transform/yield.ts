@@ -13,7 +13,7 @@ export function transform_yield(node: astNode)
 
          // change to text node
          (node as any).type = "text";
-         (node as any as textNode).rawText = isStateless ? "{props.children}" : "{this.props.children}";
+         (node as any as textNode).rawText = isStateless !== undefined ? "{props.children}" : "{this.props.children}";
 
          // TODO <yield from, yield to>
 
