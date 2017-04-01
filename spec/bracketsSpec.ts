@@ -10,7 +10,7 @@ describe("brackets in attribute", ()=> {
    });
 
    it("expands a curly brace expression", ()=>{          
-      const template = `<Test data-a="some{{'data'}}" data-b="{{'some'}}data" data-c="som{{'e'+'d'}}a{{'t'}}a">Hello</Test>`;     
+      const template = `<Test data-a="some{{1>0?'data':''}}" data-b="{{'some'}}data" data-c="som{{'e'+'d'}}a{{'t'}}a">Hello</Test>`;     
       const rendered = render(template);      
       const expected = `<div data-a="somedata" data-b="somedata" data-c="somedata">Hello</div>`;
       expect(rendered).toEqual(expected);      

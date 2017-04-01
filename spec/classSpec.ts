@@ -29,4 +29,11 @@ describe("'class' attribute", ()=> {
       const expected = `<div><div class="_ce9a7594f10ab7f5fc0b7eaa74049b18_">Hi</div></div>`;
       expect(rendered).toEqual(expected);      
    });
+
+   it("accepts the alternate object syntax", ()=>{          
+      const template = `<Test><div class="{{ { border: true, highlight: false, raised: true } }}">Hi</div></Test>`;     
+      const rendered = render(template);      
+      const expected = `<div><div class="border raised">Hi</div></div>`;
+      expect(rendered).toEqual(expected);      
+   });
 });

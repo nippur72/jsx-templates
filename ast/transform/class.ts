@@ -3,6 +3,7 @@ import { Keywords } from "../keywords";
 import { replaceNode } from "./replaceNode";
 import { replaceAll } from "../../utils/replaceAll";
 import { getRootNode } from "../astNode";
+import { removeOptionalBrackets } from "../../utils/brackets";
 
 export function transform_class(node: astNode)
 {   
@@ -23,6 +24,13 @@ export function transform_class(node: astNode)
          // changes _this_ into hashed identifier
          let root = getRootNode(node);
          combined = replaceAll(combined, Keywords.this, root.hash);
+
+         // allow class-object syntax
+         let obj_syntax = removeOptionalBrackets(combined, {open:"{{", close: "}}"}).trim(); // TODO use default brackets
+         if(obj_syntax.charAt(0)==="{" && obj_syntax.charAt(obj_syntax.length-1)==="}") 
+         {
+            combined = replaceAll("{{((o)=>Object.keys(o).filter(k=>o[k]).join(' '))(%%ob%%)}}","%%ob%%", obj_syntax);
+         }
 
          node.attribs["className"] = { rawText: combined, text: [] };            
       }
