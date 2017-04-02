@@ -1,6 +1,6 @@
 {
   "name": "jsx-templates",
-  "version": "0.0.22",
+  "version": "0.0.24",
   "description": "templates for jsx/tsx",
   "main": "jsx-templates.js",
   "author": "Antonino Porcino",

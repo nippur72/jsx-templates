@@ -5,7 +5,7 @@ import { astNode, rootNode, codeNode, tagNode, styleNode, commentNode, textNode 
 import { attributes, attribute } from "./nodeTypes";
 import { replaceAll } from "../utils/replaceAll";
 import { wrapRenderFunction } from "./transform/debug";
-import { printableString } from "../utils/printable";
+import { printableString, quotableString } from "../utils/printable";
 
 export function render(node: astNode): string
 {
@@ -58,8 +58,7 @@ function renderTag(node: tagNode): string
    let children = node.children.map(n=>render(n)).join("");
    let attribs = renderAttributes(node.attribs);
    let space = Object.keys(node.attribs).length>0 ? " " : "";
-   let result = `<${node.tagName}${space}${attribs}>${children}</${node.tagName}>`;
-   //let result = `${indent(node.indent)}<${node.tagName}${space}${attribs}>\r\n${children}\r\n${indent(node.indent)}</${node.tagName}>`;
+   let result = `<${node.tagName}${space}${attribs}>${children}</${node.tagName}>`;   
    return result;
 }
 
@@ -109,7 +108,7 @@ function renderText(node: textNode): string
    }
    else if(node.parent.type === "code")
    {
-      let chained = node.text.map(e => e.isString ? `"${printableString(e.text)}"` : `${e.text}`);
+      let chained = node.text.map(e => e.isString ? `"${quotableString(e.text)}"` : `${e.text}`);
       return chained.join(",");
    }
    else if(node.parent.type === "root") 

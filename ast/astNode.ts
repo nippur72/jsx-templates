@@ -52,7 +52,7 @@ function buildTreeFromCheerio(rootNode: CheerioStatic, fileName: string, options
    _.forEach(rootTags, (e)=>root.children.push(visit(e, root, root, indent)));   
 
    // filters empty text children
-   root.children = root.children.filter(n => !(n.type === "text" && n.rawText.trim().length === 0));
+   //root.children = root.children.filter(n => !(n.type === "text" && n.rawText.trim().length === 0));
 
    return root;
 }
@@ -76,7 +76,7 @@ function visit(x: CheerioElement, parent: astNode, root: rootNode, indent: numbe
       _.forEach(x.children, (e)=>(node as tagNode).children.push(visit(e, node, root, indent + 1)));
 
       // filters empty text children
-      node.children = node.children.filter(n => !(n.type === "text" && n.rawText.trim().length === 0));
+      //node.children = node.children.filter(n => !(n.type === "text" && n.rawText.trim().length === 0));
    }
    else if(x.type === "style")
    {
