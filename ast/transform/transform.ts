@@ -54,7 +54,7 @@ export function transform(ast: rootNode)
    transform_text(ast);
       
    // props-ob => merge
-   // class-obj
+   // TODO trimming in virtual node
    
    // ?? <include> 
    // rt-pre      
