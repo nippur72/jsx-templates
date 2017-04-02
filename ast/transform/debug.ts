@@ -85,8 +85,9 @@ function wrapExpression(jsCode: string, isTextExpression: boolean, options: Comm
          return $expr;
       }
       catch(ex) {
-         ${print}("${error}" + (ex.message || ex));
-         return ${retval};
+         var msg = "${error}" + (ex.message || ex);
+         ${print}(msg);
+         throw msg;
       }
    }`;
 
