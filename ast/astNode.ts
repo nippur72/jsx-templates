@@ -10,6 +10,7 @@ import md5 = require("blueimp-md5");
 import normalizeHtmlWhitespace = require('normalize-html-whitespace');
 import { getLocation } from "../utils/location";
 import { ltrim, rtrim } from "../utils/trim";
+import { parseBracketCliOption } from "../utils/brackets";
 
 type CheerioAttributes = {[key:string]:string};
 
@@ -42,7 +43,8 @@ function buildTreeFromCheerio(rootNode: CheerioStatic, fileName: string, options
       hash: `_${md5(fileName, "jsx-templates")}_`,
       mainTagName: "",
       options: options,
-      originalHtml: html
+      originalHtml: html,
+      brackets: parseBracketCliOption(options.brackets)
    };
 
    // collect all first level nodes

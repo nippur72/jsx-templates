@@ -1,4 +1,5 @@
 import { CommandLineOptions } from "../utils/options";
+import { Brackets } from "../utils/brackets";
 
 export type nodeTypes = "tag" | "style" | "script" | "comment" | "text" | "code" ;
 
@@ -16,6 +17,7 @@ export interface rootNode
    mainTagName: string;
    options: CommandLineOptions;
    originalHtml: string;
+   brackets: Brackets;
 }
 
 export interface tagNode

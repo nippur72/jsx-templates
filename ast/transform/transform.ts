@@ -17,6 +17,7 @@ import { transform_yield } from "./yield";
 import { transform_script } from "./script";
 import { transform_style_attrib } from "./styleAttribute";
 import { transform_lowercase_attribs } from "./lowercaseAttribs";
+import { transform_show_hide } from "./showHide";
 
 export function transform(ast: rootNode)
 {
@@ -42,12 +43,13 @@ export function transform(ast: rootNode)
    transform_script(ast);
 
    // style attribute
+   //transform_show_hide(ast);
    transform_style_attrib(ast);
 
    // onevents attributes
    transform_lowercase_attribs(ast);
 
-   // process brackets
+   // process brackets   
    transform_attribs(ast);
    transform_text(ast);
       

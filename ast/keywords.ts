@@ -10,6 +10,8 @@ export const Keywords =
    import: "import",
    yield: "yield",
    this: "_this_",
-   script: "script"
+   script: "script",
+   show: "show",
+   hide: "hide"
 }
 

@@ -19,7 +19,7 @@ function transform_attribs_inner(node: astNode, root: rootNode)
          // allow empty attributes
          if(node.attribs[key].rawText === "") 
          {
-            node.attribs[key].rawText = "{{true}}"; // TODO fix brackets
+            node.attribs[key].rawText = `${root.brackets.open}true${root.brackets.close}`; 
          }
 
          node.attribs[key].text = splitBrackets(node.attribs[key].rawText);

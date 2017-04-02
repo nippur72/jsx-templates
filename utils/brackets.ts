@@ -2,10 +2,6 @@
 
 //import * as rh from "./regexHelper";
 
-//export interface Brackets {
-//   open: string;
-//   close: string;
-//}
 
 //// default "{" and "}" brackets are processed differently because they
 //// are also valid JavaScript characters (block delimiters or object constant)
@@ -110,18 +106,6 @@
 //    return res;
 //}
  
-//export function parseBracketCliOption(cliOption: string): Brackets
-//{
-//   const s = cliOption.split(' ');
-//   if(s.length !== 2) {
-//      throw "invalid brackets";
-//   }
-
-//   return {
-//      open: s[0],
-//      close: s[1]
-//   };
-//}
 
 
 /**************/
@@ -191,4 +175,17 @@ export function removeOptionalBrackets(text: string, bracket: Brackets): string
     if(match === null) return text;
     if(match[1]) return match[1];
     return "";
+}
+
+export function parseBracketCliOption(cliOption: string): Brackets
+{
+   const s = cliOption.split(' ');
+   if(s.length !== 2) {
+      throw "invalid brackets";
+   }
+
+   return {
+      open: s[0],
+      close: s[1]
+   };
 }

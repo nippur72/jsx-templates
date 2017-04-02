@@ -47,6 +47,7 @@
     <TypeScriptCompile Include="ast\keywords.ts" />
     <TypeScriptCompile Include="ast\nodeTypes.ts" />
     <TypeScriptCompile Include="ast\render.ts" />
+    <TypeScriptCompile Include="ast\transform\showHide.ts" />
     <TypeScriptCompile Include="ast\transform\debug.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
@@ -80,6 +81,7 @@
     <TypeScriptCompile Include="spec\lowercaseAttribsSpec.ts" />
     <TypeScriptCompile Include="spec\onEventsSpec.ts" />
     <TypeScriptCompile Include="spec\scriptSpec.ts" />
+    <TypeScriptCompile Include="spec\showHideSpec.ts" />
     <TypeScriptCompile Include="spec\styleTagSpec.ts" />
     <TypeScriptCompile Include="spec\styleAttributeSpec.ts" />
     <TypeScriptCompile Include="spec\yieldSpec.ts" />
