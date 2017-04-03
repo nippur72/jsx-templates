@@ -74,6 +74,7 @@
     <TypeScriptCompile Include="ast\transform\each.ts" />
     <TypeScriptCompile Include="ast\astNode.ts" />
     <TypeScriptCompile Include="process\processHtmlFile.ts" />
+    <TypeScriptCompile Include="spec\libSpecs\trimBeforeSpec.ts" />
     <TypeScriptCompile Include="spec\normalizeSpacesSpec.ts" />
     <TypeScriptCompile Include="spec\specialCharsSpec.ts" />
     <TypeScriptCompile Include="spec\emptyAttributesSpec.ts" />
@@ -131,6 +132,7 @@
     <Folder Include="process\" />
     <Folder Include="old\" />
     <Folder Include="old\rt-specs\" />
+    <Folder Include="spec\libSpecs\" />
     <Folder Include="utils\" />
     <Folder Include="spec\" />
     <Folder Include="spec\support\" />

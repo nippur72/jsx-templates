@@ -107,7 +107,7 @@ export function wrapRenderFunction(jsCode: string, options: CommandLineOptions):
          return $expr;
       }
       catch(ex) {
-         var msg = "${error}" + (ex.message || ex));
+         var msg = "${error}" + (ex.message || ex);
          ${print}(msg);
          throw msg;
       }
