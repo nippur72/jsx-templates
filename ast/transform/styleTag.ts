@@ -27,7 +27,7 @@ export function transform_style_tag(node: astNode)
 
       let style = replaceAll(node.style, Keywords.this, root.hash);
 
-      styles.push(styleCommand(style, root.mainTagName, true));
+      styles.push(styleCommand(style, root.mainTagName, root.options.debugRuntimeCheck));
          
       // change to comment node
       (node as any).type = "comment";
@@ -57,8 +57,7 @@ function sanitizeStyle(style: string, tagName: string, trace: boolean): string
       compactStyle = `/*** styles local to tag <${tagName}> ***/\r\n\r\n` + prefixed;
    }
    else 
-   {
-      //compactStyle = prefixed.split('\n').map(item=>item.trim()).join(' ').split('\r').map(item=>item.trim()).join(' ');      
+   {      
       compactStyle = minify(prefixed);
    }
    return JSON.stringify(compactStyle);
