@@ -23,7 +23,7 @@ export function transform_class(node: astNode)
 
          // changes _this_ into hashed identifier
          let root = getRootNode(node);
-         combined = replaceAll(combined, Keywords.this, root.hash);
+         combined = replaceAll(combined, Keywords.thisPrefix, root.hash);
 
          // allow class-object syntax
          let obj_syntax = removeOptionalBrackets(combined, {open:"{{", close: "}}"}).trim(); // TODO use default brackets

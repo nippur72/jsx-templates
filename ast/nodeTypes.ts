@@ -18,6 +18,7 @@ export interface rootNode
    options: CommandLineOptions;
    originalHtml: string;
    brackets: Brackets;
+   thisUsed: boolean;
 }
 
 export interface tagNode

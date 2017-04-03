@@ -4,6 +4,7 @@ import { transform_root_tag } from "./rootTag";
 import { transform_style_tag } from "./styleTag";
 import { transform_optional_brackets } from "./optionalBrackets";
 import { transform_stateless } from "./stateless";
+import { transform_this } from "./this";
 import { transform_is } from "./is";
 import { transform_each } from "./each";
 import { transform_if } from "./if";
@@ -30,6 +31,7 @@ export function transform(ast: rootNode)
    // process (and removes) special attributes
    transform_optional_brackets(ast);   
    transform_stateless(ast);
+   transform_this(ast);
    transform_if(ast);     
    transform_is(ast);
    transform_each(ast);   
@@ -53,22 +55,17 @@ export function transform(ast: rootNode)
    transform_attribs(ast);
    transform_text(ast);
       
-   // props-ob => merge
-   // TODO trimming in virtual node
-   
-   // ?? <include> 
+   // props-ob => merge      
    // rt-pre      
    // runtime check on event handlers, binding?
-   // event handlers, binding?
+   // error with line, column, filename   
 
-   // template functions
-   // modules output?
-   // normalize whitespace
+   // template functions      
    // helper functions, mergeprops
    // --debug, --debug-strict
    // typescript
    // jsx/typescript output
-   // error with line, column   
+   
    // special html &nbsp; etc
    // improve jsstring in code
 
@@ -84,6 +81,7 @@ export function transform(ast: rootNode)
    // flag for outer components
    // style-ob
    // check special attributes clash with props
+   // ?? <include> 
 
    // NEW TO DOCUMENT
    // <script> tag

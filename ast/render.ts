@@ -47,7 +47,8 @@ function renderRoot(node: rootNode): string
    }
    else
    {
-      result += `function render(this: any) { return (${children}); }\r\n`;
+      let type = node.thisUsed ? node.mainTagName : "any";
+      result += `function render(this: ${type}) { return (${children}); }\r\n`;
    }
    result += `export = render;`;
    return result;

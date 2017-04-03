@@ -9,9 +9,10 @@ export const Keywords =
    classobj: "class-obj",
    import: "import",
    yield: "yield",
-   this: "_this_",
+   thisPrefix: "_this_",
    script: "script",
    show: "show",
-   hide: "hide"
+   hide: "hide",
+   thisAttribute: "this"
 }
 

@@ -25,7 +25,7 @@ export function transform_style_tag(node: astNode)
          root.imports.push(importRioctCommand);
       }
 
-      let style = replaceAll(node.style, Keywords.this, root.hash);
+      let style = replaceAll(node.style, Keywords.thisPrefix, root.hash);
 
       styles.push(styleCommand(style, root.mainTagName, root.options.debugRuntimeCheck));
          

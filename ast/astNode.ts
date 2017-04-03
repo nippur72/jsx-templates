@@ -45,7 +45,8 @@ function buildTreeFromCheerio(rootNode: CheerioStatic, fileName: string, options
       mainTagName: "",
       options: options,
       originalHtml: html,
-      brackets: parseBracketCliOption(options.brackets)
+      brackets: parseBracketCliOption(options.brackets),
+      thisUsed: false
    };
 
    // collect all first level nodes

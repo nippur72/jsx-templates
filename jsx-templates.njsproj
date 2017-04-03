@@ -53,6 +53,7 @@
     </TypeScriptCompile>
     <TypeScriptCompile Include="ast\transform\rootTag.ts" />
     <TypeScriptCompile Include="ast\transform\lowercaseAttribs.ts" />
+    <TypeScriptCompile Include="ast\transform\this.ts" />
     <TypeScriptCompile Include="ast\transform\styleAttribute.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
@@ -74,6 +75,7 @@
     <TypeScriptCompile Include="ast\transform\each.ts" />
     <TypeScriptCompile Include="ast\astNode.ts" />
     <TypeScriptCompile Include="process\processHtmlFile.ts" />
+    <TypeScriptCompile Include="spec\thisSpec.ts" />
     <TypeScriptCompile Include="spec\libSpecs\trimBeforeSpec.ts" />
     <TypeScriptCompile Include="spec\normalizeSpacesSpec.ts" />
     <TypeScriptCompile Include="spec\specialCharsSpec.ts" />
