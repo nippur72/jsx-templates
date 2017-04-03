@@ -59,7 +59,7 @@ export function renderComponent(template: string, props?: any, options?: Command
    catch(err)
    {
       console.log(fn.toString());
-      throw new Error("failed to render component: " + err.message);
+      throw new Error("failed to render component: " + (err.message || err));
    }
 
    // restore warnings

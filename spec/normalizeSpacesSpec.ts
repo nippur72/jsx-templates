@@ -1,5 +1,5 @@
 ﻿import { renderComponent as render } from "./makeInlineComponent";
-import { defaultOptions } from "../utils/options";
+import { defaultOptions, CommandLineOptions } from "../utils/options";
 
 xdescribe("--normalize-html-whitespace", ()=> {
    it("removes repeating whitespaces", ()=>{          
@@ -12,16 +12,19 @@ xdescribe("--normalize-html-whitespace", ()=> {
 
 describe("trailing whitespaces", ()=> {
    it("are not removed when enclosing tags are on the same line", ()=>{          
+      const options: CommandLineOptions = { ...defaultOptions(), normalizeHtmlWhitespace: false };
       const template = `<Test>  Hello  </Test>`;     
-      const rendered = render(template);      
+      const rendered = render(template, {}, options);      
       const expected = `<div>  Hello  </div>`;
       expect(rendered).toEqual(expected);      
    });
+
    it("are removed when enclosing tags are on different lines", ()=>{          
+      const options: CommandLineOptions = { ...defaultOptions(), normalizeHtmlWhitespace: false };
       const template = `<Test>  
                            Hello  
                         </Test>`;     
-      const rendered = render(template);      
+      const rendered = render(template, {}, options);      
       const expected = `<div>Hello</div>`;
       expect(rendered).toEqual(expected);      
    });

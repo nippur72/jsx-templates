@@ -11,6 +11,7 @@ import normalizeHtmlWhitespace = require('normalize-html-whitespace');
 import { getLocation } from "../utils/location";
 import { ltrim, rtrim } from "../utils/trim";
 import { parseBracketCliOption } from "../utils/brackets";
+import { trimAfter, trimBefore } from "../utils/trim";
 
 type CheerioAttributes = {[key:string]:string};
 
@@ -123,9 +124,24 @@ function visit(x: CheerioElement, parent: astNode, root: rootNode, indent: numbe
    {
       let rawText = x["data"] as string;
 
+      // trim extra space between components if there are new lines
+      rawText = trimAfter(trimBefore(rawText));
+
+      // if is empty, discard it
+      if(rawText === "")
+      {
+         node = { 
+            type: "comment", 
+            comment: "", 
+            parent: parent,
+            location: x.startIndex  
+         };
+         return node;
+      }
+
       if(root.options.normalizeHtmlWhitespace) 
       {
-//         rawText = normalizeHtmlWhitespace(rawText);
+         rawText = normalizeHtmlWhitespace(rawText);
       }           
 
       node = {
