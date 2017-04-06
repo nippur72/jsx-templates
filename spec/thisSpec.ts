@@ -1,7 +1,7 @@
 ﻿import { renderComponent as render } from "./makeInlineComponent";
 import { defaultOptions } from "../utils/options";
 
-describe("'this' attribute", ()=> {
+xdescribe("'this' attribute", ()=> {
    it("works", ()=>{          
       const template = `<Test this="thisSpec">{{this.hello().a}}</Test>`;     
       const rendered = render(template);      
