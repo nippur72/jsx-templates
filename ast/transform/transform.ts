@@ -16,13 +16,14 @@ import { transform_virtual } from "./virtual";
 import { transform_import } from "./import";
 import { transform_yield } from "./yield";
 import { transform_script } from "./script";
+import { transform_template } from "./template";
 import { transform_style_attrib } from "./styleAttribute";
 import { transform_lowercase_attribs } from "./lowercaseAttribs";
 import { transform_show_hide } from "./showHide";
 import { transform_props } from "./props-ob";
 
 export function transform(ast: rootNode)
-{
+{   
    // root tag name
    transform_root_tag(ast);
    
@@ -58,9 +59,11 @@ export function transform(ast: rootNode)
 
    // props attribute
    transform_props(ast);
-   
-   // emit .d.ts for stateless (declare module "comp.html";)
-   // props-ob => merge      
+
+   // template special tags as last step
+   transform_template(ast);
+
+   // emit .d.ts for stateless (declare module "comp.html";)  
    // rt-pre      
    // runtime check on event handlers, binding?
    // error with line, column 

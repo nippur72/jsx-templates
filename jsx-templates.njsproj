@@ -48,6 +48,7 @@
     <TypeScriptCompile Include="ast\nodeTypes.ts" />
     <TypeScriptCompile Include="ast\render.ts" />
     <TypeScriptCompile Include="ast\transform\props-ob.ts" />
+    <TypeScriptCompile Include="ast\transform\template.ts" />
     <TypeScriptCompile Include="ast\transform\showHide.ts" />
     <TypeScriptCompile Include="ast\transform\debug.ts">
       <SubType>Code</SubType>
@@ -77,6 +78,7 @@
     <TypeScriptCompile Include="ast\astNode.ts" />
     <TypeScriptCompile Include="process\processHtmlFile.ts" />
     <TypeScriptCompile Include="spec\props-obSpec.ts" />
+    <TypeScriptCompile Include="spec\templateSpec.ts" />
     <TypeScriptCompile Include="spec\thisSpec.ts" />
     <TypeScriptCompile Include="spec\libSpecs\trimBeforeSpec.ts" />
     <TypeScriptCompile Include="spec\normalizeSpacesSpec.ts" />

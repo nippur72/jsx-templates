@@ -7,7 +7,7 @@ import { removeOptionalBrackets } from "../../utils/brackets";
 
 export function transform_props(node: astNode)
 {   
-   if(node.type === "tag")
+   if(node.type === "tag" && node.tagName !== Keywords.template)
    {
       let attr = node.attribs[Keywords.props];                 
 
