@@ -23,7 +23,7 @@ export function processHtmlFile(fileName: string, options: CommandLineOptions)
    let jsx = processHtmlString(html, options, fileName);
 
    //let outName = replaceExt(fileName, options.typescript ? ".tag.tsx" : ".tag.jsx");
-   let outName = fileName += options.typescript ? ".tsx" : ".jsx";
+   let outName = fileName + ( options.typescript ? ".tsx" : ".jsx" );
      
    fs.writeFileSync(outName, jsx);   
 }
