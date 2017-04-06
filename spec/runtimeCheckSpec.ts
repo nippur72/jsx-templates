@@ -165,6 +165,9 @@ describe("runtime check on text", ()=> {
       expect(grabbed_console.split("\n")).toEqual(expected); 
       expect(rendered).toEqual("<div>???</div>");
    });
+
+   // TODO check that type of expression is string|number|null
+
 });
 
 xdescribe("runtime check on render function", ()=> {
