@@ -16,7 +16,10 @@ export interface rootNode
    hash: string;
    mainTagName: string;
    options: CommandLineOptions;
-   originalHtml: string;
+   source: {
+      html: string;   
+      fileName: string;
+   },   
    brackets: Brackets;
    thisUsed: boolean;
    importedSymbols: string[];
@@ -31,6 +34,7 @@ export interface tagNode
    parent: astNode;
    location: number;
    indent: number;
+   props: literal[];
 }
 
 export interface textNode

@@ -45,7 +45,7 @@ function buildTreeFromCheerio(rootNode: CheerioStatic, fileName: string, options
       hash: `_${md5(fileName, "jsx-templates")}_`,
       mainTagName: "",
       options: options,
-      originalHtml: html,
+      source: { html, fileName },
       brackets: parseBracketCliOption(options.brackets),
       thisUsed: false
    };
@@ -73,7 +73,8 @@ function visit(x: CheerioElement, parent: astNode, root: rootNode, indent: numbe
          children: [],
          parent: parent,
          location: x.startIndex,
-         indent: indent
+         indent: indent,
+         props: []
       };
 
       _.forEach(x.children, (e)=>(node as tagNode).children.push(visit(e, node, root, indent + 1)));

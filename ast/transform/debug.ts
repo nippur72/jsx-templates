@@ -1,20 +1,23 @@
-﻿import { literal } from "../nodeTypes";
+﻿import path = require("path");
+
+import { literal, rootNode } from "../nodeTypes";
 import { printableString, printableRelativeFileName } from "../../utils/printable";
 import { CommandLineOptions } from "../../utils/options";
 
-export function wrapRuntimeCheck(expr: literal[], isTextExpression: boolean, options: CommandLineOptions)
+
+export function wrapRuntimeCheck(expr: literal[], isTextExpression: boolean, root: rootNode)
 {
    let result: literal[] = [];
 
    return expr.map(e => {
       if(e.isString) return e;
 
-      let wrapped = wrap(e.text, isTextExpression, options);
+      let wrapped = wrap(e.text, isTextExpression, root);
       return { text: wrapped, isString: e.isString };
    })
 }
 
-function wrap(expr: string, isTextExpression: boolean, options): string
+function wrap(expr: string, isTextExpression: boolean, root: rootNode): string
 {
    // TODO special case <yield> tag and other hacks
    /*
@@ -22,7 +25,7 @@ function wrap(expr: string, isTextExpression: boolean, options): string
       if(jsCode==="this.props.children" || jsCode==="props.children") isTextExpression = false;
    */
 
-   let wrapped = wrapExpression(expr, isTextExpression, options);
+   let wrapped = wrapExpression(expr, isTextExpression, root);
 
    // TODO previously wrapped was checked with esprima
    /*
@@ -42,20 +45,20 @@ function wrap(expr: string, isTextExpression: boolean, options): string
    return wrapped;
 }
 
-function wrapExpression(jsCode: string, isTextExpression: boolean, options: CommandLineOptions)
+function wrapExpression(jsCode: string, isTextExpression: boolean, root: rootNode)
 {  
    // TODO allow select via options
    const checkUndefined = true;
 
    // TODO add proper location
-   let file = "???";
+   let file = path.basename(root.source.fileName);
    let line = "???";
    let column = "???";
 
    let location = `in file: '${printableRelativeFileName(file)}', line ${line}, col ${column}`;
    let pcode = printableString(jsCode);
    let error = `runtime error when evaluating: ${pcode}\\n${location}\\n`;
-   let print = options.debugRuntimePrintFunction;
+   let print = root.options.debugRuntimePrintFunction;
    let message;
    let retval;
 

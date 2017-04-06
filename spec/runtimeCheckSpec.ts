@@ -22,7 +22,7 @@ describe("runtime check on attributes", ()=> {
       const rendered = render(template, props, options);
       const expected = [
          "runtime error when evaluating: props.a", 
-         "in file: '..\\???', line ???, col ???", 
+         "in file: '..\\nofile', line ???, col ???", 
          "expression must be not be undefined, instead is 'undefined'" ];
       expect(grabbed_console.split("\n")).toEqual(expected);  
       expect(rendered).toEqual('<div><div></div></div>');
@@ -64,13 +64,13 @@ describe("runtime check on attributes", ()=> {
       const rendered = ()=>render(template, props, options);
       const expected_msg = [
          "runtime error when evaluating: (()=>throw 'argh')()", 
-         "in file: '..\\???', line ???, col ???", 
+         "in file: '..\\nofile', line ???, col ???", 
          "argh" ];
       expect(grabbed_console.split("\n")).toEqual(expected_msg); 
 
       const expected_err = [
          "failed to render component: runtime error when evaluating: (()=>{throw 'argh';})()", 
-         "in file: '..\\???', line ???, col ???", 
+         "in file: '..\\nofile', line ???, col ???", 
          "argh" ];
       expect(rendered).toThrow(expected_err.join("\n"));
    });
@@ -95,7 +95,7 @@ describe("runtime check on text", ()=> {
       const rendered = render(template, props, options);
       const expected = [
          "runtime error when evaluating: props.a", 
-         "in file: '..\\???', line ???, col ???", 
+         "in file: '..\\nofile', line ???, col ???", 
          "expression must be of type 'string' or 'number', instead is 'undefined'" ];
       expect(grabbed_console.split("\n")).toEqual(expected); 
       expect(rendered).toEqual("<div></div>");
@@ -118,7 +118,7 @@ describe("runtime check on text", ()=> {
       const rendered = render(template, props, options);
       const expected = [
          "runtime error when evaluating: props.a", 
-         "in file: '..\\???', line ???, col ???", 
+         "in file: '..\\nofile', line ???, col ???", 
          "expression must be of type 'string' or 'number', instead is 'object'" ];
       expect(grabbed_console.split("\n")).toEqual(expected);
       expect(rendered).toEqual("<div>hello</div>");
@@ -160,7 +160,7 @@ describe("runtime check on text", ()=> {
       const rendered = render(template, props, options);
       const expected = [
          "runtime error when evaluating: (()=>throw 'argh')()", 
-         "in file: '..\\???', line ???, col ???", 
+         "in file: '..\\nofile', line ???, col ???", 
          "argh" ];
       expect(grabbed_console.split("\n")).toEqual(expected); 
       expect(rendered).toEqual("<div>???</div>");

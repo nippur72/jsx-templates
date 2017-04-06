@@ -17,7 +17,7 @@ function transform_text_inner(node: astNode, root: rootNode)
       node.text = splitBrackets(node.rawText);
 
       if(root.options.debugRuntimeCheck) {
-         node.text = wrapRuntimeCheck(node.text, true, root.options);
+         node.text = wrapRuntimeCheck(node.text, true, root);
       }
    }
    

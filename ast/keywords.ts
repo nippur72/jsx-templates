@@ -13,6 +13,7 @@ export const Keywords =
    script: "script",
    show: "show",
    hide: "hide",
-   thisAttribute: "this"
+   thisAttribute: "this",
+   props: "props"
 }
 

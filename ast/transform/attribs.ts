@@ -25,7 +25,7 @@ function transform_attribs_inner(node: astNode, root: rootNode)
          node.attribs[key].text = splitBrackets(node.attribs[key].rawText);
 
          if(root.options.debugRuntimeCheck) {
-            node.attribs[key].text = wrapRuntimeCheck(node.attribs[key].text, false, root.options);
+            node.attribs[key].text = wrapRuntimeCheck(node.attribs[key].text, false, root);
          }
       });      
    }

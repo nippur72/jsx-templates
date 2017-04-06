@@ -19,6 +19,7 @@ import { transform_script } from "./script";
 import { transform_style_attrib } from "./styleAttribute";
 import { transform_lowercase_attribs } from "./lowercaseAttribs";
 import { transform_show_hide } from "./showHide";
+import { transform_props } from "./props-ob";
 
 export function transform(ast: rootNode)
 {
@@ -54,12 +55,15 @@ export function transform(ast: rootNode)
    // process brackets   
    transform_attribs(ast);
    transform_text(ast);
+
+   // props attribute
+   transform_props(ast);
    
    // emit .d.ts for stateless (declare module "comp.html";)
    // props-ob => merge      
    // rt-pre      
    // runtime check on event handlers, binding?
-   // error with line, column, filename   
+   // error with line, column 
 
    // template functions      
    // helper functions, mergeprops

@@ -2,7 +2,7 @@ import _ = require("lodash");
 
 import { Keywords } from "./keywords";
 import { astNode, rootNode, codeNode, tagNode, styleNode, commentNode, textNode } from "./nodeTypes";
-import { attributes, attribute } from "./nodeTypes";
+import { attributes, attribute, literal } from "./nodeTypes";
 import { replaceAll } from "../utils/replaceAll";
 import { wrapRenderFunction } from "./transform/debug";
 import { printableString, quotableString } from "../utils/printable";
@@ -58,8 +58,10 @@ function renderTag(node: tagNode): string
 {
    let children = node.children.map(n=>render(n)).join("");
    let attribs = renderAttributes(node.attribs);
-   let space = Object.keys(node.attribs).length>0 ? " " : "";
-   let result = `<${node.tagName}${space}${attribs}>${children}</${node.tagName}>`;   
+   let spacea = Object.keys(node.attribs).length>0 ? " " : "";
+   let props = node.props.length > 0 ? printableExpression(node.props) : '';
+   let spacep = node.props.length > 0 ? " " : "";
+   let result = `<${node.tagName}${spacea}${attribs}${spacep}${props}>${children}</${node.tagName}>`;   
    return result;
 }
 
@@ -77,15 +79,7 @@ function renderAttribute(attr: attribute): string
    }
 
    // complex case, it's a concatenated string expression
-
-   let array = attr.text.map(e => {
-      if(e.isString) return `"${printableString(e.text)}"`; 
-      else return `(${e.text})`;
-   });
-
-   let chained = array.join(" + ");
-
-   return `{${chained}}`;
+   return printableExpression(attr.text);
 }
 
 function renderComment(node: commentNode): string
@@ -140,3 +134,14 @@ function indent(n: number)
    return s;
 }
 
+function printableExpression(expr: literal[])
+{
+   let array = expr.map(e => {
+      if(e.isString) return `"${printableString(e.text)}"`; 
+      else return `(${e.text})`;
+   });
+
+   let chained = array.join(" + ");
+
+   return `{${chained}}`;
+}
