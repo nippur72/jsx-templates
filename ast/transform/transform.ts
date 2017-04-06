@@ -68,7 +68,11 @@ export function transform(ast: rootNode)
    // runtime check on event handlers, binding?
    // error with line, column 
 
-   // template functions      
+   // TODO template do not work in scope/if/each node
+   // TODO template first child do not work if scope/if/each node
+   // TODO check ...props and props=
+   // TODO implement props= as rest  
+   
    // helper functions, mergeprops
    // --debug, --debug-strict
    // typescript
