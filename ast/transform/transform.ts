@@ -54,7 +54,8 @@ export function transform(ast: rootNode)
    // process brackets   
    transform_attribs(ast);
    transform_text(ast);
-      
+   
+   // emit .d.ts for stateless (declare module "comp.html";)
    // props-ob => merge      
    // rt-pre      
    // runtime check on event handlers, binding?
