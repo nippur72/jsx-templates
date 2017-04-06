@@ -19,6 +19,7 @@ export interface rootNode
    originalHtml: string;
    brackets: Brackets;
    thisUsed: boolean;
+   importedSymbols: string[];
 }
 
 export interface tagNode

@@ -39,6 +39,7 @@ function buildTreeFromCheerio(rootNode: CheerioStatic, fileName: string, options
       children: [],
       stateless: undefined,
       imports: [`import React = require("react");`],
+      importedSymbols: [],      
       styles: [],
       scripts: [],
       hash: `_${md5(fileName, "jsx-templates")}_`,
