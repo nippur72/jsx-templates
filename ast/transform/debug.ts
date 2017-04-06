@@ -91,7 +91,7 @@ function wrapExpression(jsCode: string, isTextExpression: boolean, options: Comm
       }
    }`;
 
-   let fcall = `((${fn})())`;
+   let fcall = isTextExpression ? `((((${fn})()) as number|string|null)` : `((${fn})())`;
 
    return fcall;
 }
