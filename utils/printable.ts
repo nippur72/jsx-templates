@@ -20,6 +20,8 @@ export function printableString(s: string): string
    code = replaceAll(code, '\n','\\n');    
    code = replaceAll(code, '\r','\\r');    
    code = replaceAll(code, '\t','\\t');          
+   code = replaceAll(code, '<','\\x3c');          
+   code = replaceAll(code, '>','\\x3e');          
 
    return code;
 }
