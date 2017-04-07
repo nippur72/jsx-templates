@@ -90,4 +90,5 @@ export interface literal
 {
    text: string;
    isString: boolean;
+   startIndex: number;
 }

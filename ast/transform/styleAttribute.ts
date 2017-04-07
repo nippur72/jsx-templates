@@ -9,7 +9,7 @@ export function transform_style_attrib(node: astNode)
    {
       if(node.attribs["style"]) 
       {
-         node.attribs["style"].rawText = handleStyleProp(node.attribs["style"].rawText);
+         node.attribs["style"].rawText = handleStyleProp(node.attribs["style"].rawText, node.location);
       }
    }
    
@@ -21,7 +21,7 @@ export function transform_style_attrib(node: astNode)
 
 
 // predated from react-templates
-function handleStyleProp(val: string): string 
+function handleStyleProp(val: string, startIndex: number): string 
 {
    let styleStr = val.split(';').map(e => _.trim(e)).filter(i => _.includes(i, ':')).map(i =>
    {
@@ -33,7 +33,7 @@ function handleStyleProp(val: string): string
       }
       let value = pair.slice(1).join(':').trim();
       let parsedKey = /(^-moz-)|(^-o-)|(^-webkit-)/ig.test(key) ? _.upperFirst(_.camelCase(key)) : _.camelCase(key);
-      let expr = splitBrackets(value.trim()).map(e => e.isString ? `"${e.text}"` : `${e.text}`).join("+");
+      let expr = splitBrackets(value.trim(), startIndex).map(e => e.isString ? `"${e.text}"` : `${e.text}`).join("+");
       return parsedKey + ' : ' + expr;
    }).join(',');
    return '{{ {' + styleStr + '} }}';

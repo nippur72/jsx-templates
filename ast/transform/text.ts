@@ -14,7 +14,7 @@ function transform_text_inner(node: astNode, root: rootNode)
 {  
    if(node.type === "text")
    {
-      node.text = splitBrackets(node.rawText);
+      node.text = splitBrackets(node.rawText, node.location);
 
       if(root.options.debugRuntimeCheck) {
          node.text = wrapRuntimeCheck(node.text, true, root);

@@ -3,59 +3,31 @@
 import { literal, rootNode } from "../nodeTypes";
 import { printableString, printableRelativeFileName } from "../../utils/printable";
 import { CommandLineOptions } from "../../utils/options";
+import { getLocation } from "../../utils/location";
 
 
-export function wrapRuntimeCheck(expr: literal[], isTextExpression: boolean, root: rootNode)
+export function wrapRuntimeCheck(expr: literal[], isTextExpression: boolean, root: rootNode): literal[]
 {
    let result: literal[] = [];
 
    return expr.map(e => {
       if(e.isString) return e;
 
-      let wrapped = wrap(e.text, isTextExpression, root);
-      return { text: wrapped, isString: e.isString };
-   })
+      let wrapped = wrapExpression(e.text, isTextExpression, root, e.startIndex);
+      return { ...e, text: wrapped };
+   });
 }
 
-function wrap(expr: string, isTextExpression: boolean, root: rootNode): string
-{
-   // TODO special case <yield> tag and other hacks
-   /*
-      // special case of <yield> tag
-      if(jsCode==="this.props.children" || jsCode==="props.children") isTextExpression = false;
-   */
-
-   let wrapped = wrapExpression(expr, isTextExpression, root);
-
-   // TODO previously wrapped was checked with esprima
-   /*
-   try
-   {
-      var checkJs = esprima.parse(expr);
-   }
-   catch(ex) 
-   {      
-      throw new CompileError(`javascript error when parsing: ${jsCode}`,
-                              context.file, 
-                              getLine(context.html, context.tag), 
-                              ex.description);                  
-   }
-   */
-
-   return wrapped;
-}
-
-function wrapExpression(jsCode: string, isTextExpression: boolean, root: rootNode)
+function wrapExpression(jsCode: string, isTextExpression: boolean, root: rootNode, startIndex: number)
 {  
    // TODO allow select via options
    const checkUndefined = true;
 
    // TODO add proper location
    let file = path.basename(root.source.fileName);
-   let line = "???";
-   let column = "???";
+   let { line, col } = getLocation(root.source.html, startIndex);
 
-   let location = `in file: '${printableRelativeFileName(file)}', line ${line}, col ${column}`;
+   let location = `in file: '${printableRelativeFileName(file)}', line ${line}, col ${col}`;
    let pcode = printableString(jsCode);
    let error = `runtime error when evaluating: ${pcode}\\n${location}\\n`;
    let print = root.options.debugRuntimePrintFunction;

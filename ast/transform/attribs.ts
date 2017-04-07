@@ -22,7 +22,7 @@ function transform_attribs_inner(node: astNode, root: rootNode)
             node.attribs[key].rawText = `${root.brackets.open}true${root.brackets.close}`; 
          }
 
-         node.attribs[key].text = splitBrackets(node.attribs[key].rawText);
+         node.attribs[key].text = splitBrackets(node.attribs[key].rawText, node.location);  // TODO fix location offset
 
          if(root.options.debugRuntimeCheck) {
             node.attribs[key].text = wrapRuntimeCheck(node.attribs[key].text, false, root);

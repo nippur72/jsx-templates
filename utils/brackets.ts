@@ -119,7 +119,7 @@ export interface Brackets {
    close: string;
 }
 
-export function splitBrackets(text: string): literal[] 
+export function splitBrackets(text: string, startIndex: number): literal[] 
 {
     const bracket = { open: "{{", close: "}}" };
 
@@ -150,10 +150,10 @@ export function splitBrackets(text: string): literal[]
             throw `Failed to replace brackets in ${text}`;
         }
         
-        if (match[1]) res.push({ text: match[1], isString: true  }); 
-        if (match[2]) res.push({ text: match[2], isString: false }); 
-        if (match[3]) res.push({ text: match[3], isString: true  }); 
-        if (match[4]) res.push({ text: match[4], isString: true  }); 
+        if (match[1]) res.push({ text: match[1], isString: true  , startIndex: startIndex }); 
+        if (match[2]) res.push({ text: match[2], isString: false , startIndex: startIndex }); 
+        if (match[3]) res.push({ text: match[3], isString: true  , startIndex: startIndex }); 
+        if (match[4]) res.push({ text: match[4], isString: true  , startIndex: startIndex }); 
     }
 
     return res;
