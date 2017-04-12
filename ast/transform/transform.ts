@@ -78,7 +78,6 @@ export function transform(ast: rootNode)
    // typescript
    // jsx/typescript output
    
-   // special html &nbsp; etc
    // improve jsstring in code
 
    // *** extra features:

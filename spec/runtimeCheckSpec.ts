@@ -190,4 +190,6 @@ xdescribe("runtime check on render function", ()=> {
       expect(rendered).toThrow();       
    });
 });
+
+// TODO specs for checks on import statements
                                 

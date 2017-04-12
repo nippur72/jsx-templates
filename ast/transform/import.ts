@@ -12,12 +12,15 @@ export function transform_import(node: astNode)
          let attribs = node.attribs;
 
          let imports = getRootNode(node).imports;
+         let symbols = getRootNode(node).importedSymbols;
 
          // TODO does not allow other attributes on the <import> tag
 
          // TODO allow import only on the first level node
 
          // TODO verify Identifier syntax
+
+         // TODO check already imported symbol
 
          let from = getAndRemove(attribs, "from");
 
@@ -31,7 +34,8 @@ export function transform_import(node: astNode)
          {
             let alias = getAndRemove(attribs, "as");            
             let aliaspart = alias ? ` as ${alias}` : ``;
-            imports.push(`import { ${name}${aliaspart} } from "${from}";`);            
+            imports.push(`import { ${name}${aliaspart} } from "${from}";`);
+            symbols.push(alias ? alias : name);
          }
 
          let all = getAndRemove(attribs, "all");
@@ -43,19 +47,23 @@ export function transform_import(node: astNode)
                throw `alias attribute required in import all`;
             }            
             imports.push(`import * as ${alias} from "${from}";`);            
+            symbols.push(alias);
          }
 
          let $default = getAndRemove(attribs, "default");
          if($default) 
          {            
             imports.push(`import ${$default} from "${from}";`);            
+            symbols.push($default);
          }
 
          let $require = getAndRemove(attribs, "require");
          if($require) 
          {       
-            let how = /\.html?$/.test(from) ? 'var' : 'import';
+            //let how = /\.html?$/.test(from) ? 'var' : 'import';
+            let how = 'import';
             imports.push(`${how} ${$require} = require("${from}");`);            
+            symbols.push($require);
          }
 
          if(Object.keys(attribs).length !== 0) 

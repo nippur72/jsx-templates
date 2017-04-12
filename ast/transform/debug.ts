@@ -53,14 +53,14 @@ function wrapExpression(jsCode: string, isTextExpression: boolean, root: rootNod
 
    let fn =`() => {
       try {
-         let $expr = (${jsCode});
+         const $expr = (${jsCode});
          if(${wrongType}) {
             ${print}("${error}${message}");
          }
          return $expr;
       }
       catch(ex) {
-         var msg = "${error}" + (ex.message || ex);
+         const msg = "${error}" + (ex.message || ex);
          ${print}(msg);
          throw msg;
       }
@@ -78,11 +78,11 @@ export function wrapRenderFunction(jsCode: string, options: CommandLineOptions):
 
    let fn =`() => {
       try {
-         let $expr = (${jsCode});
+         const $expr = (${jsCode});
          return $expr;
       }
       catch(ex) {
-         var msg = "${error}" + (ex.message || ex);
+         const msg = "${error}" + (ex.message || ex);
          ${print}(msg);
          throw msg;
       }
@@ -92,3 +92,14 @@ export function wrapRenderFunction(jsCode: string, options: CommandLineOptions):
 
    return fcall;
 }
+
+export function wrapImport(symbol: string, options: CommandLineOptions): string
+{
+   // TODO add file, location info
+   let error = `failed to import: '${symbol}'`;
+   let print = options.debugRuntimePrintFunction;
+
+   let fn =`if(typeof ${symbol} === 'undefined') { const msg = "${error}"; ${print}(msg); throw msg; }`;
+   return fn;
+}
+

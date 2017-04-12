@@ -4,8 +4,9 @@ import { Keywords } from "./keywords";
 import { astNode, rootNode, codeNode, tagNode, styleNode, commentNode, textNode } from "./nodeTypes";
 import { attributes, attribute, literal } from "./nodeTypes";
 import { replaceAll } from "../utils/replaceAll";
-import { wrapRenderFunction } from "./transform/debug";
+import { wrapRenderFunction, wrapImport } from "./transform/debug";
 import { printableString, quotableString } from "../utils/printable";
+
 
 export function render(node: astNode): string
 {
@@ -23,6 +24,11 @@ function renderRoot(node: rootNode): string
    // writes import statements
    let result = node.imports.join("\r\n");
    result += "\r\n";  
+
+   if(node.options.debugRuntimeCheck) 
+   {
+      result += node.importedSymbols.map(s=>wrapImport(s, node.options)).join("\r\n");
+   }
 
    // writes style-loading code
    result += node.styles.join("\r\n");

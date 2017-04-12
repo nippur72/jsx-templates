@@ -12,7 +12,7 @@ context.hash = md5(fileName,"rioct");
 
 export function processHtmlFile(fileName: string, options: CommandLineOptions)
 {
-   console.log(`processing ${fileName}`); 
+   console.log(`processing ${path.basename(fileName)}`); 
 
    if(path.extname(fileName) !== '.html') {
       throw `only .html files can be processed`;
