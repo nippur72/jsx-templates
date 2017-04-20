@@ -1,4 +1,4 @@
-import { astNode, rootNode, codeNode, tagNode } from "../nodeTypes";
+import { astNode, rootNode, tagNode } from "../nodeTypes";
 
 export function assignDummyKey(node: tagNode)
 {

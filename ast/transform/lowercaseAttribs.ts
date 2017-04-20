@@ -1,6 +1,6 @@
 ﻿import _ = require("lodash");
 
-import { astNode, rootNode, codeNode, tagNode } from "../nodeTypes";
+import { astNode, rootNode, tagNode, visit } from "../nodeTypes";
 import { splitBrackets } from "../../utils/brackets";
 import { eventConversion, nativeHtmlTags } from "../../utils/react-events";
 
@@ -28,10 +28,7 @@ export function transform_lowercase_attribs(node: astNode)
       }
    }
    
-   if(node.type === "tag" || node.type === "code" || node.type === "root")
-   {  
-      node.children.forEach(n => transform_lowercase_attribs(n));
-   }  
+   visit(node, (n)=>transform_lowercase_attribs(n));
 }
 
 function isNativeHtmlTag(tag: string)

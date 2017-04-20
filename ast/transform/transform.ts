@@ -1,4 +1,4 @@
-import { rootNode, astNode } from "../nodeTypes";
+import { rootNode, astNode, visit } from "../nodeTypes";
 
 import { transform_root_tag } from "./rootTag";
 import { transform_style_tag } from "./styleTag";
@@ -34,7 +34,9 @@ export function transform(ast: rootNode)
    transform_optional_brackets(ast);   
    transform_stateless(ast);
    transform_this(ast);
+
    transform_if(ast);     
+
    transform_is(ast);
    transform_each(ast);   
    transform_scope(ast);  
@@ -63,13 +65,13 @@ export function transform(ast: rootNode)
    // template special tags as last step
    transform_template(ast);
 
+   //display_tree(ast, 0, null);
+
    // emit .d.ts for stateless (declare module "comp.html";)  
    // rt-pre      
    // runtime check on event handlers, binding?
    // error with line, column 
 
-   // TODO template do not work in scope/if/each node
-   // TODO template first child do not work if scope/if/each node
    // TODO check ...props and props=
    // TODO implement props= as rest  
    
@@ -86,7 +88,7 @@ export function transform(ast: rootNode)
    // keyword redefinition   
    // ?? <export>
    // template as props
-   // TODO else, switch
+   // TODO elseif, switch
    // TODO optimize single element array child in if,each,scope
    // import multiple names <import name="name as alias, ..." from="file" />
    // flag for outer components
@@ -108,14 +110,11 @@ function display_tree(ast: astNode, level: number, knownParent)
    if((ast as any).parent && (ast as any).parent != knownParent) indent += "*";
 
         if(ast.type === "root")  console.log(`${indent}${ast.type}`);
-   else if(ast.type === "tag")   console.log(`${indent}${ast.type}(${ast.tagName})`);
-   else if(ast.type === "code")  console.log(`${indent}${ast.type}`);
+   else if(ast.type === "tag")   console.log(`${indent}${ast.type}(${ast.tagName})`);   
+   else if(ast.type === "if")    console.log(`${indent}${ast.type}`);
    else if(ast.type === "text")  console.log(`${indent}${ast.type}(${ast.rawText.trim()})`);
-   else                          console.log(`${indent}${ast.type}`);
+   else                          console.log(`??? ${indent}${ast.type}`);
 
-   if(ast.type === "tag" || ast.type === "code" || ast.type === "root")
-   {
-      ast.children.forEach(n => display_tree(n, level+1, ast));
-   }
+   visit(ast, (n)=>display_tree(n, level+1, ast));      
 }
 

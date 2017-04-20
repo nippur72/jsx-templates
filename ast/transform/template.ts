@@ -1,4 +1,4 @@
-import { astNode, rootNode, codeNode, tagNode, commentNode } from "../nodeTypes";
+import { astNode, rootNode, tagNode, commentNode, visit, templateNode, ITemplate } from "../nodeTypes";
 import { Keywords } from "../keywords";
 import { replaceNode } from "./replaceNode";
 import { render } from "../render";
@@ -6,40 +6,37 @@ import { render } from "../render";
 export function transform_template(node: astNode)
 {  
    // visit first
-   if(node.type === "tag" || node.type === "code" || node.type === "root")
-   {  
-      node.children.forEach(n=>transform_template(n));
-   }
+   visit(node, (n)=>transform_template(n));
 
-   if(node.type === "tag")
+   // collect templates in children
+   let extracted_templates: ITemplate[] = [];
+
+   visit(node, n => 
    {
-      let extracted_templates = node.children.map(n=>extract(n)).filter(t=>t !== undefined);
-
+      let e = extract(n);
+      if(e !== undefined) extracted_templates.push(e);      
+   });
+         
+   if(node.type !== "root")
+   {
       if(extracted_templates.length > 0)
       {  
          // TODO ? check if can be placed in root node
          
          let parentnode = node.parent;         
 
-         let filtered = extracted_templates as ITemplate[];         
-
-         let templateCode = filtered.map(s => {
-            let props = s.props === '' ? 'props' : 'props: ' + s.props;
-            return `let ${s.name} = (${props})=>(${s.content});`
-         }).join("");
-
          // prepares a code node
-         let scopeNode: codeNode = 
+         let newNode: templateNode = 
          {
-            type: "code",
-            expression: `(()=>{${templateCode} return (%%%children%%%);})()`,
+            type: "template",
+            templates: extracted_templates,
             children: [ node ],            
             parent: parentnode 
          };
 
-         node.parent = scopeNode;
+         node.parent = newNode;
 
-         replaceNode(parentnode as tagNode, node, scopeNode);
+         replaceNode(parentnode, node, newNode);
       }
    }   
 }
@@ -61,16 +58,21 @@ function extract(n: astNode): ITemplate | undefined
 
       let propsType = n.attribs["props"] ? n.attribs["props"].rawText : '';      
 
+      let firstTag = n.children.filter(n=>n.type === "tag")[0];
+      if(firstTag === undefined)
+      {
+         throw `template must have a simple direct child`;
+      }
+
       let result: ITemplate =
       {
          name: componentName,
          props: propsType,
-         content: render(n.children.filter(n=>n.type === "tag")[0])
+         content: firstTag
       };
 
-      // turn it into comment node
+      // turn into comment node
       (n as any).type = "comment";
-      (n as any as commentNode).comment = "";
 
       return result;
    }
@@ -78,10 +80,4 @@ function extract(n: astNode): ITemplate | undefined
    return undefined;
 }
 
-interface ITemplate
-{
-   name: string;
-   props: string;
-   content: string;
-}
 

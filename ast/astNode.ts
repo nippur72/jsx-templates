@@ -2,7 +2,7 @@
 import _ = require("lodash");
 import cheerio = require("cheerio");
 import { CommandLineOptions } from "../utils/options";
-import { astNode, rootNode, codeNode, tagNode, styleNode, commentNode, textNode } from "./nodeTypes";
+import { astNode, rootNode, tagNode, styleNode, commentNode, textNode } from "./nodeTypes";
 import { attributes } from "./nodeTypes";
 import { transform } from "./transform/transform";
 import { render } from "./render";

@@ -1,4 +1,4 @@
-import { astNode, rootNode, codeNode, tagNode, commentNode, textNode, attributes } from "../nodeTypes";
+import { astNode, rootNode, tagNode, commentNode, textNode, attributes, visit } from "../nodeTypes";
 import { getRootNode } from "../astNode";
 import { Keywords } from "../keywords";
 import { replaceNode } from "./replaceNode";
@@ -67,11 +67,8 @@ export function transform_yield(node: astNode)
          */       
       }
    }
-   
-   if(node.type === "tag" || node.type === "code" || node.type === "root")
-   {  
-      node.children.forEach(n => transform_yield(n));
-   }
+
+   visit(node, (n)=>transform_yield(n));          
 }
 
 function getAndRemove(attribs: attributes, attr: string): string|undefined

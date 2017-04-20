@@ -1,13 +1,20 @@
-import { astNode, rootNode, codeNode, tagNode } from "../nodeTypes";
+import { astNode, rootNode, tagNode, ifNode, visit } from "../nodeTypes";
 import { Keywords } from "../keywords";
 import { replaceNode } from "./replaceNode";
 import { assignDummyKey } from "./dummyKey";
 
 export function transform_if(node: astNode)
-{   
+{  
    if(node.type === "tag")
    {
+      let elseAttrib = node.attribs[Keywords.else];      
+      if(elseAttrib !== undefined)
+      {      
+         throw `${Keywords.else} without ${Keywords.if}`;         
+      }
+
       let ifAttrib = node.attribs[Keywords.if];      
+
       if(ifAttrib !== undefined) 
       {         
          let condition = ifAttrib.rawText;         
@@ -19,26 +26,58 @@ export function transform_if(node: astNode)
             throw `${Keywords.if} can't be placed in a root node`;
          }
 
-         // prepares a code node
-         let ifNode: codeNode = 
+         let elseNode = getElseNode(node);
+         let falseChildren: astNode[] = [];
+
+         if(elseNode !== undefined)
          {
-            type: "code",
-            expression: `${condition}?%%%children%%%:null`,
-            children: [ node ],
+            let elseClone = { ...elseNode };
+            delete elseClone.attribs[Keywords.else];
+            falseChildren = [ elseClone ];
+            (elseNode as any).type = "comment";
+         }
+
+         // prepares a code node
+         let newNode: ifNode = 
+         {
+            type: "if",
+            contidion: condition,
+            true_children: [ node ],
+            false_children: falseChildren,
             parent: parentnode 
          };
 
-         node.parent = ifNode;
+         node.parent = newNode;
 
-         assignDummyKey(node);
+         //assignDummyKey(node);
 
-         replaceNode(parentnode as tagNode, node, ifNode);
+         replaceNode(parentnode, node, newNode);
+
+         // force visit of the newly created node
+         node = newNode; 
       }
-   }
-   
-   if(node.type === "tag" || node.type === "code" || node.type === "root")
-   {  
-      node.children.forEach(n => transform_if(n));
-   }
+   }   
+
+   visit(node, (n)=>transform_if(n));
 }
 
+function getElseNode(node: tagNode): tagNode | undefined
+{
+   let parent = node.parent;
+
+   if(parent.type !== "tag") return undefined;
+
+   let thisNodeIndex = parent.children.indexOf(node);
+
+   let children = parent.children.map((e,i) => (i>thisNodeIndex && e.type === "tag" ? e : undefined) ).filter(e=>e!==undefined);
+
+   if(children.length === 0) return undefined;
+
+   let firstChildren = children[0] as tagNode;
+
+   if(!firstChildren.attribs) return undefined;
+
+   if(!firstChildren.attribs[Keywords.else]) return undefined;
+
+   return firstChildren;
+}

@@ -1,4 +1,4 @@
-import { astNode, rootNode, codeNode, tagNode } from "../nodeTypes";
+import { astNode, rootNode, tagNode, eachNode, visit } from "../nodeTypes";
 import { Keywords } from "../keywords";
 import { replaceNode } from "./replaceNode";
 import { attribute } from "../nodeTypes";
@@ -20,17 +20,20 @@ export function transform_each(node: astNode)
          }
 
          // prepares a code node
-         let eachNode: codeNode = 
+         let newNode: eachNode = 
          {
-            type: "code",
-            expression: `${ei.collection}.map((${ei.item},${ei.index})=>[%%%children%%%])`,
+            type: "each",
+            collection: ei.collection,
+            item: ei.item,
+            index: ei.index,
             children: [ node ],
             parent: parentnode 
+            //`${ei.collection}.map((${ei.item},${ei.index})=>[%%%children%%%])`,
          };
 
-         node.parent = eachNode;
+         node.parent = newNode;
 
-         replaceNode(parentnode as tagNode, node, eachNode);
+         replaceNode(parentnode, node, newNode);
 
          /*
          // automatic key 
@@ -42,10 +45,7 @@ export function transform_each(node: astNode)
       }
    }
    
-   if(node.type === "tag" || node.type === "code" || node.type === "root")
-   {  
-      node.children.forEach(n=>transform_each(n));
-   }
+   visit(node, (n)=>transform_each(n));
 }
 
 interface IEach

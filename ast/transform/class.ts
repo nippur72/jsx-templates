@@ -1,4 +1,4 @@
-import { astNode, rootNode, codeNode, tagNode } from "../nodeTypes";
+import { astNode, rootNode, tagNode, visit } from "../nodeTypes";
 import { Keywords } from "../keywords";
 import { replaceNode } from "./replaceNode";
 import { replaceAll } from "../../utils/replaceAll";
@@ -36,10 +36,7 @@ export function transform_class(node: astNode)
       }
    }
    
-   if(node.type === "tag" || node.type === "code" || node.type === "root")
-   {  
-      node.children.forEach(n => transform_class(n));
-   }
+   visit(node, (n)=>transform_class(n));       
 
    // TODO class-obj attribute
    /*

@@ -1,7 +1,7 @@
 import _ = require("lodash");
 
 import { Keywords } from "./keywords";
-import { astNode, rootNode, codeNode, tagNode, styleNode, commentNode, textNode } from "./nodeTypes";
+import { astNode, rootNode, tagNode, styleNode, commentNode, textNode, ifNode, virtualNode, scopeNode, templateNode, eachNode } from "./nodeTypes";
 import { attributes, attribute, literal } from "./nodeTypes";
 import { replaceAll } from "../utils/replaceAll";
 import { wrapRenderFunction, wrapImport } from "./transform/debug";
@@ -14,8 +14,12 @@ export function render(node: astNode): string
    else if(node.type === "tag")     return renderTag(node);
    else if(node.type === "style")   throw "unexpected style node";
    else if(node.type === "comment") return renderComment(node);
-   else if(node.type === "text")    return renderText(node);
-   else if(node.type === "code")    return renderCode(node);
+   else if(node.type === "text")    return renderText(node);   
+   else if(node.type === "if")      return renderIf(node);
+   else if(node.type === "scope")   return renderScope(node);
+   else if(node.type === "each")    return renderEach(node);
+   else if(node.type === "template")return renderTemplate(node);
+   else if(node.type === "virtual") return renderVirtual(node);
    else throw `unknown node type '${(node as astNode).type}'`;   
 }
 
@@ -107,25 +111,87 @@ function renderText(node: textNode): string
       let chained = node.text.map(e => e.isString ? e.text : `{${e.text}}`);
       return chained.join("");
    }
-   else if(node.parent.type === "code")
-   {
-      let chained = node.text.map(e => e.isString ? `"${quotableString(e.text)}"` : `${e.text}`);
-      return chained.join(",");
-   }
    else if(node.parent.type === "root") 
    {
       return ""; // any text at root level is ignored
    }
    else 
    {
-      throw "?";
+      let chained = node.text.map(e => e.isString ? `"${quotableString(e.text)}"` : `${e.text}`);
+      return chained.join(",");
    }
 }
 
+/*
 function renderCode(node: codeNode): string
 {
    let c = node.children.map(n=>render(n)).join(",");
    let expr = replaceAll(node.expression, "%%%children%%%", c); 
+   if(node.parent.type === "tag") 
+   {
+      expr = `{${expr}}`;
+   }
+   return expr;
+}
+*/
+
+function renderIf(node: ifNode): string
+{
+   let true_children  = node.true_children.length  == 0 ? "null" : node.true_children.map(n=>render(n)).join(",");
+   let false_children = node.false_children.length == 0 ? "null" : node.false_children.map(n=>render(n)).join(",");
+   
+   let expr = `${node.contidion}?${true_children}:${false_children}`; 
+
+   if(node.parent.type === "tag") 
+   {
+      expr = `{${expr}}`;
+   }
+   return expr;
+}
+
+function renderScope(node: scopeNode): string
+{
+   let c = node.children.map(n=>render(n)).join(",");
+   let expr = `(()=>{${node.items} return (${c});})()`;
+   if(node.parent.type === "tag") 
+   {
+      expr = `{${expr}}`;
+   }
+   return expr;
+}
+
+function renderEach(node: eachNode): string
+{
+   let c = node.children.map(n=>render(n)).join(",");
+   let index = node.index !== "" ? `,${node.index}` : ``;
+   let expr = `${node.collection}.map((${node.item}${index})=>[${c}])`;
+   if(node.parent.type === "tag") 
+   {
+      expr = `{${expr}}`;
+   }
+   return expr;
+}
+
+function renderVirtual(node: virtualNode): string
+{
+   let c = node.children.map(n=>render(n)).filter(s=>s!=="").join(",");
+   let expr = `[${c}]`; 
+   if(node.parent.type === "tag") 
+   {
+      expr = `{${expr}}`;
+   }
+   return expr;
+}
+
+function renderTemplate(node: templateNode): string
+{
+   let templateCode = node.templates.map(s => {
+      let props = s.props === '' ? 'props' : 'props: ' + s.props;
+      return `let ${s.name} = (${props})=>(${render(s.content)});`
+   }).join("");
+
+   let c = node.children.map(n=>render(n)).join(",");
+   let expr = `(()=>{${templateCode} return (${c});})()`;
    if(node.parent.type === "tag") 
    {
       expr = `{${expr}}`;

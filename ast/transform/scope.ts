@@ -1,9 +1,12 @@
-import { astNode, rootNode, codeNode, tagNode } from "../nodeTypes";
+import { astNode, rootNode, scopeNode, tagNode, visit } from "../nodeTypes";
 import { Keywords } from "../keywords";
 import { replaceNode } from "./replaceNode";
+import rh = require("../../utils/regexHelper");
 
 export function transform_scope(node: astNode)
 {   
+   visit(node, (n)=>transform_scope(n));
+
    if(node.type === "tag")
    {
       let scopeAttrib = node.attribs[Keywords.scope];      
@@ -30,24 +33,19 @@ export function transform_scope(node: astNode)
          }
 
          // prepares a code node
-         let scopeNode: codeNode = 
+         let newNode: scopeNode = 
          {
-            type: "code",
-            expression: `(()=>{${scopeList} return (%%%children%%%);})()`,
+            type: "scope",
+            items: scopeList, 
             children: [ node ],            
             parent: parentnode 
          };
 
-         node.parent = scopeNode;
+         node.parent = newNode;
 
-         replaceNode(parentnode as tagNode, node, scopeNode);
+         replaceNode(parentnode, node, newNode);
       }
-   }
-   
-   if(node.type === "tag" || node.type === "code" || node.type === "root")
-   {  
-      node.children.forEach(n=>transform_scope(n));
-   }
+   }      
 }
 
 interface IScope
@@ -56,83 +54,34 @@ interface IScope
    expression: string;
 }
 
-// this is the function I wrote for [react-templates] (@nippur72)
-
-/**
- * Parses the rt-scope attribute returning an array of parsed sections
- *
- * @param {String} scope The scope attribute to parse
- * @returns {Array} an array of {expression,identifier}
- * @throws {String} the part of the string that failed to parse
- */
-function parseScopeSyntax(text: string): IScope[] {
-    // the regex below was built using the following pseudo-code:
-    // double_quoted_string = `"[^"\\\\]*(?:\\\\.[^"\\\\]*)*"`
-    // single_quoted_string = `'[^'\\\\]*(?:\\\\.[^'\\\\]*)*'`
-    // text_out_of_quotes = `[^"']*?`
-    // expr_parts = double_quoted_string + "|" + single_quoted_string + "|" + text_out_of_quotes
-    // expression = zeroOrMore(nonCapture(expr_parts)) + "?"
-    // id = "[$_a-zA-Z]+[$_a-zA-Z0-9]*"
-    // as = " as" + OneOrMore(" ")
-    // optional_spaces = zeroOrMore(" ")
-    // semicolon = nonCapture(or(text(";"), "$"))
-    //
-    // regex = capture(expression) + as + capture(id) + optional_spaces + semicolon + optional_spaces
-
-    const regex = RegExp("((?:(?:\"[^\"\\\\]*(?:\\\\.[^\"\\\\]*)*\"|'[^'\\\\]*(?:\\\\.[^'\\\\]*)*'|[^\"']*?))*?) as(?: )+([$_a-zA-Z]+[$_a-zA-Z0-9]*)(?: )*(?:;|$)(?: )*", 'g');
-    const res: IScope[] = [];
-    do {
-        const idx = regex.lastIndex;
-        const match = regex.exec(text);
-        if (regex.lastIndex === idx || match === null || match.index !== idx) {
-            throw text.substr(idx);
-        }
-        if (match.index === regex.lastIndex) {
-            regex.lastIndex++;
-        }
-        res.push({expression: match[1].trim(), identifier: match[2]});
-    } while (regex.lastIndex < text.length);
-
-    return res;
-}
-
-/*
-
-// this is the old code from rioct-cli
-
-import rh = require("./regexHelper");
-
-export interface scopeItem 
-{
-   expression: string;
-   identifier: string;
-}
-
-export function parseScope(s: string): scopeItem[]
+export function parseScopeSyntax(text: string): IScope[] 
 {
    const double_quoted_string = `"[^"\\\\]*(?:\\\\.[^"\\\\]*)*"`; 
-   const single_quoted_string = `'[^'\\\\]*(?:\\\\.[^'\\\\]*)*'`; 
+   const single_quoted_string = `'[^'\\\\]*(?:\\\\.[^'\\\\]*)*'`;     
    const text_out_of_quotes = `[^"']*?`;
    const expr_parts = rh.or(double_quoted_string, single_quoted_string, text_out_of_quotes);
-   const expression = rh.zeroOrMore(rh.nonCapture(expr_parts))+"?";
+   const naked_expression = rh.zeroOrMore(rh.nonCapture(expr_parts))+"?";
    const id = "[$_a-zA-Z]+[$_a-zA-Z0-9]*";   
-   const as = rh.text(" as") + rh.OneOrMore(" ");
+   const as_keyword = rh.text(" as") + rh.OneOrMore(" ");
    const optional_spaces = rh.zeroOrMore(" ");
-   const semicolon = rh.nonCapture(rh.or(rh.text(";"), rh.endOfLine()));    
+   const semicolon = rh.nonCapture(rh.or(rh.text(";"), rh.endOfLine())); 
+   const parens_expression = rh.text("(") + naked_expression + rh.text(")");
+   
+   const expression = rh.or(naked_expression, parens_expression);
 
-   const regex = rh.capture(expression) + as + rh.capture(id) + optional_spaces + semicolon + optional_spaces;
+   const regex = rh.capture(expression) + as_keyword + rh.capture(id) + optional_spaces + semicolon + optional_spaces;
 
    const R = new RegExp(regex, "g");
 
-   const result = buildResult(R, s);
+   const result = buildResult(R, text);
 
    return result;
 }
 
 
-function buildResult(regex: RegExp, text: string): scopeItem[]
+function buildResult(regex: RegExp, text: string): IScope[]
 {
-   const res: scopeItem[] = [];
+   const res: IScope[] = [];
 
    do {       
       const idx = regex.lastIndex;  
@@ -150,4 +99,4 @@ function buildResult(regex: RegExp, text: string): scopeItem[]
 
    return res;
 }
-*/
+

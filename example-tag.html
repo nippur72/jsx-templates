@@ -1,9 +1,14 @@
-﻿<Test>
-   <style>
-     .someclass
-     {
-        color: red;   
-     }
-   </style>
-   <div someprop="{{55}}">hello</div>
-</Test>`;     
+﻿<Test scope="{{42 as a}}">
+            <div if="{{a==20}}">
+               twenty
+            </div>
+            <div else if="{{a==3}}">
+               three
+            </div>
+            <div else if="{{a==42}}">
+               fortytwo
+            </div>
+            <div else>
+               never
+            </div>
+         </Test>

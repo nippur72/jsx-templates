@@ -1,4 +1,4 @@
-import { astNode, rootNode, codeNode, tagNode, commentNode, attributes } from "../nodeTypes";
+import { astNode, rootNode, tagNode, commentNode, attributes, visit } from "../nodeTypes";
 import { getRootNode } from "../astNode";
 import { Keywords } from "../keywords";
 import { replaceAll } from "../../utils/replaceAll";
@@ -24,9 +24,6 @@ export function transform_script(node: astNode)
       (node as any as commentNode).comment = "";
    }
    
-   if(node.type === "tag" || node.type === "code" || node.type === "root")
-   {  
-      node.children.forEach(n => transform_script(n));
-   }
+   visit(node, (n)=>transform_script(n));
 }
 

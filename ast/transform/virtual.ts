@@ -1,4 +1,4 @@
-import { astNode, rootNode, codeNode, tagNode } from "../nodeTypes";
+import { astNode, rootNode, tagNode, virtualNode, visit } from "../nodeTypes";
 import { Keywords } from "../keywords";
 import { assignDummyKey } from "./dummyKey";
 
@@ -14,18 +14,20 @@ export function transform_virtual(node: astNode)
             throw `<${Keywords.virtual}> can't be placed in a root node`;
          }
 
-         // turns into a code node
-         (node as any as codeNode).type = "code";
-         (node as any as codeNode).expression = `[%%%children%%%]`;         
+         let vnode: virtualNode = node as any;
 
-         // set a dummy key on the children nodes
-         node.children.filter(n=>n.type==="tag").forEach((n: tagNode) => assignDummyKey(n));
+         // turns into a virtual node
+         vnode.type = "virtual";
+         
+         // set a dummy key on the direct children nodes
+         visit(node, (n) => {
+            if(n.type === "tag") {
+               assignDummyKey(n);
+            }
+         });         
       }
    }
    
-   if(node.type === "tag" || node.type === "code" || node.type === "root")
-   {  
-      node.children.forEach(n => transform_virtual(n));
-   }
+   visit(node, (n)=>transform_virtual(n));       
 }
 

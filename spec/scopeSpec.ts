@@ -8,4 +8,11 @@ describe("'scope' attribute", ()=> {
       const expected = `<div><div>42 is the answer</div></div>`;
       expect(rendered).toEqual(expected);      
    });
+
+   it("allows 'as' typescript expression", ()=>{          
+      const template = `<Test"><div scope="(42 as number) as fortytwo">{fortytwo}</Test>`;     
+      const rendered = render(template);      
+      const expected = `<div><div>42</div></div>`;
+      expect(rendered).toEqual(expected);      
+   });
 });

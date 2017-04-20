@@ -1,4 +1,4 @@
-import { astNode, rootNode, codeNode, tagNode } from "../nodeTypes";
+import { astNode, rootNode, tagNode, visit } from "../nodeTypes";
 import { splitBrackets } from "../../utils/brackets";
 import { CommandLineOptions } from "../../utils/options";
 import { getRootNode } from "../astNode";
@@ -32,10 +32,7 @@ function transform_text_inner(node: astNode, root: rootNode)
          node.text = wrapRuntimeCheck(node.text, true, root);
       }
    }
-   
-   if(node.type === "tag" || node.type === "code" || node.type === "root")
-   {  
-      node.children.forEach(n => transform_text_inner(n, root));
-   }  
+
+   visit(node, (n)=>transform_text_inner(n, root));         
 }
 

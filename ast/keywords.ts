@@ -3,6 +3,7 @@ export const Keywords =
    is: "is",
    each: "each",
    if: "if",
+   else: "else",
    scope: "scope",
    stateless: "stateless",
    virtual: "virtual",

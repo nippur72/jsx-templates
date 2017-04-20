@@ -1,6 +1,6 @@
 ﻿import _ = require("lodash");
 
-import { astNode, rootNode, codeNode, tagNode } from "../nodeTypes";
+import { astNode, rootNode, tagNode, visit } from "../nodeTypes";
 import { splitBrackets } from "../../utils/brackets";
 
 export function transform_style_attrib(node: astNode)
@@ -13,10 +13,7 @@ export function transform_style_attrib(node: astNode)
       }
    }
    
-   if(node.type === "tag" || node.type === "code" || node.type === "root")
-   {  
-      node.children.forEach(n => transform_style_attrib(n));
-   }  
+   visit(node, (n)=>transform_style_attrib(n));      
 }
 
 

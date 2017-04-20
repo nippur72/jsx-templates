@@ -1,4 +1,4 @@
-import { astNode, rootNode, codeNode, tagNode } from "../nodeTypes";
+import { astNode, rootNode, tagNode, visit } from "../nodeTypes";
 import { splitBrackets, removeOptionalBrackets } from "../../utils/brackets";
 import { CommandLineOptions } from "../../utils/options";
 import { getRootNode } from "../astNode";
@@ -40,9 +40,6 @@ function transform_show_hide_inner(node: astNode, root: rootNode)
          
       });      
    }
-   
-   if(node.type === "tag" || node.type === "code" || node.type === "root")
-   {  
-      node.children.forEach(n => transform_show_hide_inner(n, root));
-   }  
+
+   visit(node, (n)=>transform_show_hide_inner(n, root));   
 }
