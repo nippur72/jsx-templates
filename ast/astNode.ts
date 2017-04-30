@@ -42,7 +42,7 @@ function buildTreeFromCheerio(rootNode: CheerioStatic, fileName: string, options
       importedSymbols: [],      
       styles: [],
       scripts: [],
-      hash: `_${md5(fileName, "jsx-templates")}_`,
+      hash: `_${md5(fileName, "jsx-templates").substr(0,8)}_`,
       mainTagName: "",
       options: options,
       source: { html, fileName },
