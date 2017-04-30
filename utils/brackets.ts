@@ -168,7 +168,7 @@ export function splitBrackets(text: string, startIndex: number): literal[]
 export function removeOptionalBrackets(text: string, bracket: Brackets): string 
 {  
     const anytext = rh.capture("[\\s\\S]*?");
-    const regex = new RegExp(rh.startOfLine() + rh.text(bracket.open) + anytext + rh.text(bracket.close) + rh.endOfLine(), 'g');
+    const regex = new RegExp(rh.startOfLine + rh.text(bracket.open) + anytext + rh.text(bracket.close) + rh.endOfLine, 'g');
 
     const match = regex.exec(text);
 

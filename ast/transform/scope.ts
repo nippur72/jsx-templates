@@ -64,7 +64,7 @@ export function parseScopeSyntax(text: string): IScope[]
    const id = "[$_a-zA-Z]+[$_a-zA-Z0-9]*";   
    const as_keyword = rh.text(" as") + rh.OneOrMore(" ");
    const optional_spaces = rh.zeroOrMore(" ");
-   const semicolon = rh.nonCapture(rh.or(rh.text(";"), rh.endOfLine())); 
+   const semicolon = rh.nonCapture(rh.or(rh.text(";"), rh.endOfLine)); 
    const parens_expression = rh.text("(") + naked_expression + rh.text(")");
    
    const expression = rh.or(naked_expression, parens_expression);

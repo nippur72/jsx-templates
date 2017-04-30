@@ -4,12 +4,14 @@ import path = require('path');
 
 import { opts, CommandLineOptions } from "./utils/options";
 import { processFiles } from "./process/processFiles";
+import { main_watcher, build_regex } from "./watcher/watcher";
 
-const exitCode = main(process.argv);
-process.exit(exitCode);
+//console.log(build_regex());
 
-export function main(argv: string[]) 
-{
+main(process.argv);
+
+export function main(argv: string[]): any 
+{   
    let options: CommandLineOptions;
    
    try 
@@ -22,7 +24,13 @@ export function main(argv: string[])
       return -1;
    }   
 
-   processFiles(options._, options);
-
-   return 0;
+   if(options.watch)
+   {
+      main_watcher(options);      
+   }
+   else
+   {
+      processFiles(options._, options);
+      process.exit(0);
+   }
 }

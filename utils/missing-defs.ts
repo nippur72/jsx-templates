@@ -71,3 +71,7 @@ declare module "react-style-tag/lib/transform" {
    export function minify(css: string): string;
    export function prefixCss(css: string): string;
 }
+
+declare module "filewatcher";
+
+declare module "child_process";

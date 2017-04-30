@@ -17,6 +17,7 @@ let optsConfig =
    options: [
       { heading: 'Options' }, 
       { option: 'help', alias: 'h', type: 'Boolean', description: 'Show help.' }, 
+      { option: 'watch', alias: 'w', type: 'Boolean', default: 'false', description: 'Starts jsx-templates in watch mode.' }, 
       { option: 'typescript', type: 'Boolean', default: 'false', required: false, description: 'Output typescript (.tsx) files.'},
       { option: 'debug-runtime-check', type: 'Boolean', default: 'false', required: false, description: 'Check expressions at runtime and debug to console.'},
       { option: 'debug-runtime-print-function', type: 'String', default: 'console.error', required: false, description: 'JavaScript function used to log runtime-checks messages.'},
@@ -44,6 +45,7 @@ export let opts = (args: string[]) => optionator(optsConfig).parseArgv(args);
 
 export interface CommandLineOptions {
    _: string[];
+   watch: boolean;
    typescript: boolean;
    debugRuntimeCheck: boolean;
    debugRuntimePrintFunction: string;
@@ -68,6 +70,7 @@ export function defaultOptions(): CommandLineOptions
 {
    return {
       _: [],
+      watch: false,
       typescript: false,
       debugRuntimeCheck: false,
       debugRuntimePrintFunction: "console.error",

@@ -44,6 +44,9 @@
     <Content Include="spec\support\jasmine.json" />
     <Content Include="spec\x.tsx" />
     <Content Include="tsconfig.json" />
+    <Content Include="watcher\watcher.ts">
+      <SubType>Code</SubType>
+    </Content>
     <TypeScriptCompile Include="ast\keywords.ts" />
     <TypeScriptCompile Include="ast\nodeTypes.ts" />
     <TypeScriptCompile Include="ast\render.ts" />
@@ -136,6 +139,7 @@
   <ItemGroup>
     <Folder Include="ast\" />
     <Folder Include="ast\transform\" />
+    <Folder Include="watcher\" />
     <Folder Include="process\" />
     <Folder Include="old\" />
     <Folder Include="old\rt-specs\" />
