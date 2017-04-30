@@ -61,7 +61,7 @@ function extract(n: astNode): ITemplate | undefined
       let firstTag = n.children.filter(n=>n.type === "tag")[0];
       if(firstTag === undefined)
       {
-         throw `template must have a simple direct child`;
+         throw `template '${componentName}' must have a simple direct child`;
       }
 
       let result: ITemplate =

@@ -71,6 +71,7 @@ export function transform(ast: rootNode)
    // rt-pre      
    // runtime check on event handlers, binding?
    // error with line, column 
+   // fix else with if located elsewhere
 
    // TODO check ...props and props=
    // TODO implement props= as rest  
