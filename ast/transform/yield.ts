@@ -1,5 +1,5 @@
 import { astNode, rootNode, tagNode, commentNode, textNode, attributes, visit } from "../nodeTypes";
-import { getRootNode } from "../astNode";
+import { getRootNode, getFirstNode } from "../astNode";
 import { Keywords } from "../keywords";
 import { replaceNode } from "./replaceNode";
 
@@ -8,8 +8,8 @@ export function transform_yield(node: astNode)
    if(node.type === "tag")
    {
       if(node.tagName === Keywords.yield)
-      {
-         let isStateless = getRootNode(node).stateless;
+      {         
+         let isStateless = getFirstNode(node).stateless;
 
          // change to text node
          (node as any).type = "text";

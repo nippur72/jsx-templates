@@ -16,6 +16,7 @@ export const Keywords =
    hide: "hide",
    thisAttribute: "this",
    props: "props",
-   template: "template"
+   template: "template",
+   export: "export"
 }
 

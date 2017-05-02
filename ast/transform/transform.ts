@@ -4,6 +4,7 @@ import { transform_root_tag } from "./rootTag";
 import { transform_style_tag } from "./styleTag";
 import { transform_optional_brackets } from "./optionalBrackets";
 import { transform_stateless } from "./stateless";
+import { transform_export } from "./export";
 import { transform_this } from "./this";
 import { transform_is } from "./is";
 import { transform_each } from "./each";
@@ -33,6 +34,7 @@ export function transform(ast: rootNode)
    // process (and removes) special attributes
    transform_optional_brackets(ast);   
    transform_stateless(ast);
+   transform_export(ast);
    transform_this(ast);
 
    transform_if(ast);     

@@ -17,6 +17,14 @@ export function replaceNode(node: astNode, sourceNode: astNode, replaceWithNode:
    {
       replace(node.children);
    }
+   else if(node.type === "first") 
+   {
+      if(node.child === sourceNode && replaceWithNode.type !== "root") 
+      {
+         if(replaceWithNode.type === "tag") node.child = replaceWithNode;      
+         else throw `first level tags must be plain simple tags`;
+      }
+   }
    else if(node.type === "if") 
    {
       replace(node.true_children);

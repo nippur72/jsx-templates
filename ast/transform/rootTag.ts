@@ -1,18 +1,40 @@
-import { rootNode, tagNode } from "../nodeTypes";
+import { rootNode, firstNode, tagNode } from "../nodeTypes";
 import { Keywords } from "../keywords";
 import { getRootNode } from "../astNode";
 
 export function transform_root_tag(ast: rootNode)
 {
-   // picks first defined tag
-   let level_one_tags = ast.children.filter(node=>node.type==="tag");
+   // picks tags on the level one
+   let level_one_tags = ast.children.filter(node=>node.type==="tag") as tagNode[];
    if(level_one_tags.length === 0)
    {
       throw "no tags defined";
    }
 
-   let firstTag = level_one_tags[0] as tagNode;
+   // removes them
+   ast.children = ast.children.filter(node => node.type != "tag" || level_one_tags.indexOf(node)==-1);
 
-   // saves tag name for later use
-   getRootNode(ast).mainTagName = firstTag.tagName;   
+   // reinserts as firstNode nodes
+   level_one_tags.forEach(node => {
+      if(!isReactIdentifier(node.tagName))
+      {
+         throw `${node.tagName} is not a valid React.Component identifier`
+      }
+      let newNode: firstNode = {
+         type: "first",
+         child: node,
+         parent: ast,
+         stateless: undefined,
+         mainTagName: node.tagName,
+         thisUsed: false,
+         export: "private"
+      };
+      node.parent = newNode;
+      ast.children.push(newNode);
+   })
+}
+
+export function isReactIdentifier(id: string): boolean
+{
+   return new RegExp("^([A-Z]+[$_a-zA-Z0-9]*)$").test(id);
 }

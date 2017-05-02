@@ -26,7 +26,7 @@ describe("'class' attribute", ()=> {
    it("expands the '_this_' prefix", ()=>{          
       const template = `<Test><div className="_this_">Hi</div></Test>`;     
       const rendered = render(template);      
-      const expected = `<div><div class="_ce9a7594f10ab7f5fc0b7eaa74049b18_">Hi</div></div>`;
+      const expected = `<div><div class="_ce9a7594_">Hi</div></div>`;
       expect(rendered).toEqual(expected);      
    });
 

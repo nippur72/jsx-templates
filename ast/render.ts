@@ -1,7 +1,7 @@
 import _ = require("lodash");
 
 import { Keywords } from "./keywords";
-import { astNode, rootNode, tagNode, styleNode, commentNode, textNode, ifNode, virtualNode, scopeNode, templateNode, eachNode } from "./nodeTypes";
+import { astNode, rootNode, firstNode, tagNode, styleNode, commentNode, textNode, ifNode, virtualNode, scopeNode, templateNode, eachNode } from "./nodeTypes";
 import { attributes, attribute, literal } from "./nodeTypes";
 import { replaceAll } from "../utils/replaceAll";
 import { wrapRenderFunction, wrapImport } from "./transform/debug";
@@ -11,6 +11,7 @@ import { printableString, quotableString } from "../utils/printable";
 export function render(node: astNode): string
 {
         if(node.type === "root")    return renderRoot(node);
+   else if(node.type === "first")   return renderFirst(node);
    else if(node.type === "tag")     return renderTag(node);
    else if(node.type === "style")   throw "unexpected style node";
    else if(node.type === "comment") return renderComment(node);
@@ -42,25 +43,42 @@ function renderRoot(node: rootNode): string
    result += node.scripts.join("\r\n");
    result += "\r\n";  
 
-   // writes the actual render function
-   let children = node.children.map(n=>render(n)).join("");
+   let childrenRender = node.children.map(n=>render(n));
 
-   if(node.options.debugRuntimeCheck) 
+   result = result + childrenRender.join("\r\n");
+
+   return result;
+}
+
+function renderFirst(node: firstNode): string
+{
+   let result = "";
+
+   // writes the actual render function
+   let children = render(node.child);
+
+   if(node.parent.options.debugRuntimeCheck) 
    {
-      children = wrapRenderFunction(children, node.options);
+      children = wrapRenderFunction(children, node.parent.options);
    }
+
+   let exportPrefix = "";
+
+        if(node.export === "named"  ) exportPrefix = "export ";  
+   else if(node.export === "default") exportPrefix += "export default ";
 
    if(node.stateless !== undefined) 
    {
       let propsType = node.stateless || "any";      
-      result += `const render = (props: ${propsType}, context) => (${children});\r\n`;
+      result += `${exportPrefix}const ${node.mainTagName} = (props: ${propsType}, context) => (${children});\r\n`;
    }
    else
    {
       let type = node.thisUsed ? node.mainTagName : "any";
-      result += `function render(this: ${type}) { return (${children}); }\r\n`;
+      result += `${exportPrefix}function ${node.mainTagName}(this: ${type}) { return (${children}); }\r\n`;
    }
-   result += `export = render;`;
+
+   if(node.export === "require") result += `export = ${node.mainTagName};`;
    return result;
 }
 

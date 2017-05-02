@@ -27,7 +27,7 @@ export function transform_style_tag(node: astNode)
 
       let style = replaceAll(node.style, Keywords.thisPrefix, root.hash);
 
-      styles.push(styleCommand(style, root.mainTagName, root.options.debugRuntimeCheck));
+      styles.push(styleCommand(style, root.source.fileName, root.options.debugRuntimeCheck));
          
       // change to comment node
       (node as any).type = "comment";

@@ -1,5 +1,8 @@
 # CHANGELOG:
 
+## 0.0.52
+- export keyword, export more than a component in a single file
+
 ## 0.0.51
 - improve error reporting for <template>
 - reduce hash length to 8 characters

@@ -2,6 +2,7 @@ import { CommandLineOptions } from "../utils/options";
 import { Brackets } from "../utils/brackets";
     
 export type astNode = rootNode    | 
+                      firstNode   |
                       tagNode     | 
                       styleNode   | 
                       scriptNode  | 
@@ -16,21 +17,29 @@ export type astNode = rootNode    |
 export interface rootNode
 {
    type: "root";
-   stateless: string|undefined;
-   children: astNode[];
+   children: astNode[];   
    imports: string[];
    styles: string[];
    scripts: string[];
-   hash: string;
-   mainTagName: string;
+   hash: string;   
    options: CommandLineOptions;
    source: {
       html: string;   
       fileName: string;
    },   
-   brackets: Brackets;
-   thisUsed: boolean;
+   brackets: Brackets;   
    importedSymbols: string[];
+}
+
+export interface firstNode
+{
+   parent: rootNode;
+   type: "first";
+   child: tagNode;
+   stateless: string|undefined;   
+   mainTagName: string;
+   thisUsed: boolean;
+   export: "named"|"default"|"require"|"private";
 }
 
 export interface tagNode
@@ -150,6 +159,10 @@ export function visit(node: astNode, c: caller)
    {  
       node.children.forEach(n => c(n));
    }  
+   else if(node.type === "first")
+   {
+      c(node.child);      
+   }
    else if(node.type === "if")
    {
       node.true_children.forEach(n => c(n));

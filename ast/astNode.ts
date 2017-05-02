@@ -2,7 +2,7 @@
 import _ = require("lodash");
 import cheerio = require("cheerio");
 import { CommandLineOptions } from "../utils/options";
-import { astNode, rootNode, tagNode, styleNode, commentNode, textNode } from "./nodeTypes";
+import { astNode, rootNode, firstNode, tagNode, styleNode, commentNode, textNode } from "./nodeTypes";
 import { attributes } from "./nodeTypes";
 import { transform } from "./transform/transform";
 import { render } from "./render";
@@ -36,18 +36,15 @@ function buildTreeFromCheerio(rootNode: CheerioStatic, fileName: string, options
    let root: rootNode = 
    {
       type: "root",            
-      children: [],
-      stateless: undefined,
+      children: [],      
       imports: [`import React = require("react");`],
       importedSymbols: [],      
       styles: [],
       scripts: [],
-      hash: `_${md5(fileName, "jsx-templates").substr(0,8)}_`,
-      mainTagName: "",
+      hash: `_${md5(fileName, "jsx-templates").substr(0,8)}_`,      
       options: options,
       source: { html, fileName },
-      brackets: parseBracketCliOption(options.brackets),
-      thisUsed: false
+      brackets: parseBracketCliOption(options.brackets)
    };
 
    // collect all first level nodes
@@ -176,4 +173,14 @@ export function getRootNode(ast: astNode): rootNode
 {
    if(ast.type === "root") return ast;
    else return getRootNode(ast.parent);
+}
+
+export function getFirstNode(ast: astNode): firstNode
+{
+   if(ast.type !== "root")
+   {
+      if(ast.parent.type === "root") return ast as firstNode;
+      else return getFirstNode(ast.parent);
+   }
+   else throw "can't go to firstNode from rootNode";
 }

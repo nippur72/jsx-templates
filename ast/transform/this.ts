@@ -1,24 +1,20 @@
-import { rootNode, tagNode } from "../nodeTypes";
+import { rootNode, firstNode, tagNode } from "../nodeTypes";
 import { Keywords } from "../keywords";
 
 export function transform_this(ast: rootNode)
 {   
    // picks first defined tag
-   let level_one_tags = ast.children.filter(node=>node.type==="tag");
-   if(level_one_tags.length === 0)
-   {
-      throw "no tags defined";
-   }
+   let level_one_tags = ast.children.filter(node=>node.type==="first") as firstNode[];
 
-   let firstTag = level_one_tags[0] as tagNode;
-
-   if(firstTag.attribs[Keywords.thisAttribute]) 
-   {
-      let path = firstTag.attribs[Keywords.thisAttribute].rawText;
-      ast.imports.push(`import { ${ast.mainTagName} } from "${path}";`);
-      ast.thisUsed = true;
-      delete firstTag.attribs[Keywords.thisAttribute];
-   }
+   level_one_tags.forEach(firstTag => {
+      if(firstTag.child.attribs[Keywords.thisAttribute]) 
+      {
+         let path = firstTag.child.attribs[Keywords.thisAttribute].rawText;
+         ast.imports.push(`import { ${firstTag.mainTagName} } from "${path}";`);
+         firstTag.thisUsed = true;
+         delete firstTag.child.attribs[Keywords.thisAttribute];
+      }
+   });
 
    // TODO check that the "this" attribute is not specified in nested children
 
