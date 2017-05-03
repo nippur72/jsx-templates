@@ -1,5 +1,8 @@
 # CHANGELOG:
 
+## 0.0.56
+- make stateless components exported as "named" by default
+
 ## 0.0.52
 - export keyword, export more than a component in a single file
 

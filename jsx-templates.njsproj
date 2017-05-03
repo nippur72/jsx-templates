@@ -42,7 +42,6 @@
     <Content Include="README.md" />
     <Content Include="RIOCT-CLI.md" />
     <Content Include="spec\support\jasmine.json" />
-    <Content Include="spec\x.tsx" />
     <Content Include="tsconfig.json" />
     <Content Include="watcher\watcher.ts">
       <SubType>Code</SubType>

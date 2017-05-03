@@ -4,7 +4,7 @@ import { defaultOptions } from "../utils/options";
 describe("'yield' tag", ()=> {
    it("works with stateless components", ()=>{          
       const template = `
-         <Test stateless>
+         <Test stateless export="require">
             Hello, <yield>
          </Test>`;     
       const rendered = render(template, { children: [ "Mr.", "John"] });      

@@ -4,7 +4,7 @@ import { defaultOptions } from "../utils/options";
 describe("'template' tag", ()=> {
    it("allow to define local stateless component", ()=>{          
       const template = `
-         <Test stateless>
+         <Test stateless export="require">
             <div>
                Hello
                <template name="But1">
@@ -24,7 +24,7 @@ describe("'template' tag", ()=> {
 
    it("works with scope", ()=>{          
       const template = `
-         <Test stateless>
+         <Test stateless export="require">
             <div scope="{{42 as fortytwo}}">               
                <template name="But1">
                   <span>Hello {{fortytwo}}</span>
@@ -39,7 +39,7 @@ describe("'template' tag", ()=> {
 
    it("does not allow non simple direct child node", ()=>{          
       const template = `
-         <Test stateless>
+         <Test stateless export="require">
             <div>               
                <template name="But1">
                   <span scope="{{42 as b}}">Hello {{b}}</span>

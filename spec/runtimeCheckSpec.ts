@@ -15,7 +15,7 @@ describe("runtime check on attributes", ()=> {
       grabbed_console = "";
       
       const template = `
-         <Test stateless>
+         <Test stateless export="require">
             <div data-some="{{props.a}}"></div>
          </Test>`;     
       const props = { log: grab_console_function };      
@@ -38,7 +38,7 @@ describe("runtime check on attributes", ()=> {
       grabbed_console = "";
       
       const template = `
-         <Test stateless>
+         <Test stateless export="require">
             <div data-some="{{props.a}}"></div>
          </Test>`;     
       const props = { log: grab_console_function, a: null };      
@@ -57,7 +57,7 @@ describe("runtime check on attributes", ()=> {
       grabbed_console = "";
 
       const template = `
-         <Test stateless>
+         <Test stateless export="require">
             <div data-some="{{(()=>{throw 'argh';})()}}"></div>
          </Test>`;     
       const props = { log: grab_console_function };
@@ -76,7 +76,6 @@ describe("runtime check on attributes", ()=> {
    });
 });
 
-
 describe("runtime check on text", ()=> {
    it("checks that text expressions are not undefined at runtime", ()=>{ 
       let options: CommandLineOptions = { 
@@ -88,14 +87,14 @@ describe("runtime check on text", ()=> {
       grabbed_console = "";
       
       const template = `
-         <Test stateless>
+         <Test stateless export="require">
             {{props.a}}
          </Test>`;     
       const props = { log: grab_console_function };      
       const rendered = render(template, props, options);
       const expected = [
          "runtime error when evaluating: props.a", 
-         "in file: '..\\nofile', line 2, col 26", 
+         "in file: '..\\nofile', line 2, col 43", 
          "expression must be of type 'string' or 'number', instead is 'undefined'" ];
       expect(grabbed_console.split("\n")).toEqual(expected); 
       expect(rendered).toEqual("<div></div>");
@@ -111,14 +110,14 @@ describe("runtime check on text", ()=> {
       grabbed_console = "";
       
       const template = `
-         <Test stateless>
+         <Test stateless export="require">
             {{props.a}}
          </Test>`;     
       const props = { log: grab_console_function, a: [ "hello" ] };      
       const rendered = render(template, props, options);
       const expected = [
          "runtime error when evaluating: props.a", 
-         "in file: '..\\nofile', line 2, col 26", 
+         "in file: '..\\nofile', line 2, col 43", 
          "expression must be of type 'string' or 'number', instead is 'object'" ];
       expect(grabbed_console.split("\n")).toEqual(expected);
       expect(rendered).toEqual("<div>hello</div>");
@@ -134,7 +133,7 @@ describe("runtime check on text", ()=> {
       grabbed_console = "";
       
       const template = `
-         <Test stateless>
+         <Test stateless export="require">
             {{props.a}}
          </Test>`;     
       const props = { log: grab_console_function, a: null };      
@@ -153,7 +152,7 @@ describe("runtime check on text", ()=> {
       grabbed_console = "";
 
       const template = `
-         <Test stateless>
+         <Test stateless export="require">
             {{(()=>throw 'argh')()}}
          </Test>`;     
       const props = { log: grab_console_function };
@@ -182,7 +181,7 @@ xdescribe("runtime check on render function", ()=> {
       };     
       
       const template = `
-         <Test stateless scope="{{ function(){throw 'a'} as Unknown }}">
+         <Test stateless export="require" scope="{{ function(){throw 'a'} as Unknown }}">
             <Unknown></Unknown>
          </Test>`;     
       const props = { log: grab_console_function };
