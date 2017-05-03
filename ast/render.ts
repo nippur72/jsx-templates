@@ -63,22 +63,24 @@ function renderFirst(node: firstNode): string
    }
 
    let exportPrefix = "";
+   let exportName = "render";
 
-        if(node.export === "named"  ) exportPrefix = "export ";  
+        if(node.export === "named"  ) { exportPrefix = "export "; exportName = node.mainTagName; }
    else if(node.export === "default") exportPrefix += "export default ";
+   else if(node.export === "private") { exportPrefix = ""; exportName = node.mainTagName; }
 
    if(node.stateless !== undefined) 
    {
       let propsType = node.stateless || "any";      
-      result += `${exportPrefix}const ${node.mainTagName} = (props: ${propsType}, context) => (${children});\r\n`;
+      result += `${exportPrefix}const ${exportName} = (props: ${propsType}, context) => (${children});\r\n`;
    }
    else
    {
       let type = node.thisUsed ? node.mainTagName : "any";
-      result += `${exportPrefix}function ${node.mainTagName}(this: ${type}) { return (${children}); }\r\n`;
+      result += `${exportPrefix}function ${exportName}(this: ${type}) { return (${children}); }\r\n`;
    }
 
-   if(node.export === "require") result += `export = ${node.mainTagName};`;
+   if(node.export === "require") result += `export = ${exportName};`;
    return result;
 }
 

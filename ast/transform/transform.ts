@@ -102,6 +102,8 @@ export function transform(ast: rootNode)
    // NEW TO DOCUMENT
    // <script> tag
    // solve <script> not working with tsx syntax
+
+   // TODO specs for export keyword
 }
 
 // utility function used in debug

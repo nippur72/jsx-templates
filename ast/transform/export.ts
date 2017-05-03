@@ -19,14 +19,17 @@ export function transform_export(root: rootNode)
               if(ex === "named") node.export = ex;
          else if(ex === "default") { node.export = ex; ndefault++; }
          else if(ex === "require") { node.export = ex; nrequire++; }
-         else node.export = "named";
+         else node.export = "private";
       }
    });
 
    if(nexports === 0)
    {
-      // fallback: makes the first export default
-      level_one_tags[0].export = "require";
+      // fallback: if no export is explicited, first tag is exported
+      // as named (if stateless) or require (if stateful)
+      let ft = level_one_tags[0];
+      if(ft.stateless) ft.export = "named";
+      else ft.export = "require";
    }
 
    if(ndefault > 1) 
