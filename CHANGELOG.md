@@ -1,5 +1,8 @@
 # CHANGELOG:
 
+## 0.0.58
+- macros
+
 ## 0.0.57
 - put this:never on stateless component
 

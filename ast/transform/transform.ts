@@ -1,6 +1,8 @@
 import { rootNode, astNode, visit } from "../nodeTypes";
 
 import { transform_root_tag } from "./rootTag";
+import { transform_read_macro } from "./macro";
+import { transform_replace_macro } from "./macro";
 import { transform_style_tag } from "./styleTag";
 import { transform_optional_brackets } from "./optionalBrackets";
 import { transform_stateless } from "./stateless";
@@ -24,8 +26,12 @@ import { transform_show_hide } from "./showHide";
 import { transform_props } from "./props-ob";
 
 export function transform(ast: rootNode)
-{   
-   // root tag name
+{  
+   // replace macro as soon as possible
+   transform_read_macro(ast);
+   transform_replace_macro(ast);
+
+   // build root and first level nodes
    transform_root_tag(ast);
    
    // handle style tags
@@ -36,12 +42,10 @@ export function transform(ast: rootNode)
    transform_stateless(ast);
    transform_export(ast);
    transform_this(ast);
-
-   transform_if(ast);     
-
-   transform_is(ast);
-   transform_each(ast);   
    transform_scope(ast);  
+   transform_if(ast);     
+   transform_is(ast);
+   transform_each(ast);      
    transform_class(ast);
 
    // special tags

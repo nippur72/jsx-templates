@@ -16,10 +16,7 @@ export function transform_root_tag(ast: rootNode)
 
    // reinserts as firstNode nodes
    level_one_tags.forEach(node => {
-      if(!isReactIdentifier(node.tagName))
-      {
-         throw `${node.tagName} is not a valid React.Component identifier`
-      }
+      if(!isReactIdentifier(node.tagName)) throw `${node.tagName} is not a valid React.Component identifier`;      
       let newNode: firstNode = {
          type: "first",
          child: node,

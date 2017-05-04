@@ -44,7 +44,8 @@ function buildTreeFromCheerio(rootNode: CheerioStatic, fileName: string, options
       hash: `_${md5(fileName, "jsx-templates").substr(0,8)}_`,      
       options: options,
       source: { html, fileName },
-      brackets: parseBracketCliOption(options.brackets)
+      brackets: parseBracketCliOption(options.brackets),
+      macro: {}
    };
 
    // collect all first level nodes

@@ -17,6 +17,7 @@ export const Keywords =
    thisAttribute: "this",
    props: "props",
    template: "template",
-   export: "export"
+   export: "export",
+   macro: "macro"
 }
 

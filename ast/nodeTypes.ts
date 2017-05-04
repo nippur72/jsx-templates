@@ -29,6 +29,7 @@ export interface rootNode
    },   
    brackets: Brackets;   
    importedSymbols: string[];
+   macro: {[macroName: string]: tagNode };
 }
 
 export interface firstNode
