@@ -51,6 +51,7 @@
     <TypeScriptCompile Include="ast\render.ts" />
     <TypeScriptCompile Include="ast\transform\props-ob.ts" />
     <TypeScriptCompile Include="ast\transform\export.ts" />
+    <TypeScriptCompile Include="ast\transform\macro.ts" />
     <TypeScriptCompile Include="ast\transform\template.ts" />
     <TypeScriptCompile Include="ast\transform\showHide.ts" />
     <TypeScriptCompile Include="ast\transform\debug.ts">
@@ -82,6 +83,7 @@
     <TypeScriptCompile Include="process\processHtmlFile.ts" />
     <TypeScriptCompile Include="spec\htmlEntitiesSpec.ts" />
     <TypeScriptCompile Include="spec\props-obSpec.ts" />
+    <TypeScriptCompile Include="spec\macroSpec.ts" />
     <TypeScriptCompile Include="spec\templateSpec.ts" />
     <TypeScriptCompile Include="spec\thisSpec.ts" />
     <TypeScriptCompile Include="spec\libSpecs\trimBeforeSpec.ts" />
