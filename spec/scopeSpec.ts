@@ -15,4 +15,11 @@ describe("'scope' attribute", ()=> {
       const expected = `<div><div>42</div></div>`;
       expect(rendered).toEqual(expected);      
    });
+
+   it("is expanded before 'if' and 'each'", ()=>{          
+      const template = `<Test><div scope="{{42 as fortytwo}}" if="{{fortytwo==42}}">yes!</div></Test>`;     
+      const rendered = render(template);      
+      const expected = `<div><div>yes!</div></div>`;
+      expect(rendered).toEqual(expected);      
+   });
 });
