@@ -194,8 +194,9 @@ function renderEach(node: eachNode): string
 
 function renderVirtual(node: virtualNode): string
 {
-   let c = node.children.map(n=>render(n)).filter(s=>s!=="").join(",");
-   let expr = `[${c}]`; 
+   let children = node.children.map(n=>render(n)).filter(s=>s!=="");
+   let cs = children.join(",");
+   let expr = children.length === 1 ? `${cs}` : `[${cs}]`; 
    if(node.parent.type === "tag") 
    {
       expr = `{${expr}}`;
