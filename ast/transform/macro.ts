@@ -47,9 +47,17 @@ export function transform_replace_macro(node: astNode)
             let new_children = macroNode.children.map(e => {
                if(e.type !== "root" && e.type !== "first") return { ...e, parent: node };
                else return { ...e };
+            });            
+           
+            // fix parent in children of children
+            new_children.forEach(e => {
+               let fixer = (n) => { 
+                  if(n.type !== "root" && n.type !== "first") n.parent = e;
+               }
+               visit(e, fixer);
             });
 
-            node.children = new_children;
+            node.children = new_children;            
          }
       }
 
