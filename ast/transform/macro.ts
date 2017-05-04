@@ -43,10 +43,7 @@ export function transform_replace_macro(node: astNode)
             // turn node into virtual
             node.tagName = "virtual";
 
-            let child = macroNode.children.filter(e => e.type !== "comment");
-            if(child.length !== 1) throw `macro must have a single direct children`;
-
-            node.children = [ child[0] ];
+            node.children = macroNode.children;
          }
       }
 
