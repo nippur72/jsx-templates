@@ -1,5 +1,8 @@
 # CHANGELOG:
 
+## 0.0.57
+- put this:never on stateless component
+
 ## 0.0.56
 - make stateless components exported as "named" by default
 

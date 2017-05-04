@@ -72,7 +72,7 @@ function renderFirst(node: firstNode): string
    if(node.stateless !== undefined) 
    {
       let propsType = node.stateless || "any";      
-      result += `${exportPrefix}const ${exportName} = (props: ${propsType}, context) => (${children});\r\n`;
+      result += `${exportPrefix}function ${exportName}(this: never, props: ${propsType}, context) { return (${children}); }\r\n`;
    }
    else
    {
