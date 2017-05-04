@@ -43,7 +43,13 @@ export function transform_replace_macro(node: astNode)
             // turn node into virtual
             node.tagName = "virtual";
 
-            node.children = macroNode.children;
+            // create fresh new children
+            let new_children = macroNode.children.map(e => {
+               if(e.type !== "root" && e.type !== "first") return { ...e, parent: node };
+               else return { ...e };
+            });
+
+            node.children = new_children;
          }
       }
 

@@ -31,6 +31,23 @@ describe("'macro' tag", ()=> {
       expect(rendered).toEqual(expected);      
    });
 
+   it("works with virtual and if", ()=>{          
+      const template = `
+         <MainTag>
+            <Routes></Routes>
+         </MainTag>
+
+         <macro name="Routes">
+            <virtual if="{{false}}">
+               <div>Hello</div>      
+            </virtual>
+         </macro>
+      `;
+      const rendered = render(template);      
+      const expected = `<div></div>`;
+      expect(rendered).toEqual(expected);      
+   });
+
    // macro def must have single direct child
 
    // macro instance cannot contain children
