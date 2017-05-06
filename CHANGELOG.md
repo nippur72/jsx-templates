@@ -1,5 +1,8 @@
 # CHANGELOG:
 
+## 0.0.62
+- <script> nodes as global/scoped
+
 ## 0.0.59
 - macros
 

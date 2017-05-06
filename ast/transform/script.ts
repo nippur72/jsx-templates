@@ -1,7 +1,8 @@
-import { astNode, rootNode, tagNode, commentNode, attributes, visit } from "../nodeTypes";
+import { astNode, rootNode, tagNode, commentNode, attributes, visit, disableNode } from "../nodeTypes";
 import { getRootNode } from "../astNode";
 import { Keywords } from "../keywords";
 import { replaceAll } from "../../utils/replaceAll";
+import { putInScope } from "./scope";
 
 export function transform_script(node: astNode)
 {   
@@ -13,15 +14,22 @@ export function transform_script(node: astNode)
 
       // TODO allow only one single text node as children
 
-      let root = getRootNode(node);
+      if(node.parent.type === "root") {
+         // put as global script code
+         let root = getRootNode(node);
+         let content = node.script.trim();
+         root.scripts.push(content);            
+         disableNode(node);
+      }
+      else {
+         // put as scoped script code on the parent node
+         let code = node.script.trim();
+         let parent = node.parent;
+         disableNode(node);
 
-      let content = node.script.trim();
-
-      root.scripts.push(content);
-         
-      // change to comment node
-      (node as any).type = "comment";
-      (node as any as commentNode).comment = "";
+         if(parent.type !== "tag") throw `script can be put placed only under root nodes or tags`;
+         putInScope(parent, code);
+      }
    }
    
    visit(node, (n)=>transform_script(n));

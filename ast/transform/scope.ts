@@ -25,27 +25,33 @@ export function transform_scope(node: astNode)
 
          delete node.attribs[Keywords.scope];
 
-         let parentnode = node.parent;
          let scopeList = scopes.map(s=>`let ${s.identifier}=${s.expression};`).join("");
 
-         if(parentnode === null || parentnode === undefined) {
-            throw `${Keywords.scope} can't be placed in a root node`;
-         }
-
-         // prepares a code node
-         let newNode: scopeNode = 
-         {
-            type: "scope",
-            items: scopeList, 
-            children: [ node ],            
-            parent: parentnode 
-         };
-
-         node.parent = newNode;
-
-         replaceNode(parentnode, node, newNode);
+         putInScope(node, scopeList);
       }
    }      
+}
+
+export function putInScope(node: tagNode, code: string)
+{
+   let parentnode = node.parent;
+         
+   if(parentnode === null || parentnode === undefined) {
+      throw `${Keywords.scope} can't be placed in a root node`;
+   }
+
+   // prepares a code node
+   let newNode: scopeNode = 
+   {
+      type: "scope",
+      items: code, 
+      children: [ node ],            
+      parent: parentnode 
+   };
+
+   node.parent = newNode;
+
+   replaceNode(parentnode, node, newNode);
 }
 
 interface IScope

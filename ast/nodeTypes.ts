@@ -175,3 +175,10 @@ export function visit(node: astNode, c: caller)
       node.templates.forEach(t => c(t.content));
    }
 }
+
+export function disableNode(node: astNode)
+{
+   // change to comment node
+   (node as any).type = "comment";
+   (node as any as commentNode).comment = "";   
+}
