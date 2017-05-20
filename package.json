@@ -1,6 +1,6 @@
 {
   "name": "jsx-templates",
-  "version": "0.0.62",
+  "version": "0.0.63",
   "description": "templates for jsx/tsx",
   "main": "jsx-templates.js",
   "author": "Antonino Porcino",
@@ -42,6 +42,6 @@
     "react": "^15.2.1",
     "react-dom": "^15.2.1",
     "rioct": "^2.0.1",
-    "typescript": "^2.2.1"
+    "typescript": "^2.3.2"
   }
 }

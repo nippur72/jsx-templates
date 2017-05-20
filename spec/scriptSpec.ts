@@ -5,10 +5,10 @@ describe("'script' tag", ()=> {
    it("injects code on before the render function", ()=>{      
       const template = `
          <script>
-            const somevar = "John";
+            const somevar = { name: "John" };
          </script>
          <Test>
-            <div>Hello {{somevar}}</div>
+            <div>Hello {{somevar.name}}</div>
          </Test>`;     
       const rendered = render(template);      
       const expected = `<div><div>Hello John</div></div>`;

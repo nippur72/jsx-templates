@@ -17,7 +17,13 @@ type CheerioAttributes = {[key:string]:string};
 
 export function htmlToTsx(html: string, options: CommandLineOptions, fileName: string): string
 {
-   let cheerioTree = cheerio.load(html, {lowerCaseTags: false, lowerCaseAttributeNames: false, xmlMode: true, withStartIndices: true}); // xmlMode turned off to allow decode of &nbsp;    
+   let cheerioTree = cheerio.load(html, {
+      lowerCaseTags: false, 
+      lowerCaseAttributeNames: false, 
+      xmlMode: false,  // keep <style> and <script> as text
+      decodeEntities: false, 
+      withStartIndices: true
+   }); 
 
    let ast = buildTreeFromCheerio(cheerioTree, fileName, options, html);
 
