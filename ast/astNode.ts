@@ -22,6 +22,7 @@ export function htmlToTsx(html: string, options: CommandLineOptions, fileName: s
       lowerCaseAttributeNames: false, 
       xmlMode: false,  // keep <style> and <script> as text
       decodeEntities: false, 
+      recognizeSelfClosing: true, 
       withStartIndices: true
    }); 
 
