@@ -36,7 +36,7 @@ export function transform_replace_macro(node: astNode)
 
          if(macroNode !== undefined)
          {  
-            // is a known macro
+            // it's a known macro
             
             // TODO: check must have no children
 

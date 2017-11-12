@@ -20,11 +20,7 @@ export function transform_virtual(node: astNode)
          vnode.type = "virtual";
          
          // set a dummy key on the direct children nodes
-         visit(node, (n) => {
-            if(n.type === "tag") {
-               assignDummyKey(n);
-            }
-         });         
+         visit(node, n => assignDummyKey(n));         
       }
    }
    

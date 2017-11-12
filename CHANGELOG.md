@@ -1,5 +1,8 @@
 # CHANGELOG:
 
+## 0.0.70
+- attach automatic key to all types of virtual tag children
+
 ## 0.0.62
 - <script> nodes as global/scoped
 
