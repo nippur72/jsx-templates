@@ -24,7 +24,7 @@ export function assignDummyKey(node: astNode)
    }
    else if(node.type === "scope")
    {
-      // do nothing
+      node.children.forEach(n => assignDummyKey(n));
    }
    else if(node.type === "text")
    {

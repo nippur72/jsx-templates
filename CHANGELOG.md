@@ -1,6 +1,6 @@
 # CHANGELOG:
 
-## 0.0.70
+## 0.0.71
 - attach automatic key to all types of virtual tag children
 
 ## 0.0.62
