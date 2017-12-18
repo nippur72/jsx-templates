@@ -5,14 +5,14 @@ describe("style attribute", ()=> {
    it("works with simple constant strings", ()=>{          
       const template = `<Test stateless export="require"><div style="color: red;">Hello</div></Test>`;     
       const rendered = render(template);      
-      const expected = `<div><div style="color:red;">Hello</div></div>`;
+      const expected = `<div><div style="color:red">Hello</div></div>`;
       expect(rendered).toEqual(expected);      
    });
 
    it("works with string expressions", ()=>{          
       const template = `<Test stateless export="require"><virtual scope="{{'red' as c}}"><div style="color: {{c}};">Hello</div></virtual></Test>`;     
       const rendered = render(template);      
-      const expected = `<div><div style="color:red;">Hello</div></div>`;
+      const expected = `<div><div style="color:red">Hello</div></div>`;
       expect(rendered).toEqual(expected);      
    });
 
