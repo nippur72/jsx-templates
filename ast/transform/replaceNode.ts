@@ -21,7 +21,11 @@ export function replaceNode(node: astNode, sourceNode: astNode, replaceWithNode:
    {
       if(node.child === sourceNode && replaceWithNode.type !== "root") 
       {
+         /*
          if(replaceWithNode.type === "tag") node.child = replaceWithNode;      
+         else throw `first level tags must be plain simple tags`;
+         */
+         if(replaceWithNode.type === "tag" || replaceWithNode.type === "scope") node.child = replaceWithNode;      
          else throw `first level tags must be plain simple tags`;
       }
    }

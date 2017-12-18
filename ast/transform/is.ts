@@ -1,6 +1,7 @@
 import { rootNode, firstNode, tagNode } from "../nodeTypes";
 import { Keywords } from "../keywords";
 import { getRootNode } from "../astNode";
+import { getDescendingTagNode } from "../astNode";
 
 export function transform_is(ast: rootNode)
 {
@@ -8,14 +9,18 @@ export function transform_is(ast: rootNode)
    let level_one_tags = ast.children.filter(node=>node.type==="first") as firstNode[];   
   
    level_one_tags.forEach(firstTag => {
-      if(!firstTag.child.attribs[Keywords.is]) 
+
+      // "is" keyword is in the descending tag node
+      const tagnode = getDescendingTagNode(firstTag);
+
+      if(!tagnode.attribs[Keywords.is]) 
       {
-         firstTag.child.tagName = "div";
+         tagnode.tagName = "div";
       }
       else
       {   
-         firstTag.child.tagName = firstTag.child.attribs[Keywords.is].rawText;
-         delete firstTag.child.attribs[Keywords.is];
+         tagnode.tagName = tagnode.attribs[Keywords.is].rawText;
+         delete tagnode.attribs[Keywords.is];
       }
    });
 }

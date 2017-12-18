@@ -36,7 +36,7 @@ export interface firstNode
 {
    parent: rootNode;
    type: "first";
-   child: tagNode;
+   child: tagNode | scopeNode;
    stateless: string|undefined;   
    mainTagName: string;
    thisUsed: boolean;

@@ -1,5 +1,6 @@
 import { rootNode, firstNode, tagNode } from "../nodeTypes";
 import { Keywords } from "../keywords";
+import { getDescendingTagNode } from "../astNode";
 
 export function transform_stateless(root: rootNode)
 {   
@@ -11,10 +12,14 @@ export function transform_stateless(root: rootNode)
    }
 
    level_one_tags.forEach(node => {  
-      if(node.child.attribs[Keywords.stateless]) 
+
+      // "stateless" keyword is in the descending tag node
+      const tagnode = getDescendingTagNode(node);
+
+      if(tagnode.attribs[Keywords.stateless]) 
       {
-         node.stateless = node.child.attribs[Keywords.stateless].rawText;
-         delete node.child.attribs[Keywords.stateless];
+         node.stateless = tagnode.attribs[Keywords.stateless].rawText;
+         delete tagnode.attribs[Keywords.stateless];
       }
    });
 

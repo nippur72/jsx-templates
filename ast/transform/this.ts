@@ -1,5 +1,6 @@
 import { rootNode, firstNode, tagNode } from "../nodeTypes";
 import { Keywords } from "../keywords";
+import { getDescendingTagNode } from "../astNode";
 
 export function transform_this(ast: rootNode)
 {   
@@ -7,12 +8,16 @@ export function transform_this(ast: rootNode)
    let level_one_tags = ast.children.filter(node=>node.type==="first") as firstNode[];
 
    level_one_tags.forEach(firstTag => {
-      if(firstTag.child.attribs[Keywords.thisAttribute]) 
+
+      // "export" keyword is in the descending tag node
+      const tagnode = getDescendingTagNode(firstTag);
+
+      if(tagnode.attribs[Keywords.thisAttribute]) 
       {
-         let path = firstTag.child.attribs[Keywords.thisAttribute].rawText;
+         let path = tagnode.attribs[Keywords.thisAttribute].rawText;
          ast.imports.push(`import { ${firstTag.mainTagName} } from "${path}";`);
          firstTag.thisUsed = true;
-         delete firstTag.child.attribs[Keywords.thisAttribute];
+         delete tagnode.attribs[Keywords.thisAttribute];
       }
    });
 

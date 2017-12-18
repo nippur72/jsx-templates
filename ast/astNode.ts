@@ -192,3 +192,14 @@ export function getFirstNode(ast: astNode): firstNode
    }
    else throw "can't go to firstNode from rootNode";
 }
+
+export function getDescendingTagNode(node: firstNode): tagNode {
+   function getTag(n: astNode): tagNode {
+           if(n.type === "scope") return getTag(n.children[0]);
+      else if(n.type === "first") return getTag(n.child);
+      else if(n.type === "tag") return n;
+      else throw `unhandled node type '${n.type}' in getDescendingTagNode()`;
+   }
+   return getTag(node);
+}
+

@@ -22,4 +22,11 @@ describe("'scope' attribute", ()=> {
       const expected = `<div><div>yes!</div></div>`;
       expect(rendered).toEqual(expected);      
    });
+
+   it("can be placed on root tags", ()=>{          
+      const template = `<Test scope="42 as fortytwo">{fortytwo}</Test>`;     
+      const rendered = render(template);      
+      const expected = `<div>42</div>`;
+      expect(rendered).toEqual(expected);      
+   });
 });

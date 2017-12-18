@@ -1,5 +1,6 @@
 import { rootNode, firstNode, tagNode } from "../nodeTypes";
 import { Keywords } from "../keywords";
+import { getDescendingTagNode } from "../astNode";
 
 export function transform_export(root: rootNode)
 {   
@@ -8,11 +9,15 @@ export function transform_export(root: rootNode)
 
    let nrequire = 0, ndefault = 0, nexports = 0;
 
-   level_one_tags.forEach(node => {  
-      if(node.child.attribs[Keywords.export]) 
+   level_one_tags.forEach(node => {
+
+      // "export" keyword is in the descending tag node
+      const tagnode = getDescendingTagNode(node);
+      
+      if(tagnode.attribs[Keywords.export]) 
       {
-         let ex = node.child.attribs[Keywords.export].rawText;         
-         delete node.child.attribs[Keywords.export];
+         let ex = tagnode.attribs[Keywords.export].rawText;         
+         delete tagnode.attribs[Keywords.export];
 
          nexports++;
 

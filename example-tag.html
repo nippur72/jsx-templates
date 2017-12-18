@@ -1,14 +1,16 @@
-﻿<Test scope="{{42 as a}}">
-            <div if="{{a==20}}">
-               twenty
-            </div>
-            <div else if="{{a==3}}">
-               three
-            </div>
-            <div else if="{{a==42}}">
-               fortytwo
-            </div>
-            <div else>
-               never
-            </div>
-         </Test>
+﻿<script>
+   // this is put under global
+   const a = 1;
+</script>
+<SiteFooter>   
+      <script>
+         // this is put under tag
+         const b = 2;
+      </script>
+      Hello
+      <input maxlength="2" />
+</SiteFooter>
+
+<UnAltro scope="{{42 as f2}}">
+   Zompa
+</UnAltro>

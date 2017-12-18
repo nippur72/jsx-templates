@@ -1,5 +1,8 @@
 # CHANGELOG:
 
+## 0.0.72
+- scope="..." and <script> can be placed under root tags
+
 ## 0.0.71
 - attach automatic key to all types of virtual tag children
 
