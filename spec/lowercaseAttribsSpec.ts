@@ -5,10 +5,10 @@ describe("lowercase attribute names", ()=> {
    it("are translated to camelcase if supported by react", ()=>{          
       const template = `
          <Test>
-            <input maxlength={{2}} />
+            <div tabindex="-1" />
          </Test>`;     
       const rendered = render(template);      
-      const expected = `<div><input maxlength="2"/></div>`;
+      const expected = `<div><div tabindex="-1"></div></div>`;
       expect(rendered).toEqual(expected);      
    });
 });

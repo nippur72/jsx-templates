@@ -8,10 +8,12 @@ let reactSupportedAttributes = ['accept', 'acceptCharset', 'accessKey', 'action'
 let classNameProp = 'className';
 let attributesMapping = { 'class': classNameProp, 'rt-class': classNameProp, 'for': 'htmlFor' }; //eslint-disable-line quote-props
 
-_.forEach(reactSupportedAttributes, function (attributeReactName) {
-      if (attributeReactName !== attributeReactName.toLowerCase()) {
-         attributesMapping[attributeReactName.toLowerCase()] = attributeReactName;
-      }
+// create attribute translation map
+reactSupportedAttributes.forEach(attributeReactName => {
+   const lowerCaseName = attributeReactName.toLowerCase();
+   if (attributeReactName !== lowerCaseName) {
+      attributesMapping[lowerCaseName] = attributeReactName;
+   }
 });
 
 export function transform_lowercase_attribs(node: astNode)
