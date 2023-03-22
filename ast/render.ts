@@ -71,8 +71,14 @@ function renderFirst(node: firstNode): string
 
    if(node.stateless !== undefined) 
    {
-      let propsType = node.stateless || "any";      
-      result += `${exportPrefix}function ${exportName}(this: never, props: ${propsType}, context) { return (${children}); }\r\n`;
+      let propsType = node.stateless || "any";
+      let argDef = `this: never, props: ${propsType}, context`;
+      if(node.stateless.charAt(0)=="(") {
+         argDef = node.stateless;
+         argDef = argDef.substr(1);
+         argDef = argDef.substr(0,argDef.length-1);
+      }
+      result += `${exportPrefix}function ${exportName}(${argDef}) { return (${children}); }\r\n`;
    }
    else
    {
