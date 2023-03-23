@@ -1,12 +1,9 @@
-import _ = require("lodash");
-
 import { Keywords } from "./keywords";
 import { astNode, rootNode, firstNode, tagNode, styleNode, commentNode, textNode, ifNode, virtualNode, scopeNode, templateNode, eachNode } from "./nodeTypes";
 import { attributes, attribute, literal } from "./nodeTypes";
 import { replaceAll } from "../utils/replaceAll";
 import { wrapRenderFunction, wrapImport } from "./transform/debug";
 import { printableString, quotableString } from "../utils/printable";
-
 
 export function render(node: astNode): string
 {
@@ -166,7 +163,7 @@ function renderIf(node: ifNode): string
    let true_children  = node.true_children.length  == 0 ? "null" : node.true_children.map(n=>render(n)).join(",");
    let false_children = node.false_children.length == 0 ? "null" : node.false_children.map(n=>render(n)).join(",");
    
-   let expr = `${node.contidion}?${true_children}:${false_children}`; 
+   let expr = `${node.condition}?${true_children}:${false_children}`;
 
    if(node.parent.type === "tag") 
    {

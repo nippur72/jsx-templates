@@ -15,18 +15,16 @@ import { defaultOptions, CommandLineOptions } from "../utils/options";
 function watcher(options: CommandLineOptions) 
 {
    const watchOpts = {
-     forcePolling: false,  // try event-based watching first 
-     debounce: 10,         // debounce events in non-polling mode by 10ms 
-     interval: 1000,       // if we need to poll, do it every 1000ms 
-     persistent: true      // don't end the process while files are watched 
+      forcePolling: false,  // try event-based watching first
+      debounce: 10,         // debounce events in non-polling mode by 10ms
+      interval: 1000,       // if we need to poll, do it every 1000ms
+      persistent: true      // don't end the process while files are watched
    };
 
    let patharg = options._[0];
  
    // initial compilation, delete all *.html.tsx, *.html.d.ts and *.html.js files
-   console.log("preparing...");
-   const zzz = glob.sync(patharg + ".tsx" );
-   
+   console.log("cleaning...");
    glob.sync(patharg + ".tsx" ).forEach(f => fs.unlinkSync(f));
    glob.sync(patharg + ".d.ts").forEach(f => fs.unlinkSync(f));
    glob.sync(patharg + ".js"  ).forEach(f => fs.unlinkSync(f));   
@@ -57,9 +55,7 @@ function watcher(options: CommandLineOptions)
 }
 
 function compile(file: string, options: CommandLineOptions) {
-   const tsxName = file + (options.typescript ? ".tsx" : ".jsx");
-   const jsName = file + ".js";
-   const result = processHtmlFile(file, options);   
+   processHtmlFile(file, options);
 }
 
 function tsc_watch()
@@ -68,13 +64,13 @@ function tsc_watch()
 
    let child = exec("tsc --watch");
 
-   child.stdout.on('data', function(chunk) {
+   child.stdout?.on('data', function(chunk) {
      // output will be here in chunks
-     console.log("*** tsc out ***");     
+     console.log("*** tsc out ***");
      report_tsc_error(chunk);
    });
 
-   child.stderr.on('data', function(chunk) {
+   child.stderr?.on('data', function(chunk) {
      // output will be here in chunks
      console.log("*** tsc err ***");
      console.log(chunk);     

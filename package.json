@@ -1,11 +1,13 @@
 {
   "name": "jsx-templates",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "templates for jsx/tsx",
   "main": "jsx-templates.js",
   "author": "Antonino Porcino",
   "scripts": {
-    "test": "jasmine-node --verbose spec"
+    "build": "npx tsc",
+    "watch": "npx tsc --watch",
+    "test": "npx jasmine-node --verbose dist/spec"
   },
   "bin": {
     "jsxt": "./exec"
@@ -21,7 +23,7 @@
     "cheerio": "^0.22.0",
     "escodegen": "^1.9.0",
     "esprima": "^3.1.3",
-    "eval": "^0.1.1",
+    "eval": "^0.1.8",
     "filewatcher": "^3.0.1",
     "glob": "^7.1.2",
     "html-entities": "^1.2.0",
@@ -35,13 +37,15 @@
     "@types/cheerio": "^0.22.5",
     "@types/esprima": "^2.1.33",
     "@types/glob": "^5.0.33",
-    "@types/jasmine": "^2.6.3",
-    "@types/lodash": "^4.14.85",
-    "@types/react": "^16.0.22",
-    "@types/react-dom": "^16.0.3",
-    "react": "^16.1.0",
-    "react-dom": "^16.1.0",
+    "@types/jasmine": "^3.10.7",
+    "@types/lodash": "^4.14.191",
+    "@types/node": "^18.15.5",
+    "@types/react": "^16.14.35",
+    "@types/react-dom": "^16.9.18",
+    "jasmine-node": "^3.0.0",
+    "react": "^16.14.0",
+    "react-dom": "^16.14.0",
     "rioct": "^3.2.1",
-    "typescript": "^2.6.1"
+    "typescript": "^5.0.2"
   }
 }

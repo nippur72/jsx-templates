@@ -1,24 +1,28 @@
 {
-    "compileOnSave": true,
-    "compilerOptions": {
-        "target": "es5",
-        "forceConsistentCasingInFileNames": false,
-        "noFallthroughCasesInSwitch": true,
-        "module": "commonjs",
-        "noImplicitAny": false,
-        "noImplicitReturns": true,
-        "strictNullChecks": true,
-        "removeComments": true,
-        "preserveConstEnums": true,
-        "sourceMap": true,
-        "experimentalDecorators": true,
-        "jsx": "react"
-    },
-    "exclude": [
-        "node_modules",
-        "typings",
-        "wwwroot",
-        "example-tag.html.tsx",
-        "old"
-    ]
+   "compileOnSave": true,
+   "compilerOptions": {
+      "target": "es6",
+      "lib": ["es6"],
+      "forceConsistentCasingInFileNames": false,
+      "noFallthroughCasesInSwitch": true,
+      "module": "commonjs",
+      "noImplicitAny": false,
+      "noImplicitReturns": true,
+      "strictNullChecks": true,
+      "removeComments": true,
+      "preserveConstEnums": true,
+      "sourceMap": true,
+      "jsx": "react",        
+      "outDir": "dist"      
+   },
+   "include": [ 
+      "src/main.ts",
+      "src/spec/**/*.ts"
+   ],
+   "exclude": [
+      "node_modules/",
+      "dist/",        
+      "example-tag.html.tsx",
+      "old/"
+   ]   
 }

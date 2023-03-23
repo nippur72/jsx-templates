@@ -1,15 +1,14 @@
 ﻿import { renderComponent as render } from "./makeInlineComponent";
-import { defaultOptions } from "../utils/options";
 
 describe("'import' tag", ()=> {
    it("works", ()=>{          
       const template = `
          <Test>
-            <import name="t1"         from="./spec/importSpec"></import> 
-            <import name="t1" as="t2" from="./spec/importSpec"></import> 
-            <import all as="t3"       from="./spec/importSpec"></import> 
-            <import default="t4"      from="./spec/importSpec"></import> 
-            <import require="t5"      from="./spec/importSpec"></import>
+            <import name="t1"         from="./importSpec"></import> 
+            <import name="t1" as="t2" from="./importSpec"></import> 
+            <import all as="t3"       from="./importSpec"></import> 
+            <import default="t4"      from="./importSpec"></import> 
+            <import require="t5"      from="./importSpec"></import>
             <div>{{t1}}</div>
             <div>{{t2}}</div>
             <div>{{t3.t1}}</div>

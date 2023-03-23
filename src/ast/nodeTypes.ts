@@ -91,7 +91,7 @@ export interface commentNode
 export interface ifNode
 {
    type: "if";   
-   contidion: string;
+   condition: string;
    true_children: astNode[];
    false_children: astNode[];
    parent: astNode;

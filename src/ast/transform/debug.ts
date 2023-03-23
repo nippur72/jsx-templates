@@ -5,7 +5,6 @@ import { printableString, printableRelativeFileName } from "../../utils/printabl
 import { CommandLineOptions } from "../../utils/options";
 import { getLocation } from "../../utils/location";
 
-
 export function wrapRuntimeCheck(expr: literal[], isTextExpression: boolean, root: rootNode): literal[]
 {
    let result: literal[] = [];

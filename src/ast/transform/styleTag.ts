@@ -5,8 +5,7 @@ import { getRootNode } from "../astNode";
 import { Keywords } from "../keywords";
 import { replaceAll } from "../../utils/replaceAll";
 
-export const LibName = "Rioct";
-const importRioctCommand = `import ${LibName} = require("rioct");`;
+const importRioctCommand = `import Rioct = require("rioct");`;
 
 export function transform_style_tag(node: astNode)
 {   
@@ -30,8 +29,8 @@ export function transform_style_tag(node: astNode)
       styles.push(styleCommand(style, root.source.fileName, root.options.debugRuntimeCheck));
          
       // change to comment node
-      (node as any).type = "comment";
-      (node as any as commentNode).comment = "";
+      (node as astNode).type = "comment";
+      (node as astNode as commentNode).comment = "";
    }
    
    visit(node, (n)=>transform_style_tag(n));      
@@ -39,7 +38,7 @@ export function transform_style_tag(node: astNode)
 
 function styleCommand(extractedStyle: string, tagName: string, trace: boolean) 
 {
-   if(extractedStyle) return `${LibName}.styles.push(${sanitizeStyle(extractedStyle, tagName, trace)}); ${LibName}.updateStyles();`;
+   if(extractedStyle) return `Rioct.styles.push(${sanitizeStyle(extractedStyle, tagName, trace)}); Rioct.updateStyles();`;
    else return "";
 }
 

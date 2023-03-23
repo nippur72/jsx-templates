@@ -9,7 +9,7 @@ import { processHtmlString } from "../process/processHtmlString";
 
 import Rioct = require("rioct"); // for <style> rendering 
 
-export function compileTemplate(template: string, options?: CommandLineOptions): string
+export function compileTemplate(template: string, options?: CommandLineOptions): any
 {
    options = options || defaultOptions(); 
    
@@ -28,11 +28,12 @@ export function compileTemplate(template: string, options?: CommandLineOptions):
 
    try
    {
-      const evaluated = _eval(js, "eval", {}, true);
+      const evaluated = _eval(js, true);
       return evaluated;
    }
    catch(ex)
    {
+      console.log(`exception during eval():`,ex);
       console.log("**** tsx:");
       console.log(tsx);
       console.log("**** js:");

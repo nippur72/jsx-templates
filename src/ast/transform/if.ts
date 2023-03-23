@@ -41,7 +41,7 @@ export function transform_if(node: astNode)
          let newNode: ifNode = 
          {
             type: "if",
-            contidion: condition,
+            condition: condition,
             true_children: [ node ],
             false_children: falseChildren,
             parent: parentnode 

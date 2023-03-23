@@ -2,13 +2,7 @@
 import path = require('path');
 
 import { CommandLineOptions } from "../utils/options";
-import { replaceExtension as replaceExt } from "../utils/replace-extension";
 import { processHtmlString } from "./processHtmlString";
-
-/*
-import md5 = require("blueimp-md5");
-context.hash = md5(fileName,"rioct");
-*/
 
 export function processHtmlFile(fileName: string, options: CommandLineOptions)
 {
@@ -22,7 +16,6 @@ export function processHtmlFile(fileName: string, options: CommandLineOptions)
 
    let jsx = processHtmlString(html, options, fileName);
 
-   //let outName = replaceExt(fileName, options.typescript ? ".tag.tsx" : ".tag.jsx");
    let outName = fileName + ( options.typescript ? ".tsx" : ".jsx" );
      
    fs.writeFileSync(outName, jsx);   

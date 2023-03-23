@@ -1,7 +1,7 @@
 ﻿
 import optionator = require("optionator");
 
-let pkg = require("../package.json");
+let pkg = require("../../package.json");
 
 let optsConfig = 
 {

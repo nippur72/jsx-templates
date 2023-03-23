@@ -1,6 +1,5 @@
 
-import _ = require("lodash");
-import cheerio = require("cheerio");
+import * as cheerio from "cheerio";
 import { CommandLineOptions } from "../utils/options";
 import { astNode, rootNode, firstNode, tagNode, styleNode, commentNode, textNode } from "./nodeTypes";
 import { attributes } from "./nodeTypes";
@@ -35,9 +34,13 @@ export function htmlToTsx(html: string, options: CommandLineOptions, fileName: s
    return tsx;
 }
 
-function buildTreeFromCheerio(rootNode: CheerioStatic, fileName: string, options: CommandLineOptions, html: string): rootNode
+function buildTreeFromCheerio(rootNode: cheerio.Root, fileName: string, options: CommandLineOptions, html: string): rootNode
 {
-   let rootTags = _.filter(rootNode.root()[0].children, node => true);
+   let firstTag = rootNode.root()[0];
+
+   if(!('children' in firstTag)) throw `First tag must not be text or comment`
+
+   let rootTags = firstTag.children.filter(node => true);  // ?? TODO 
 
    // put under a file-based root node
    let root: rootNode = 
@@ -57,7 +60,7 @@ function buildTreeFromCheerio(rootNode: CheerioStatic, fileName: string, options
 
    // collect all first level nodes
    let indent = 0;
-   _.forEach(rootTags, (e)=>root.children.push(visit(e, root, root, indent)));   
+   rootTags.forEach(e => root.children.push(visit(e, root, root, indent)));   
 
    // filters empty text children
    //root.children = root.children.filter(n => !(n.type === "text" && n.rawText.trim().length === 0));
@@ -65,7 +68,7 @@ function buildTreeFromCheerio(rootNode: CheerioStatic, fileName: string, options
    return root;
 }
 
-function visit(x: CheerioElement, parent: astNode, root: rootNode, indent: number): astNode
+function visit(x: cheerio.Element, parent: astNode, root: rootNode, indent: number): astNode
 {   
    let node: astNode;
    
@@ -77,12 +80,12 @@ function visit(x: CheerioElement, parent: astNode, root: rootNode, indent: numbe
          attribs: attributesFromCheerio(x.attribs as CheerioAttributes),
          children: [],
          parent: parent,
-         location: x.startIndex,
+         location: x.startIndex ?? 0,
          indent: indent,
          props: []
       };
 
-      _.forEach(x.children, (e)=>(node as tagNode).children.push(visit(e, node, root, indent + 1)));
+      x.children.forEach(e =>(node as tagNode).children.push(visit(e, node, root, indent + 1)));
 
       // filters empty text children
       //node.children = node.children.filter(n => !(n.type === "text" && n.rawText.trim().length === 0));
@@ -91,8 +94,8 @@ function visit(x: CheerioElement, parent: astNode, root: rootNode, indent: numbe
    {
       // grab style text 
       let grabbedStyle = "";
-      _.each(x.children, child => {
-         let style = child["data"];         
+      x.children.forEach(child => {
+         let style = child.data;         
          grabbedStyle += style;
       });                                                          
 
@@ -100,15 +103,15 @@ function visit(x: CheerioElement, parent: astNode, root: rootNode, indent: numbe
          type: "style",         
          style: grabbedStyle,
          parent: parent,
-         location: x.startIndex
+         location: x.startIndex ?? 0
       };      
    }
    else if(x.type === "script")
    {
       // grab script text 
       let grabbedScript = "";
-      _.each(x.children, child => {
-         let style = child["data"];         
+      x.children.forEach(child => {
+         let style = child.data;         
          grabbedScript += style;
       });                                                          
 
@@ -116,21 +119,21 @@ function visit(x: CheerioElement, parent: astNode, root: rootNode, indent: numbe
          type: "script",         
          script: grabbedScript,
          parent: parent,
-         location: x.startIndex
+         location: x.startIndex ?? 0
       };      
    }
    else if(x.type === "comment")
    {
       node = {
          type: "comment",         
-         comment: x["data"],
+         comment: x.data ?? "",
          parent: parent,
-         location: x.startIndex
+         location: x.startIndex ?? 0
       };      
    }
    else if(x.type === "text")
    {
-      let rawText = x["data"] as string;
+      let rawText = x.data ?? "";
 
       // trim extra space between components if there are new lines
       rawText = trimAfter(trimBefore(rawText));
@@ -142,7 +145,7 @@ function visit(x: CheerioElement, parent: astNode, root: rootNode, indent: numbe
             type: "comment", 
             comment: "", 
             parent: parent,
-            location: x.startIndex  
+            location: x.startIndex ?? 0
          };
          return node;
       }
@@ -157,7 +160,7 @@ function visit(x: CheerioElement, parent: astNode, root: rootNode, indent: numbe
          rawText: rawText,
          text: [],
          parent: parent,
-         location: x.startIndex
+         location: x.startIndex ?? 0
       };      
    }
    else throw `unknown node type '${x.type}'`;

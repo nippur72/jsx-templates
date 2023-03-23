@@ -22,7 +22,7 @@ describe("runtime check on attributes", ()=> {
       const rendered = render(template, props, options);
       const expected = [
          "runtime error when evaluating: props.a", 
-         "in file: '..\\nofile', line 3, col 13", 
+         "in file: '..\\..\\nofile', line 3, col 13",
          "expression must be not be undefined, instead is 'undefined'" ];
       expect(grabbed_console.split("\n")).toEqual(expected);  
       expect(rendered).toEqual('<div><div></div></div>');
@@ -94,7 +94,7 @@ describe("runtime check on text", ()=> {
       const rendered = render(template, props, options);
       const expected = [
          "runtime error when evaluating: props.a", 
-         "in file: '..\\nofile', line 2, col 43", 
+         "in file: '..\\..\\nofile', line 2, col 43",
          "expression must be of type 'string' or 'number', instead is 'undefined'" ];
       expect(grabbed_console.split("\n")).toEqual(expected); 
       expect(rendered).toEqual("<div></div>");
@@ -117,7 +117,7 @@ describe("runtime check on text", ()=> {
       const rendered = render(template, props, options);
       const expected = [
          "runtime error when evaluating: props.a", 
-         "in file: '..\\nofile', line 2, col 43", 
+         "in file: '..\\..\\nofile', line 2, col 43",
          "expression must be of type 'string' or 'number', instead is 'object'" ];
       expect(grabbed_console.split("\n")).toEqual(expected);
       expect(rendered).toEqual("<div>hello</div>");

@@ -1,6 +1,4 @@
-﻿import _ = require("lodash");
-
-import { astNode, rootNode, tagNode, visit } from "../nodeTypes";
+﻿import { astNode, rootNode, tagNode, visit } from "../nodeTypes";
 import { splitBrackets } from "../../utils/brackets";
 import { eventConversion, nativeHtmlTags } from "../../utils/react-events";
 

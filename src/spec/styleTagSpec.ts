@@ -6,6 +6,7 @@ import Rioct = require("rioct"); // for <style> rendering
 describe("'style' tag", ()=> {
    it("extracts styles in debug mode", ()=>{
       Rioct.updateStyles = function() {};
+      Rioct.styles = [];
       const options: CommandLineOptions = { ...defaultOptions(), debugRuntimeCheck: true };
       const template = `<Test><style>div { color: red; } ._this_ { color: green; }</style><div class="_this_">Hello</div></Test>`;     
       const rendered = render(template, {}, options);      
@@ -14,13 +15,14 @@ describe("'style' tag", ()=> {
       expect(Rioct.styles).toEqual(['/*** styles local to tag <nofile> ***/\r\n\r\ndiv { color: red; } ._ce9a7594_ { color: green; }']);
    });
 
-   xit("extracts and minifies in production mode", ()=>{
+   it("extracts and minifies in production mode", ()=>{
       Rioct.updateStyles = function() {};
-      const options: CommandLineOptions = { ...defaultOptions(), debugRuntimeCheck: true };
+      Rioct.styles = [];
+      const options: CommandLineOptions = { ...defaultOptions(), debugRuntimeCheck: false };
       const template = `<Test><style>div { color: red; } ._this_ { color: green; }</style><div class="_this_">Hello</div></Test>`;     
       const rendered = render(template, {}, options);      
       const expected = `<div><div class="_ce9a7594_">Hello</div></div>`;
       expect(rendered).toEqual(expected);      
-      expect(Rioct.styles).toEqual(['/*** styles local to tag <nofile> ***/\r\n\r\ndiv { color: red; } ._ce9a7594_ { color: green; }']);
+      expect(Rioct.styles).toEqual(['div{color:red}._ce9a7594_{color:green}']);
    });
 });

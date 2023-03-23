@@ -1,6 +1,5 @@
 ﻿
 import glob = require("glob");
-import _ = require("lodash");
 
 import { CommandLineOptions } from "../utils/options";
 import { processHtmlFile } from "./processHtmlFile";
@@ -9,9 +8,9 @@ export function processFiles(files: string[], options: CommandLineOptions)
 {       
    let atLeastOne = false;
 
-   _.each(files, fileName => {
+   files.forEach(fileName => {
       let filesExpanded = glob.sync(fileName);
-      _.each(filesExpanded, fileName => {
+      filesExpanded.forEach(fileName => {
          atLeastOne = true;
          processHtmlFile(fileName, options); 
       });
