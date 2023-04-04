@@ -23,21 +23,7 @@ let optsConfig =
       { option: 'debug-runtime-print-function', type: 'String', default: 'console.error', required: false, description: 'JavaScript function used to log runtime-checks messages.'},
       { option: 'normalize-html-whitespace', type: 'Boolean', default: 'true', required: false, description: 'Remove repeating whitespace from HTML text.'},
       { option: 'brackets', type: 'String', default: '{ }', required: false, description: 'Characters used to delimit template expressions (separated by a space).'},
-
-      /*
-      { option: 'trace', alias: 't', type: 'Boolean', default: 'false', required: false, description: 'Catches all runtime errors and logs them to the console.'},
-      //{ option: 'new', alias: 'n', type: 'Boolean', required: false, description: 'Use new emit engine (do not rely on react-templates).'},
-
-      { option: 'use-rioct-runtime', type: 'Boolean', default: 'false', required: false, description: 'uses "rioct" runtime for extra features'},
-      
-      { option: 'check-undefined', type: 'Boolean', default: 'false', required: false, description: "Report an error if an expression is 'undefined'."},      
-      
-      { option: 'create-element-alias', type: 'String', required: false, description: 'Use an alias for "React.createElement()".'},
-      { option: 'target-version', type: 'String', default: '15.0.0', description: 'React version to generate code for.' },
-      { option: 'react-import-path', type: 'String', default: 'react', description: 'Dependency path for importing React.' },
-      { option: 'lodash-import-path', type: 'String', default: 'lodash', description: 'Dependency path for importing lodash.' },
-      { option: 'external-helpers', default: '', type: 'String', description: "Emit helper functions as external dependency (and do not rely on 'lodash')" }            
-      */
+      { option: 'import_react', type: 'String', default: '', required: false, description: 'Typescript statement for importing React'},
    ]
 };
 
@@ -51,19 +37,7 @@ export interface CommandLineOptions {
    debugRuntimePrintFunction: string;
    normalizeHtmlWhitespace: boolean;  
    brackets: string; 
-   /*
-   trace: boolean;
-   //new: boolean;
-      
-   useRioctRuntime: boolean;
-   
-   checkUndefined: boolean;
-   createElementAlias: string,
-   targetVersion: string,
-   reactImportPath: string,
-   lodashImportPath: string,
-   externalHelpers: string
-   */
+   import_react: string;
 }
 
 export function defaultOptions(): CommandLineOptions
@@ -75,7 +49,8 @@ export function defaultOptions(): CommandLineOptions
       debugRuntimeCheck: false,
       debugRuntimePrintFunction: "console.error",
       normalizeHtmlWhitespace: true,
-      brackets: "{{ }}", 
+      brackets: "{{ }}",
+      import_react: '' 
 
       /*
       trace: false,

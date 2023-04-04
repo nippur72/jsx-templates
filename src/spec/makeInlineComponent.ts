@@ -12,6 +12,8 @@ import Rioct = require("rioct"); // for <style> rendering
 export function compileTemplate(template: string, options?: CommandLineOptions): any
 {
    options = options || defaultOptions(); 
+
+   options.import_react = "import React = require('react');";
    
    let js;
    let tsx = processHtmlString(template, options, "nofile");   
@@ -76,6 +78,8 @@ function transpile(source: string): string
       target: ts.ScriptTarget.ES5,
       jsx: ts.JsxEmit.React,
    };
+
+   // source = "import React = require('react');" + source;
 
    let dia: ts.Diagnostic[] = []; 
 
