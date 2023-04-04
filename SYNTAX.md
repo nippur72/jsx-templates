@@ -5,7 +5,7 @@
 A plain React class component. 
 
 * `is` determines the outer HTML Tag that contains the whole component ("div" if omitted).
-* `this` points to the class component in order to get the type of props and state.
+* `this` points to the class component in order to get the type of `Props` and `State`.
 
 MyComponent.html
 ```html
