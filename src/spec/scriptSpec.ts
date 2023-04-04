@@ -36,6 +36,21 @@ describe("'script' tag", ()=> {
       expect(rendered).toEqual(expected);
    });
 
+   it("puts code in scope in each tag", ()=>{      
+      const template = `
+         <Test>
+            <div each="item in [1,2,3]">
+               <script>
+                  const somevar = "Hello";
+               </script>
+               <div>{{somevar}} {{item}}</div>
+            </div>
+         </Test>`;     
+      const rendered = render(template);      
+      const expected = `<div><div><div>Hello 1</div></div><div><div>Hello 2</div></div><div><div>Hello 3</div></div></div>`;
+      expect(rendered).toEqual(expected);
+   });
+
    it("puts code in scope under the root tag", ()=>{      
       const template = `
          <Test>
