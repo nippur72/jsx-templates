@@ -3,9 +3,13 @@ import { defaultOptions, CommandLineOptions } from "../utils/options";
 
 import Rioct = require("rioct"); // for <style> rendering 
 
+function updateStyles(st?: string) {
+   if(st !== undefined) Rioct.styles.push(st);   
+}
+
 describe("'style' tag", ()=> {
    it("extracts styles in debug mode", ()=>{
-      Rioct.updateStyles = function() {};
+      Rioct.updateStyles = updateStyles;
       Rioct.styles = [];
       const options: CommandLineOptions = { ...defaultOptions(), debugRuntimeCheck: true };
       const template = `<Test><style>div { color: red; } ._this_ { color: green; }</style><div class="_this_">Hello</div></Test>`;     
@@ -16,7 +20,7 @@ describe("'style' tag", ()=> {
    });
 
    it("extracts and minifies in production mode", ()=>{
-      Rioct.updateStyles = function() {};
+      Rioct.updateStyles = updateStyles;
       Rioct.styles = [];
       const options: CommandLineOptions = { ...defaultOptions(), debugRuntimeCheck: false };
       const template = `<Test><style>div { color: red; } ._this_ { color: green; }</style><div class="_this_">Hello</div></Test>`;     

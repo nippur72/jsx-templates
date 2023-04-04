@@ -5,7 +5,7 @@ import { getRootNode } from "../astNode";
 import { Keywords } from "../keywords";
 import { replaceAll } from "../../utils/replaceAll";
 
-const importRioctCommand = `import Rioct = require("rioct");`;
+const importRioctCommand = `import { updateStyles } from "rioct";`;
 
 export function transform_style_tag(node: astNode)
 {   
@@ -38,7 +38,7 @@ export function transform_style_tag(node: astNode)
 
 function styleCommand(extractedStyle: string, tagName: string, trace: boolean) 
 {
-   if(extractedStyle) return `Rioct.styles.push(${sanitizeStyle(extractedStyle, tagName, trace)}); Rioct.updateStyles();`;
+   if(extractedStyle) return `updateStyles(${sanitizeStyle(extractedStyle, tagName, trace)});`;
    else return "";
 }
 
