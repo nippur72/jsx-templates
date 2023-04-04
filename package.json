@@ -1,6 +1,6 @@
 {
   "name": "jsx-templates",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "templates for jsx/tsx",
   "main": "jsx-templates.js",
   "author": "Antonino Porcino",
@@ -26,7 +26,7 @@
     "eval": "^0.1.8",
     "filewatcher": "^3.0.1",
     "glob": "^7.1.2",
-    "html-entities": "^1.2.0",
+    "html-entities": "^1.2.0",    
     "lodash": "^4.17.4",
     "normalize-html-whitespace": "^0.2.0",
     "optionator": "^0.8.1",
