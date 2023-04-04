@@ -7,8 +7,6 @@ import * as ts from "typescript";
 import { CommandLineOptions, defaultOptions } from "../utils/options";
 import { processHtmlString } from "../process/processHtmlString";
 
-import Rioct = require("rioct"); // for <style> rendering 
-
 export function compileTemplate(template: string, options?: CommandLineOptions): any
 {
    options = options || defaultOptions(); 
@@ -16,10 +14,11 @@ export function compileTemplate(template: string, options?: CommandLineOptions):
    options.import_react = "import React = require('react');";
    
    let js;
-   let tsx = processHtmlString(template, options, "nofile");   
+   let tsx = processHtmlString(template, options, "nofile");
+   console.log(tsx);
    try
    {      
-      js = transpile(tsx);
+      js = transpile(tsx);            
    }
    catch(ex)
    {
@@ -30,8 +29,9 @@ export function compileTemplate(template: string, options?: CommandLineOptions):
 
    try
    {
-      const evaluated = _eval(js, true);
-      return evaluated;
+      const evaluated = _eval(js, true) as any;
+      if('default' in evaluated) return evaluated.default;   // returned as default
+      return evaluated;                                      // returned as "require"
    }
    catch(ex)
    {
@@ -76,7 +76,7 @@ function transpile(source: string): string
    const compilerOptions: ts.CompilerOptions = { 
       module: ts.ModuleKind.CommonJS,
       target: ts.ScriptTarget.ES5,
-      jsx: ts.JsxEmit.React,
+      jsx: ts.JsxEmit.React,      
    };
 
    // source = "import React = require('react');" + source;

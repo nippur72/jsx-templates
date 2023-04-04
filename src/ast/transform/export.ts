@@ -33,8 +33,13 @@ export function transform_export(root: rootNode)
       // fallback: if no export is explicited, first tag is exported
       // as named (if stateless) or require (if stateful)
       let ft = level_one_tags[0];
-      if(ft.stateless !== undefined) ft.export = "named";
-      else ft.export = "require";
+      if(ft.stateless !== undefined) {
+         ft.export = "named";
+      }
+      else {
+         ft.export = "default";
+         ndefault++
+      }
    }
 
    if(ndefault > 1) 
