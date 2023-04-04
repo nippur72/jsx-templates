@@ -29,7 +29,7 @@ export function transform_class(node: astNode)
          let obj_syntax = removeOptionalBrackets(combined, {open:"{{", close: "}}"}).trim(); // TODO use default brackets
          if(obj_syntax.charAt(0)==="{" && obj_syntax.charAt(obj_syntax.length-1)==="}") 
          {
-            combined = replaceAll("{{((o)=>Object.keys(o).filter(k=>o[k]).join(' '))(%%ob%%)}}","%%ob%%", obj_syntax);
+            combined = replaceAll("{{((o:{[key:string]:boolean})=>Object.keys(o).filter(k=>o[k]).join(' '))(%%ob%%)}}","%%ob%%", obj_syntax);
          }
 
          node.attribs["className"] = { rawText: combined, text: [] };            

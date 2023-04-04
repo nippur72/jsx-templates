@@ -69,7 +69,7 @@ function renderFirst(node: firstNode): string
    if(node.stateless !== undefined) 
    {
       let propsType = node.stateless || "any";
-      let argDef = `this: never, props: ${propsType}, context`;
+      let argDef = `this: never, props: ${propsType}, context: unknown`;
       if(node.stateless.charAt(0)=="(") {
          argDef = node.stateless;
          argDef = argDef.substr(1);
