@@ -80,7 +80,7 @@ function renderFirst(node: firstNode): string
    else
    {
       let type = node.thisUsed ? node.mainTagName : "any";
-      result += `${exportPrefix}function ${exportName}(this: ${type}) { return (${children}); }\r\n`;
+      result += `${exportPrefix}function ${exportName}(this: ${type}) { const {state,props}=this; return (${children}); }\r\n`;
    }
 
    if(node.export === "require") result += `export = ${exportName};`;

@@ -15,7 +15,7 @@ export function compileTemplate(template: string, options?: CommandLineOptions):
    
    let js;
    let tsx = processHtmlString(template, options, "nofile");
-   console.log(tsx);
+
    try
    {      
       js = transpile(tsx);            
@@ -52,7 +52,8 @@ export function renderComponent(template: string, props?: any, options?: Command
    process.env.NODE_ENV = suppressReactWarnings ? "production" : "debug"; 
 
    const fn = compileTemplate(template, options);
-   const component = React.createElement(fn, props);
+   const faked_this = { state: null, props: null };
+   const component = React.createElement(fn.bind(faked_this), props);
    let s;
 
    try
@@ -61,7 +62,7 @@ export function renderComponent(template: string, props?: any, options?: Command
    }
    catch(err)
    {
-      console.log(fn.toString());
+      //console.log(fn.toString());
       throw new Error("failed to render component: " + (err.message || err));
    }
 
