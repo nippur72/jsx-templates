@@ -22,7 +22,6 @@ import { transform_script } from "./script";
 import { transform_template } from "./template";
 import { transform_style_attrib } from "./styleAttribute";
 import { transform_lowercase_attribs } from "./lowercaseAttribs";
-import { transform_show_hide } from "./showHide";
 import { transform_props } from "./props-ob";
 
 export function transform(ast: rootNode)

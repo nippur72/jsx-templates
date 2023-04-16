@@ -1,3 +1,4 @@
+/*
 import { astNode, rootNode, tagNode, visit } from "../nodeTypes";
 import { splitBrackets, removeOptionalBrackets } from "../../utils/brackets";
 import { CommandLineOptions } from "../../utils/options";
@@ -42,3 +43,4 @@ function transform_show_hide_inner(node: astNode, root: rootNode)
 
    visit(node, (n)=>transform_show_hide_inner(n, root));   
 }
+*/
