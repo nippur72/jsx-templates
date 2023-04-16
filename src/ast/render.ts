@@ -18,6 +18,7 @@ export function render(node: astNode): string
    else if(node.type === "each")    return renderEach(node);
    else if(node.type === "template")return renderTemplate(node);
    else if(node.type === "virtual") return renderVirtual(node);
+   else if(node.type === "script")  throw "unexpected script node";
    else throw `unknown node type '${(node as astNode).type}'`;   
 }
 
