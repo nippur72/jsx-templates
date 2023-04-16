@@ -26,7 +26,7 @@ export function transform_style_tag(node: astNode)
 
       let style = replaceAll(node.style, Keywords.thisPrefix, root.hash);
 
-      styles.push(styleCommand(style, root.source.fileName, root.options.debugRuntimeCheck));
+      styles.push(styleCommand(style, root.source.fileName));
          
       // change to comment node
       (node as astNode).type = "comment";
@@ -36,26 +36,18 @@ export function transform_style_tag(node: astNode)
    visit(node, (n)=>transform_style_tag(n));      
 }
 
-function styleCommand(extractedStyle: string, tagName: string, trace: boolean) 
+function styleCommand(extractedStyle: string, tagName: string)
 {
-   if(extractedStyle) return `updateStyles(${sanitizeStyle(extractedStyle, tagName, trace)});`;
+   if(extractedStyle) return `updateStyles(${sanitizeStyle(extractedStyle, tagName)});`;
    else return "";
 }
 
-function sanitizeStyle(style: string, tagName: string, trace: boolean): string 
+function sanitizeStyle(style: string, tagName: string): string
 {
-   let compactStyle: string;
-
    const prefixed = prefixCss(style);
       
-   if(trace) 
-   {
-      compactStyle = `/*** styles local to tag <${tagName}> ***/\r\n\r\n` + prefixed;
-   }
-   else 
-   {      
-      compactStyle = minify(prefixed);
-   }
+   let compactStyle = minify(prefixed);
+
    return JSON.stringify(compactStyle);
 }
 

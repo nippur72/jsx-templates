@@ -2,7 +2,6 @@ import { Keywords } from "./keywords";
 import { astNode, rootNode, firstNode, tagNode, styleNode, commentNode, textNode, ifNode, virtualNode, scopeNode, templateNode, eachNode } from "./nodeTypes";
 import { attributes, attribute, literal } from "./nodeTypes";
 import { replaceAll } from "../utils/replaceAll";
-import { wrapRenderFunction, wrapImport } from "./transform/debug";
 import { printableString, quotableString } from "../utils/printable";
 
 export function render(node: astNode): string
@@ -28,11 +27,6 @@ function renderRoot(node: rootNode): string
    let result = node.imports.join("\r\n");
    result += "\r\n";  
 
-   if(node.options.debugRuntimeCheck) 
-   {
-      result += node.importedSymbols.map(s=>wrapImport(s, node.options)).join("\r\n");
-   }
-
    // writes style-loading code
    result += node.styles.join("\r\n");
    if(node.styles.length>0) result += "\r\n";
@@ -54,11 +48,6 @@ function renderFirst(node: firstNode): string
 
    // writes the actual render function
    let children = render(node.child);
-
-   if(node.parent.options.debugRuntimeCheck) 
-   {
-      children = wrapRenderFunction(children, node.parent.options);
-   }
 
    let exportPrefix = "";
    let exportName = "render";

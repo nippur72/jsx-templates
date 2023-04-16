@@ -43,7 +43,7 @@ function watcher(options: CommandLineOptions)
       
       if(!stat) {
          console.log(`File deleted: ${path.basename(file)}`);
-         const tsxName = file + (options.typescript ? ".tsx" : ".jsx");
+         const tsxName = `${file}.tsx`;
          fs.unlinkSync(tsxName);
          watcher.remove(file);
          return;

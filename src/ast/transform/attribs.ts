@@ -2,7 +2,6 @@ import { astNode, rootNode, tagNode, visit } from "../nodeTypes";
 import { splitBrackets } from "../../utils/brackets";
 import { CommandLineOptions } from "../../utils/options";
 import { getRootNode } from "../astNode";
-import { wrapRuntimeCheck } from "./debug";
 
 export function transform_attribs(node: astNode)
 { 
@@ -23,10 +22,6 @@ function transform_attribs_inner(node: astNode, root: rootNode)
          }
 
          node.attribs[key].text = splitBrackets(node.attribs[key].rawText, node.location);  // TODO fix location offset
-
-         if(root.options.debugRuntimeCheck) {
-            node.attribs[key].text = wrapRuntimeCheck(node.attribs[key].text, false, root);
-         }
       });      
    }
 

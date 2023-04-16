@@ -14,10 +14,10 @@ export function processHtmlFile(fileName: string, options: CommandLineOptions)
 
    let html = fs.readFileSync(fileName).toString().replace(/^\uFEFF/, '');
 
-   let jsx = processHtmlString(html, options, fileName);
+   let tsx = processHtmlString(html, options, fileName);
 
-   let outName = fileName + ( options.typescript ? ".tsx" : ".jsx" );
+   let outName = `${fileName}.tsx`;
      
-   fs.writeFileSync(outName, jsx);   
+   fs.writeFileSync(outName, tsx);
 }
 

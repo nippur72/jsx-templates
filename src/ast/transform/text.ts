@@ -2,7 +2,6 @@ import { astNode, rootNode, tagNode, visit } from "../nodeTypes";
 import { splitBrackets } from "../../utils/brackets";
 import { CommandLineOptions } from "../../utils/options";
 import { getRootNode } from "../astNode";
-import { wrapRuntimeCheck } from "./debug";
 import { Html5Entities } from "html-entities";
 import { printableString } from "../../utils/printable";
 
@@ -27,10 +26,6 @@ function transform_text_inner(node: astNode, root: rootNode)
             e.text = entities.encode(entities.decode(e.text));
          }
       });
-      
-      if(root.options.debugRuntimeCheck) {
-         node.text = wrapRuntimeCheck(node.text, true, root);
-      }
    }
 
    visit(node, (n)=>transform_text_inner(n, root));         

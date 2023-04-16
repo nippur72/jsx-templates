@@ -2,7 +2,6 @@ import { astNode, rootNode, tagNode, visit } from "../nodeTypes";
 import { splitBrackets, removeOptionalBrackets } from "../../utils/brackets";
 import { CommandLineOptions } from "../../utils/options";
 import { getRootNode } from "../astNode";
-import { wrapRuntimeCheck } from "./debug";
 import { Keywords } from "../keywords";
 
 export function transform_show_hide(node: astNode)
