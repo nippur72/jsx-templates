@@ -60,9 +60,9 @@ function compile(file: string, options: CommandLineOptions) {
 
 function tsc_watch()
 {
-   console.log("starting tsc in watch mode...");
+   console.log("starting tspc in watch mode...");
 
-   let child = exec("tsc --watch");
+   let child = exec("npx tspc --watch");
 
    child.stdout?.on('data', function(chunk) {
      // output will be here in chunks
