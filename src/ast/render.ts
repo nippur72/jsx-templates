@@ -31,6 +31,12 @@ function renderRoot(node: rootNode): string
    result += node.styles.join("\r\n");
    if(node.styles.length>0) result += "\r\n";
 
+   // export style class names
+   let body = Object.keys(node.styleNames).map(k=>{
+      return `   ${k}: '${node.styleNames[k]}',`;
+   }).join("\r\n");
+   result += `export const styles = { ${body} }\r\n`;
+
    // writes code from <script> tags
    result += node.scripts.join("\r\n");
    result += "\r\n";  

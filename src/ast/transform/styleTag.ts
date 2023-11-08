@@ -23,7 +23,10 @@ export function transform_style_tag(node: astNode)
       {
          root.imports.push(importRioctCommand);
       }
-
+      
+      // save style class names with _this_ for export
+      getThisNames(node.style, Keywords.thisPrefix, root.hash, root.styleNames);
+            
       let style = replaceAll(node.style, Keywords.thisPrefix, root.hash);
 
       styles.push(styleCommand(style, root.source.fileName));
@@ -51,3 +54,16 @@ function sanitizeStyle(style: string, tagName: string): string
    return JSON.stringify(compactStyle);
 }
 
+function getThisNames(style: string, prefix: string, hash: string, styleNames: {[key: string]: string}) {
+
+   const regex = /_this_(?<name>[a-zA-Z0-9\$_]*)/gm;   
+
+   while(true) {
+      const match = regex.exec(style);
+      if(match === null) break;
+      if(match.groups) {
+         let name = match.groups["name"];
+         styleNames[name] = hash+name;
+      }
+   }   
+}

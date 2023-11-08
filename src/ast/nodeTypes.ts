@@ -20,6 +20,7 @@ export interface rootNode
    children: astNode[];   
    imports: string[];
    styles: string[];
+   styleNames: {[key:string]:string}
    scripts: string[];
    hash: string;   
    options: CommandLineOptions;

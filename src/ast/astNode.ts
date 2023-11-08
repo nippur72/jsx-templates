@@ -50,6 +50,7 @@ function buildTreeFromCheerio(rootNode: cheerio.Root, fileName: string, options:
       imports: [ options.import_react ],
       importedSymbols: [],      
       styles: [],
+      styleNames: {},
       scripts: [],
       hash: `_${md5(fileName, "jsx-templates").substr(0,8)}_`,      
       options: options,
